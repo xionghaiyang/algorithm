@@ -24,7 +24,7 @@ public class Main {
             }
             map.put(i, new Info(str, big, len - big));
         }
-        dfs(1, m, K);
+        dfs(1, m - 1, K);
         StringBuilder ret = new StringBuilder();
         for (List<Integer> list : res) {
             int count = 0, big = 0, small = 0;
