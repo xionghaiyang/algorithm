@@ -6,6 +6,7 @@ public class UnionFind {
     private int[] help;
     private int sets;
 
+
     UnionFind(int N) {
         parent = new int[N];
         size = new int[N];
