@@ -48,7 +48,7 @@ public class Main {
     }
 
     private static void dfs(int cur, int m, int k) {
-        if (temp.size() + m - cur < k) {
+        if (temp.size() + m - cur + 1 < k) {
             return;
         }
         if (temp.size() == k) {
