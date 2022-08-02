@@ -12,24 +12,25 @@ package com.sean.lintcode.LintCode1138;
 public class Solution {
 
     public boolean canPlaceFlowers(int[] flowerbed, int n) {
-        return dfs(flowerbed, 0, 0, n, flowerbed.length);
-    }
-
-    private boolean dfs(int[] flowerbed, int index, int k, int n, int m) {
-        if (k == n) {
-            return true;
-        }
-        if (index >= m) {
-            return false;
-        }
-        if (flowerbed[index] == 0 && ((index == 0 && flowerbed[1] == 0) || (index == m - 1 && flowerbed[m - 2] == 0) || (index > 0 && index < m - 1 && flowerbed[index - 1] == 0 && flowerbed[index + 1] == 0))) {
-            flowerbed[index] = 1;
-            if (dfs(flowerbed, index + 1, k + 1, n, m)) {
-                return true;
+        int count = 0;
+        int m = flowerbed.length;
+        int prev = -1;
+        for (int i = 0; i < m; i++) {
+            if (flowerbed[i] == 1) {
+                if (prev < 0) {
+                    count += i / 2;
+                } else {
+                    count += (i - prev - 2) / 2;
+                }
+                prev = i;
             }
-            flowerbed[index] = 0;
         }
-        return dfs(flowerbed, index + 1, k, n, m);
+        if (prev < 0) {
+            count += (m + 1) / 2;
+        } else {
+            count += (m - prev - 1) / 2;
+        }
+        return count >= n;
     }
 
 }
