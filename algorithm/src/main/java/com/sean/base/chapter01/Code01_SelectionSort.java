@@ -6,6 +6,12 @@ import java.util.Arrays;
  * @Author xionghaiyang
  * @Date 2022-08-02 22:51
  * @Description 选择排序
+ * 过程：
+ * arr[0～N-1]范围上，找到最小值所在的位置，然后把最小值交换到0位置。
+ * arr[1～N-1]范围上，找到最小值所在的位置，然后把最小值交换到1位置。
+ * arr[2～N-1]范围上，找到最小值所在的位置，然后把最小值交换到2位置。
+ * …
+ * arr[N-1～N-1]范围上，找到最小值位置，然后把最小值交换到N-1位置。
  */
 public class Code01_SelectionSort {
 
