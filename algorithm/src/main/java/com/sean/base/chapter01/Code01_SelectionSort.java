@@ -1,4 +1,4 @@
-package com.sean.base.class01;
+package com.sean.base.chapter01;
 
 import java.util.Arrays;
 
@@ -88,12 +88,14 @@ public class Code01_SelectionSort {
         int maxValue = 100;
         boolean succeed = true;
         for (int i = 0; i < testTime; i++) {
-            int[] arr1 = generateRandomArray(maxSize, maxValue);
-            int[] arr2 = copyArray(arr1);
+            int[] arr = generateRandomArray(maxSize, maxValue);
+            int[] arr1 = copyArray(arr);
+            int[] arr2 = copyArray(arr);
             selectionSort(arr1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
+                printArray(arr);
                 printArray(arr1);
                 printArray(arr2);
                 break;
