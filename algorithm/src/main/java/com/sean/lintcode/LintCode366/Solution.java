@@ -1,6 +1,4 @@
-package com.sean.lintcode;
-
-import java.rmi.AlreadyBoundException;
+package com.sean.lintcode.LintCode366;
 
 /**
  * @Author xionghaiyang
@@ -15,7 +13,7 @@ import java.rmi.AlreadyBoundException;
  * 斐波纳契数列的前10个数字是：
  * 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 ...
  */
-public class LintCode366 {
+public class Solution {
 
     public int fibonacci(int n) {
         if (n == 1) {
