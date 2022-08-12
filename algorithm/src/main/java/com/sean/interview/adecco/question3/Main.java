@@ -1,4 +1,4 @@
-package com.sean.interview.adecco20220710.question3;
+package com.sean.interview.adecco.question3;
 
 import java.util.Scanner;
 
