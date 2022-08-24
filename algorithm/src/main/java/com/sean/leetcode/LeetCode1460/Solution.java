@@ -44,6 +44,8 @@ public class Solution {
             map.put(num, map.getOrDefault(num, 0) - 1);
             if (map.get(num) == 0) {
                 map.remove(num);
+            } else if (map.get(num) < 0) {
+                return false;
             }
         }
         return map.size() == 0;
