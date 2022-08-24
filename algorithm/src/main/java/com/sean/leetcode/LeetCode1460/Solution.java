@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Solution {
 
-    public boolean canBeEqual(int[] target, int[] arr) {
+    public boolean canBeEqual1(int[] target, int[] arr) {
         Map<Integer, Integer> count1 = new HashMap<>();
         Map<Integer, Integer> count2 = new HashMap<>();
         for (int num : target) {
@@ -33,6 +33,20 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    public boolean canBeEqual(int[] target, int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : target) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int num : arr) {
+            map.put(num, map.getOrDefault(num, 0) - 1);
+            if (map.get(num) == 0) {
+                map.remove(num);
+            }
+        }
+        return map.size() == 0;
     }
 
 }
