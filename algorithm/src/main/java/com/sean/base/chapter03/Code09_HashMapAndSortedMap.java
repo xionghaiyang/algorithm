@@ -1,7 +1,5 @@
 package com.sean.base.chapter03;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import java.util.*;
 
 /**
@@ -9,7 +7,7 @@ import java.util.*;
  * @Date 2022-08-28 19:54
  * @Description 哈希表与有序表
  */
-public class HashMapAndSortedMap {
+public class Code09_HashMapAndSortedMap {
 
     public static class Node {
         public int value;
@@ -23,8 +21,8 @@ public class HashMapAndSortedMap {
     public static void main(String[] args) {
         //哈希表，增、删、改、差，在使用时，O(1)
         Map<Integer, String> test1 = new HashMap<>();
-        Integer a = 1000000000;
-        Integer b = 1000000000;
+        Integer a = 10000;
+        Integer b = 10000;
         System.out.println(a == b);
         test1.put(a, "我是a");
         System.out.println(test1.containsKey(b));
@@ -70,6 +68,5 @@ public class HashMapAndSortedMap {
         //>=4
         System.out.println(treeMap.ceilingKey(4));
     }
-
 
 }
