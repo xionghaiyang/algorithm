@@ -14,7 +14,7 @@ public class Solution {
 //        if (lastNonZeroDigit == -1) {
 //            return "";
 //        }
-        return num.substring(0, lastNonZeroDigit);
+        return num.substring(0, lastNonZeroDigit+1);
     }
 
     private int findLastNonZeroDigit(String num) {
