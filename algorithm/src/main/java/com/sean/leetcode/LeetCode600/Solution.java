@@ -24,20 +24,46 @@ public class Solution {
         return process(0, false, true);
     }
 
-    private int process(int i, boolean pre1, boolean isLimit) {
+    private int process(int i, boolean pre, boolean isLimit) {
         if (i == s.length) {
             return 1;
         }
-        if (!isLimit && dp[i][pre1 ? 1 : 0] != -1) {
-            return dp[i][pre1 ? 1 : 0];
+        if (!isLimit && dp[i][pre ? 1 : 0] != -1) {
+            return dp[i][pre ? 1 : 0];
         }
         int up = isLimit ? s[i] - '0' : 1;
         int res = process(i + 1, false, isLimit && up == 0);//填0
-        if (!pre1 && up == 1) {
+        if (!pre && up == 1) {
             res += process(i + 1, true, isLimit);//填1
         }
         if (!isLimit) {
-            dp[i][pre1 ? 1 : 0] = res;
+            dp[i][pre ? 1 : 0] = res;
+        }
+        return res;
+    }
+
+    public int findIntegers1(int n) {
+        int[] dp = new int[31];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i < 31; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        int pre = 0, res = 0;
+        for (int i = 29; i >= 0; i--) {
+            int val = 1 << i;
+            if ((n & val) != 0) {
+                res += dp[i + 1];
+                if (pre == 1) {
+                    break;
+                }
+                pre = 1;
+            } else {
+                pre = 0;
+            }
+            if (i == 0) {
+                res++;
+            }
         }
         return res;
     }
