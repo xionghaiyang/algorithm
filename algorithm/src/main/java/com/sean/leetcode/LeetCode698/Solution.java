@@ -8,13 +8,16 @@ import java.util.Arrays;
  * @Description: https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/
  * 698. 划分为k个相等的子集
  * 给定一个整数数组nums和一个正整数 k，找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
+ * 1 <= k <= len(nums) <= 16
+ * 0 < nums[i] < 10000
+ * 每个元素的频率在 [1,4] 范围内
  */
 public class Solution {
 
-    int per;
-    int n;
-    boolean[] dp;
-    int[] nums;
+    private int per;
+    private int n;
+    private boolean[] dp;
+    private int[] nums;
 
     public boolean canPartitionKSubsets1(int[] nums, int k) {
         int sum = Arrays.stream(nums).sum();
@@ -59,15 +62,15 @@ public class Solution {
         if (sum % k != 0) {
             return false;
         }
+        int n = nums.length;
         int per = sum / k;
         Arrays.sort(nums);
-        int n = nums.length;
         if (nums[n - 1] > per) {
             return false;
         }
         boolean[] dp = new boolean[1 << n];
-        int[] curSum = new int[1 << n];
         dp[0] = true;
+        int[] curSum = new int[1 << n];
         for (int i = 0; i < 1 << n; i++) {
             if (!dp[i]) {
                 continue;
