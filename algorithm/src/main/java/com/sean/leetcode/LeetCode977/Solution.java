@@ -12,15 +12,15 @@ public class Solution {
     public int[] sortedSquares(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
-        for (int i = 0, j = n - 1, index = n - 1; i <= j; ) {
-            int fi = nums[i] * nums[i];
-            int fj = nums[j] * nums[j];
-            if (fi > fj) {
-                res[index--] = fi;
-                i++;
+        for (int left = 0, right = n - 1, index = n - 1; left <= right; ) {
+            int fl = nums[left] * nums[left];
+            int fr = nums[right] * nums[right];
+            if (fl > fr) {
+                res[index--] = fl;
+                left++;
             } else {
-                res[index--] = fj;
-                j--;
+                res[index--] = fr;
+                right--;
             }
         }
         return res;
