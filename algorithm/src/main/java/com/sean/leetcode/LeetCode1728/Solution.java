@@ -26,6 +26,12 @@ import java.util.*;
  * 如果老鼠先到达食物，那么老鼠获胜。
  * 如果老鼠不能在 1000 次操作以内到达食物，那么猫获胜。
  * 给你 rows x cols 的矩阵 grid 和两个整数 catJump 和 mouseJump ，双方都采取最优策略，如果老鼠获胜，那么请你返回 true ，否则返回 false 。
+ * rows == grid.length
+ * cols = grid[i].length
+ * 1 <= rows, cols <= 8
+ * grid[i][j] 只包含字符 'C' ，'M' ，'F' ，'.' 和 '#' 。
+ * grid 中只包含一个 'C' ，'M' 和 'F' 。
+ * 1 <= catJump, mouseJump <= 8
  */
 public class Solution {
 
@@ -46,8 +52,8 @@ public class Solution {
     static final int MAX_MOVES = 1000;
 
     public boolean canMouseWin(String[] grid, int catJump, int mouseJump) {
-        this.rows = grid.length;
-        this.cols = grid[0].length();
+        rows = grid.length;
+        cols = grid[0].length();
         this.grid = grid;
         this.catJump = catJump;
         this.mouseJump = mouseJump;
@@ -71,11 +77,13 @@ public class Solution {
         //计算每个状态的度
         for (int mouse = 0; mouse < total; mouse++) {
             int mouseRow = mouse / cols, mouseCol = mouse % cols;
+            //不能通过墙
             if (grid[mouseRow].charAt(mouseCol) == '#') {
                 continue;
             }
             for (int cat = 0; cat < total; cat++) {
                 int catRow = cat / cols, catCol = cat % cols;
+                //不能通过墙
                 if (grid[catRow].charAt(catCol) == '#') {
                     continue;
                 }
@@ -96,13 +104,14 @@ public class Solution {
         //猫和老鼠在同一个单元格，猫获胜
         for (int pos = 0; pos < total; pos++) {
             int row = pos / cols, col = pos % cols;
+            //不能通过墙
             if (grid[row].charAt(col) == '#') {
                 continue;
             }
             results[pos][pos][MOUSE_TURN][0] = CAT_WIN;
-            results[pos][pos][MOUSE_TURN][1] = 0;
+            results[pos][pos][MOUSE_TURN][1] = UNKNOWN;
             results[pos][pos][CAT_TURN][0] = CAT_WIN;
-            results[pos][pos][CAT_TURN][1] = 0;
+            results[pos][pos][CAT_TURN][1] = UNKNOWN;
             queue.offer(new int[]{pos, pos, MOUSE_TURN});
             queue.offer(new int[]{pos, pos, CAT_TURN});
         }
@@ -113,34 +122,38 @@ public class Solution {
                 continue;
             }
             results[mouse][food][MOUSE_TURN][0] = CAT_WIN;
-            results[mouse][food][MOUSE_TURN][1] = 0;
+            results[mouse][food][MOUSE_TURN][1] = UNKNOWN;
             results[mouse][food][CAT_TURN][0] = CAT_WIN;
-            results[mouse][food][CAT_TURN][1] = 0;
+            results[mouse][food][CAT_TURN][1] = UNKNOWN;
             queue.offer(new int[]{mouse, food, MOUSE_TURN});
             queue.offer(new int[]{mouse, food, CAT_TURN});
         }
-        //老鼠和事务在同一个单元格且猫和食物不在同一个单元格，老鼠获胜
+        //老鼠和食物在同一个单元格且猫和食物不在同一个单元格，老鼠获胜
         for (int cat = 0; cat < total; cat++) {
             int catRow = cat / cols, catCol = cat % cols;
             if (grid[catRow].charAt(catCol) == '#' || cat == food) {
                 continue;
             }
             results[food][cat][MOUSE_TURN][0] = MOUSE_WIN;
-            results[food][cat][MOUSE_TURN][1] = 0;
+            results[food][cat][MOUSE_TURN][1] = UNKNOWN;
             results[food][cat][CAT_TURN][0] = MOUSE_WIN;
-            results[food][cat][CAT_TURN][1] = 0;
+            results[food][cat][CAT_TURN][1] = UNKNOWN;
             queue.offer(new int[]{food, cat, MOUSE_TURN});
             queue.offer(new int[]{food, cat, CAT_TURN});
         }
         //拓扑排序
         while (!queue.isEmpty()) {
             int[] state = queue.poll();
-            int mouse = state[0], cat = state[1], turn = state[2];
+            int mouse = state[0];
+            int cat = state[1];
+            int turn = state[2];
             int result = results[mouse][cat][turn][0];
             int moves = results[mouse][cat][turn][1];
             List<int[]> prevStates = getPrevStates(mouse, cat, turn);
             for (int[] prevState : prevStates) {
-                int prevMouse = prevState[0], prevCat = prevState[1], prevTurn = prevState[2];
+                int prevMouse = prevState[0];
+                int prevCat = prevState[1];
+                int prevTurn = prevState[2];
                 if (results[prevMouse][prevCat][prevTurn][0] == UNKNOWN) {
                     boolean canWin = (result == MOUSE_WIN && prevTurn == MOUSE_TURN) || (result == CAT_WIN && prevTurn == CAT_TURN);
                     if (canWin) {
@@ -163,26 +176,26 @@ public class Solution {
     }
 
     private List<int[]> getPrevStates(int mouse, int cat, int turn) {
-        List<int[]> prevStates = new ArrayList<>();
+        List<int[]> res = new ArrayList<>();
         int mouseRow = mouse / cols, mouseCol = mouse % cols;
         int catRow = cat / cols, catCol = cat % cols;
         int prevTurn = turn == MOUSE_TURN ? CAT_TURN : MOUSE_TURN;
         int maxJump = prevTurn == MOUSE_TURN ? mouseJump : catJump;
         int startRow = prevTurn == MOUSE_TURN ? mouseRow : catRow;
         int startCol = prevTurn == MOUSE_TURN ? mouseCol : catCol;
-        prevStates.add(new int[]{mouse, cat, prevTurn});
+        res.add(new int[]{mouse, cat, prevTurn});
         for (int[] dir : dirs) {
-            for (int i = startRow + dir[0], j = startCol + dir[1], jump = 1; i >= 0 && i < rows && j >= 0 && j < cols && grid[i].charAt(j) != '#' && jump <= maxJump; i += dir[0], j += dir[1], jump++) {
-                int prevMouseRow = prevTurn == MOUSE_TURN ? i : mouseRow;
-                int prevMouseCol = prevTurn == MOUSE_TURN ? j : mouseCol;
-                int prevCatRow = prevTurn == MOUSE_TURN ? catRow : i;
-                int prevCatCol = prevTurn == MOUSE_TURN ? catCol : j;
+            for (int row = startRow + dir[0], col = startCol + dir[1], jump = 1; row >= 0 && row < rows && col >= 0 && col < cols && grid[row].charAt(col) != '#' && jump <= maxJump; row += dir[0], col += dir[1], jump++) {
+                int prevMouseRow = prevTurn == MOUSE_TURN ? row : mouseRow;
+                int prevMouseCol = prevTurn == MOUSE_TURN ? col : mouseCol;
+                int prevCatRow = prevTurn == MOUSE_TURN ? catRow : row;
+                int prevCatCol = prevTurn == MOUSE_TURN ? catCol : col;
                 int prevMouse = getPos(prevMouseRow, prevMouseCol);
                 int prevCat = getPos(prevCatRow, prevCatCol);
-                prevStates.add(new int[]{prevMouse, prevCat, prevTurn});
+                res.add(new int[]{prevMouse, prevCat, prevTurn});
             }
         }
-        return prevStates;
+        return res;
     }
 
     private int getPos(int row, int col) {
