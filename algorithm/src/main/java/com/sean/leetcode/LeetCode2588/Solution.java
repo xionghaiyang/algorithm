@@ -15,6 +15,8 @@ import java.util.Map;
  * 如果一个子数组内执行上述操作若干次后，该子数组可以变成一个全为 0 的数组，那么我们称它是一个 美丽 的子数组。
  * 请你返回数组 nums 中 美丽子数组 的数目。
  * 子数组是一个数组中一段连续 非空 的元素序列。
+ * 1 <= nums.length <= 10^5
+ * 0 <= nums[i] <= 10^6
  */
 public class Solution {
 
@@ -31,6 +33,58 @@ public class Solution {
             map.put(xor, map.getOrDefault(xor, 0) + 1);
         }
         return res;
+    }
+
+    class Node {
+        private final int key;
+        private int val;
+        private Node left;
+        private Node right;
+
+        public Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
+    }
+
+    private static final int CAPACITY = 1 << 18;
+
+    public long beautifulSubarrays1(int[] nums) {
+        Node[] table = new Node[CAPACITY];
+        incr(table, 0);
+        long res = 0;
+        int xor = 0;
+        for (int num : nums) {
+            xor ^= num;
+            res += incr(table, xor);
+        }
+        return res;
+    }
+
+    //将哈希表table中key对应的值+1
+    private int incr(Node[] table, int key) {
+        int hash = key & (CAPACITY - 1);
+        Node node = table[hash];
+        Node parent = null;
+        while (node != null) {
+            if (node.key == key) {
+                return node.val++;
+            }
+            parent = node;
+            if (node.key > key) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+        if (parent == null) {
+            table[hash] = new Node(key, 1);
+        } else if (parent.key > key) {
+            parent.left = new Node(key, 1);
+        } else {
+            parent.right = new Node(key, 1);
+        }
+        return 0;
     }
 
 }
