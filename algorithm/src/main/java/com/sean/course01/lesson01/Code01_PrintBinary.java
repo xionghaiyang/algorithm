@@ -1,8 +1,13 @@
-package com.sean.learning01.class01;
+package com.sean.course01.lesson01;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-10 21:47
+ * @Description 二进制与位运算
+ */
 public class Code01_PrintBinary {
 
-    public static void print(int num) {
+    private static void print(int num) {
         for (int i = 31; i >= 0; i--) {
             System.out.print((num & (1 << i)) == 0 ? "0" : "1");
         }
@@ -17,10 +22,10 @@ public class Code01_PrintBinary {
         //不带符号右移
         print(a >>> 1);
 
+        //-x 相当于 ~x+1
         int b = 5;
         int c = -b;
         int d = ~b + 1;
-
         System.out.println(c);
         System.out.println(d);
 
