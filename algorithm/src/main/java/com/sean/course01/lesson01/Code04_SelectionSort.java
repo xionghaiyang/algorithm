@@ -1,17 +1,28 @@
-package com.sean.learning01.class01;
+package com.sean.course01.lesson01;
 
-import javax.sound.midi.SoundbankResource;
 import java.util.Arrays;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-11 14:19
+ * @Description 选择排序
+ */
 public class Code04_SelectionSort {
+
+    private static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
 
     public static void selectionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        for (int i = 0; i < arr.length - 1; i++) {
+        int N = arr.length;
+        for (int i = 0; i < N - 1; i++) {
             int minIndex = i;
-            for (int j = i + 1; j < arr.length; j++) {
+            for (int j = i + 1; j < N; j++) {
                 if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
@@ -20,13 +31,14 @@ public class Code04_SelectionSort {
         }
     }
 
-    public static void swap(int[] arr, int i, int j) {
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
+    private static void comparator(int[] arr) {
+        Arrays.sort(arr);
     }
 
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
+    private static int[] generateRandomArray(int maxSize, int maxValue) {
+        //Math.random() [0,1)
+        //Math.random() * N [0,N)
+        //(int)(Math.random() * N) [0,N-1]
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
@@ -34,7 +46,7 @@ public class Code04_SelectionSort {
         return arr;
     }
 
-    public static int[] copyArray(int[] arr) {
+    private static int[] copyArray(int[] arr) {
         if (arr == null) {
             return null;
         }
@@ -45,11 +57,7 @@ public class Code04_SelectionSort {
         return res;
     }
 
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
-    }
-
-    public static boolean isEqual(int[] arr1, int[] arr2) {
+    private static boolean isEqual(int[] arr1, int[] arr2) {
         if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
             return false;
         }
@@ -67,7 +75,7 @@ public class Code04_SelectionSort {
         return true;
     }
 
-    public static void printArray(int[] arr) {
+    private static void printArray(int[] arr) {
         if (arr == null) {
             return;
         }
@@ -94,11 +102,11 @@ public class Code04_SelectionSort {
                 break;
             }
         }
-        System.out.println(succeed ? "Nice!" : "ERROR!");
-
+        System.out.println(succeed ? "Nice!" : "ERROR");
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
         selectionSort(arr);
         printArray(arr);
     }
+
 }
