@@ -1,27 +1,37 @@
-package com.sean.learning01.class01;
+package com.sean.course01.lesson01;
 
 import java.util.Arrays;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-11 15:28
+ * @Description 插入排序
+ */
 public class Code06_InsertionSort {
 
     public static void insertionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        for (int i = 1; i < arr.length; i++) {
+        int n = arr.length;
+        for (int i = 1; i < n; i++) {
             for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
                 swap(arr, j, j + 1);
             }
         }
     }
 
-    public static void swap(int[] arr, int i, int j) {
+    private static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;
     }
 
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
+    private static void comparator(int[] arr) {
+        Arrays.sort(arr);
+    }
+
+    private static int[] generateRandomArray(int maxSize, int maxValue) {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
@@ -29,7 +39,7 @@ public class Code06_InsertionSort {
         return arr;
     }
 
-    public static int[] copyArray(int[] arr) {
+    private static int[] copyArray(int[] arr) {
         if (arr == null) {
             return null;
         }
@@ -40,11 +50,7 @@ public class Code06_InsertionSort {
         return res;
     }
 
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
-    }
-
-    public static boolean isEqual(int[] arr1, int[] arr2) {
+    private static boolean isEqual(int[] arr1, int[] arr2) {
         if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
             return false;
         }
@@ -62,7 +68,7 @@ public class Code06_InsertionSort {
         return true;
     }
 
-    public static void printArray(int[] arr) {
+    private static void printArray(int[] arr) {
         if (arr == null) {
             return;
         }
@@ -88,7 +94,6 @@ public class Code06_InsertionSort {
             }
         }
         System.out.println(succeed ? "Nice!" : "ERROR!");
-
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
         insertionSort(arr);
