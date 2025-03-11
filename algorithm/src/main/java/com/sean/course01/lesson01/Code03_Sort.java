@@ -1,11 +1,16 @@
-package com.sean.learning01.class01;
+package com.sean.course01.lesson01;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-11 13:53
+ * @Description 选择排序、冒泡排序、插入排序
+ */
 public class Code03_Sort {
 
-    public static void swap(int[] arr, int i, int j) {
-        int tmp = arr[j];
-        arr[j] = arr[i];
-        arr[i] = tmp;
+    private static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 
     public static void selectSort(int[] arr) {
@@ -78,4 +83,5 @@ public class Code03_Sort {
         insertSort2(arr);
         printArray(arr);
     }
+
 }
