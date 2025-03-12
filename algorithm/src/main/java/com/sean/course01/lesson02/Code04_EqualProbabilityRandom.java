@@ -1,9 +1,14 @@
-package com.sean.learning01.class02;
+package com.sean.course01.lesson02;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-12 18:13
+ * @Description 等概率随机
+ */
 public class Code04_EqualProbabilityRandom {
 
     //内部内容不可见
-    public static int f() {
+    private static int f() {
         return Math.random() < 0.8 ? 0 : 1;
     }
 
@@ -21,9 +26,9 @@ public class Code04_EqualProbabilityRandom {
     public static class RandomBox {
         private final double p;
 
-        //初始化时请一定满足：0<zeroP<1
-        public RandomBox(double zeroP) {
-            p = zeroP;
+        //初始化请一定满足0<p<1
+        public RandomBox(double p) {
+            this.p = p;
         }
 
         public int random() {
@@ -31,8 +36,7 @@ public class Code04_EqualProbabilityRandom {
         }
     }
 
-    //底层依赖一个以p概率返回0，以1-p概率返回1的随机函数dand01
-    //如何加工出等概率返回0和1的函数
+    //底层依赖一个以p概率返回0，以1-p概率返回1的随机函数rand01
     public static int rand01(RandomBox randomBox) {
         int num;
         do {
@@ -42,15 +46,15 @@ public class Code04_EqualProbabilityRandom {
     }
 
     public static void main(String[] args) {
+        int testTimes = 10000000;
         int[] counts = new int[2];
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < testTimes; i++) {
             counts[g()]++;
         }
         System.out.println(counts[0] + "," + counts[1]);
 
-        double zeroP = 0.88;
-        RandomBox randomBox = new RandomBox(zeroP);
-        int testTimes = 10000000;
+        double p = 0.88;
+        RandomBox randomBox = new RandomBox(p);
         int count = 0;
         for (int i = 0; i < testTimes; i++) {
             if (rand01(randomBox) == 0) {
