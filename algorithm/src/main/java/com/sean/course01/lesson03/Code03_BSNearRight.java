@@ -1,27 +1,42 @@
-package com.sean.learning01.class03;
+package com.sean.course01.lesson03;
 
 import java.util.Arrays;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-13 20:22
+ * @Description 有序数组中找到<= num最右的位置
+ */
 public class Code03_BSNearRight {
 
-    //在arr上，找满足<=value的最右位置
-    public static int nearestIndex(int[] arr, int value) {
-        int L = 0;
-        int R = arr.length - 1;
-        int index = -1;
-        while (L <= R) {
-            int mid = L + ((R - L) >> 1);
-            if (arr[mid] <= value) {
-                index = mid;
-                L = mid + 1;
+    public static int nearestIndex(int[] arr, int num) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        int left = 0, right = arr.length - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] <= num) {
+                res = mid;
+                left = mid + 1;
             } else {
-                R = mid - 1;
+                right = mid - 1;
             }
         }
-        return index;
+        return res;
     }
 
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
+    private static int test(int[] arr, int value) {
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] <= value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static int[] generateRandomArray(int maxSize, int maxValue) {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
@@ -29,18 +44,7 @@ public class Code03_BSNearRight {
         return arr;
     }
 
-    public static int test(int[] arr, int value) {
-        int ans = -1;
-        for (int i = arr.length - 1; i >= 0; i--) {
-            if (arr[i] <= value) {
-                ans = i;
-                break;
-            }
-        }
-        return ans;
-    }
-
-    public static void printArray(int[] arr) {
+    private static void printArray(int[] arr) {
         if (arr == null) {
             return;
         }
@@ -62,8 +66,8 @@ public class Code03_BSNearRight {
             if (test(arr, value) != nearestIndex(arr, value)) {
                 printArray(arr);
                 System.out.println(value);
-                System.out.println(test(arr,value));
-                System.out.println(nearestIndex(arr,value));
+                System.out.println(test(arr, value));
+                System.out.println(nearestIndex(arr, value));
                 succeed = false;
                 break;
             }
