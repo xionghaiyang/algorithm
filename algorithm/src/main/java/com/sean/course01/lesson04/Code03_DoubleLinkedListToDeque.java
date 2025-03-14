@@ -1,8 +1,13 @@
-package com.sean.learning01.class04;
+package com.sean.course01.lesson04;
 
-import javax.swing.plaf.PanelUI;
+import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-14 20:32
+ * @Description 用双链表结构实现双端队列
+ */
 public class Code03_DoubleLinkedListToDeque {
 
     public static class Node<T> {
@@ -63,12 +68,12 @@ public class Code03_DoubleLinkedListToDeque {
         }
 
         public T pollHead() {
-            T ans = null;
+            T res = null;
             if (head == null) {
-                return ans;
+                return res;
             }
-            ans = head.value;
             size--;
+            res = head.value;
             if (head == tail) {
                 head = null;
                 tail = null;
@@ -76,16 +81,16 @@ public class Code03_DoubleLinkedListToDeque {
                 head = head.next;
                 head.last = null;
             }
-            return ans;
+            return res;
         }
 
         public T pollTail() {
-            T ans = null;
+            T res = null;
             if (head == null) {
-                return ans;
+                return res;
             }
-            ans = tail.value;
             size--;
+            res = tail.value;
             if (head == tail) {
                 head = null;
                 tail = null;
@@ -93,42 +98,42 @@ public class Code03_DoubleLinkedListToDeque {
                 tail = tail.last;
                 tail.next = null;
             }
-            return ans;
+            return res;
         }
 
         public T peekHead() {
-            T ans = null;
+            T res = null;
             if (head != null) {
-                ans = head.value;
+                res = head.value;
             }
-            return ans;
+            return res;
         }
 
         public T peekTail() {
-            T ans = null;
+            T res = null;
             if (tail != null) {
-                ans = tail.value;
+                res = tail.value;
             }
-            return ans;
+            return res;
         }
     }
 
-    public static void main(String[] args) {
+    public static void testDeque() {
         MyDeque<Integer> myDeque = new MyDeque<>();
-        LinkedList<Integer> test = new LinkedList<>();
+        Deque<Integer> test = new LinkedList<>();
         int testTime = 5000000;
-        int maxValue = 200000000;
-        System.out.println("测试开始!");
+        int maxValue = 20000000;
+        System.out.println("测试开始");
         for (int i = 0; i < testTime; i++) {
             if (myDeque.isEmpty() != test.isEmpty()) {
-                System.out.println("Oops!");
+                System.out.println("出错了");
             }
-            if (myDeque.size() != test.size()) {
-                System.out.println("Oops!");
+            if (myDeque.size != test.size()) {
+                System.out.println("出错了");
             }
             double decide = Math.random();
             if (decide < 0.33) {
-                int num = (int) (Math.random() * maxValue);
+                int num = (int) (maxValue * Math.random());
                 if (Math.random() < 0.5) {
                     myDeque.pushHead(num);
                     test.addFirst(num);
@@ -148,7 +153,7 @@ public class Code03_DoubleLinkedListToDeque {
                         num2 = test.pollLast();
                     }
                     if (num1 != num2) {
-                        System.out.println("Oops!");
+                        System.out.println("出错了");
                     }
                 }
             } else {
@@ -163,22 +168,26 @@ public class Code03_DoubleLinkedListToDeque {
                         num2 = test.peekLast();
                     }
                     if (num1 != num2) {
-                        System.out.println("Oops!");
+                        System.out.println("出错了");
                     }
                 }
             }
-        }
-        if (myDeque.size() != test.size()) {
-            System.out.println("Oops!");
-        }
-        while (!myDeque.isEmpty()) {
-            int num1 = myDeque.pollHead();
-            int num2 = test.pollFirst();
-            if (num1 != num2) {
-                System.out.println("Oops!");
+            if (myDeque.size() != test.size()) {
+                System.out.println("出错了");
+            }
+            while (!myDeque.isEmpty()) {
+                int num1 = myDeque.pollHead();
+                int num2 = test.pollFirst();
+                if (num1 != num2) {
+                    System.out.println("出错了");
+                }
             }
         }
-        System.out.println("测试结束!");
+        System.out.println("测试结束");
+    }
+
+    public static void main(String[] args) {
+        testDeque();
     }
 
 }
