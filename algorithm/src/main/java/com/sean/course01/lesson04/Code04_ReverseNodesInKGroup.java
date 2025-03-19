@@ -1,16 +1,19 @@
-package com.sean.learning01.class04;
+package com.sean.course01.lesson04;
 
 /**
- * https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
+ * @Author xionghaiyang
+ * @Date 2025-03-19 21:05
+ * @Description https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
+ * K 个一组翻转链表
  */
 public class Code04_ReverseNodesInKGroup {
 
-    public static class ListNode {
+    class ListNode {
         public int val;
         public ListNode next;
     }
 
-    public static ListNode reverseKGroup(ListNode head, int k) {
+    public ListNode reverseKGroup(ListNode head, int k) {
         ListNode start = head;
         ListNode end = getKGroupEnd(start, k);
         if (end == null) {
@@ -34,7 +37,14 @@ public class Code04_ReverseNodesInKGroup {
         return head;
     }
 
-    public static void reverse(ListNode start, ListNode end) {
+    private ListNode getKGroupEnd(ListNode start, int k) {
+        while (--k != 0 && start != null) {
+            start = start.next;
+        }
+        return start;
+    }
+
+    private void reverse(ListNode start, ListNode end) {
         end = end.next;
         ListNode pre = null;
         ListNode cur = start;
@@ -46,13 +56,6 @@ public class Code04_ReverseNodesInKGroup {
             cur = next;
         }
         start.next = end;
-    }
-
-    public static ListNode getKGroupEnd(ListNode start, int k) {
-        while (--k != 0 && start != null) {
-            start = start.next;
-        }
-        return start;
     }
 
 }
