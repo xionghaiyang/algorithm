@@ -1,29 +1,27 @@
-package com.sean.learning01.class06;
+package com.sean.course01.lesson06;
 
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- * https://leetcode-cn.com/problems/merge-k-sorted-lists/
+ * @Author xionghaiyang
+ * @Date 2025-03-23 21:49
+ * @Description https://leetcode.cn/problems/merge-k-sorted-lists
+ * 合并多个有序链表
  */
 public class Code01_MergeKSortedLists {
 
-    public static class ListNode {
+    public class ListNode {
         public int val;
         public ListNode next;
     }
 
-    public static ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists(ListNode[] lists) {
         if (lists == null) {
             return null;
         }
-        PriorityQueue<ListNode> heap = new PriorityQueue<>(new Comparator<ListNode>() {
-            @Override
-            public int compare(ListNode o1, ListNode o2) {
-                return o1.val - o2.val;
-            }
-        });
-        for (int i = 0; i < lists.length; i++) {
+        PriorityQueue<ListNode> heap = new PriorityQueue<>((a, b) -> a.val - b.val);
+        int n = lists.length;
+        for (int i = 0; i < n; i++) {
             if (lists[i] != null) {
                 heap.add(lists[i]);
             }
