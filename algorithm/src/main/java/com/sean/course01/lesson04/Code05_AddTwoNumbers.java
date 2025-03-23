@@ -1,11 +1,19 @@
-package com.sean.learning01.class04;
+package com.sean.course01.lesson04;
 
 /**
- * https://leetcode-cn.com/problems/add-two-numbers/
+ * @Author xionghaiyang
+ * @Date 2025-03-23 18:13
+ * @Description https://leetcode.cn/problems/add-two-numbers/
+ * 两个链表相加
+ * 给定两个链表的头节点head1和head2，
+ * 认为从左到右是某个数字从低位到高位，返回相加之后的链表
+ * 例子     4 -> 3 -> 6        2 -> 5 -> 3
+ * 返回     6 -> 8 -> 9
+ * 解释     634 + 352 = 986
  */
 public class Code05_AddTwoNumbers {
 
-    public static class ListNode {
+    public class ListNode {
         public int val;
         public ListNode next;
 
@@ -19,7 +27,7 @@ public class Code05_AddTwoNumbers {
         }
     }
 
-    public static ListNode addTwoNumbers(ListNode head1, ListNode head2) {
+    public ListNode addTwoNumbers(ListNode head1, ListNode head2) {
         int len1 = listLength(head1);
         int len2 = listLength(head2);
         ListNode l = len1 >= len2 ? head1 : head2;
@@ -51,12 +59,13 @@ public class Code05_AddTwoNumbers {
     }
 
     //求链表长度
-    public static int listLength(ListNode head) {
-        int len = 0;
+    private int listLength(ListNode head) {
+        int res = 0;
         while (head != null) {
-            len++;
+            res++;
             head = head.next;
         }
-        return len;
+        return res;
     }
+
 }
