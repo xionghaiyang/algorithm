@@ -1,45 +1,58 @@
-package com.sean.learning01.class05;
+package com.sean.course01.lesson05;
 
 /**
- * https://leetcode-cn.com/problems/divide-two-integers/submissions/
+ * @Author xionghaiyang
+ * @Date 2025-03-23 20:48
+ * @Description https://leetcode.cn/problems/divide-two-integers
+ * 使用位运算实现加减乘除
  */
 public class Code02_BitAddMinusMultiDiv {
 
-    public static int add(int a, int b) {
-        int sum = a;
+    //a+b
+    public int add(int a, int b) {
+        int res = a;
         while (b != 0) {
-            sum = a ^ b;
+            //异或就是无进位相加
+            res = a ^ b;
+            //进位
             b = (a & b) << 1;
-            a = sum;
+            a = res;
         }
-        return sum;
+        return res;
     }
 
-    public static int negNum(int n) {
+    //-x = ~x+1
+    public int negNum(int n) {
         return add(~n, 1);
     }
 
-    public static int minus(int a, int b) {
+    //a-b
+    public int minus(int a, int b) {
         return add(a, negNum(b));
     }
 
-    public static int multi(int a, int b) {
+    //a*b
+    public int multi(int a, int b) {
         int res = 0;
         while (b != 0) {
+            //末位为1
             if ((b & 1) != 0) {
                 res = add(res, a);
             }
+            //带符号左移
             a <<= 1;
+            //不带符号右移
             b >>>= 1;
         }
         return res;
     }
 
-    public static boolean isNeg(int n) {
+    //是否是负数
+    public boolean isNeg(int n) {
         return n < 0;
     }
 
-    public static int div(int a, int b) {
+    public int div(int a, int b) {
         int x = isNeg(a) ? negNum(a) : a;
         int y = isNeg(b) ? negNum(b) : b;
         int res = 0;
@@ -52,7 +65,7 @@ public class Code02_BitAddMinusMultiDiv {
         return isNeg(a) ^ isNeg(b) ? negNum(res) : res;
     }
 
-    public static int divide(int a, int b) {
+    public int divide(int a, int b) {
         if (a == Integer.MIN_VALUE && b == Integer.MIN_VALUE) {
             return 1;
         } else if (b == Integer.MIN_VALUE) {
@@ -61,8 +74,10 @@ public class Code02_BitAddMinusMultiDiv {
             if (b == negNum(1)) {
                 return Integer.MAX_VALUE;
             } else {
+                //c = (a+1)/b
                 int c = div(add(a, 1), b);
-                return add(c, div(minus(a, multi(c, b)), b));
+                //c + (a-c*b)/b
+                return add(c, divide(minus(a, multi(c, b)), b));
             }
         } else {
             return div(a, b);
