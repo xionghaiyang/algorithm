@@ -1,16 +1,23 @@
-package com.sean.learning01.class04;
+package com.sean.course01.lesson04;
 
 /**
- * https://leetcode-cn.com/problems/merge-two-sorted-lists/
+ * @Author xionghaiyang
+ * @Date 2025-03-23 18:33
+ * @Description https://leetcode.cn/problems/merge-two-sorted-lists/
+ * 两个有序链表的合并
+ * 给定两个有序链表的头节点head1和head2，
+ * 返回合并之后的大链表，要求依然有序
+ * 例子     1 -> 3 -> 3 -> 5 -> 7          2 -> 2 -> 3 -> 3-> 7
+ * 返回     1 -> 2 -> 2 -> 3 -> 3 -> 3 -> 3 -> 5 -> 7
  */
 public class Code06_MergeTwoSortedLinkedList {
 
-    public static class ListNode {
+    public class ListNode {
         public int val;
         public ListNode next;
     }
 
-    public static ListNode mergeTwoLists(ListNode head1, ListNode head2) {
+    public ListNode mergeTwoLists(ListNode head1, ListNode head2) {
         if (head1 == null || head2 == null) {
             return head1 == null ? head2 : head1;
         }
