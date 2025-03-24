@@ -15,7 +15,7 @@ package com.sean.leetcode.LeetCode2255;
  */
 public class Solution {
 
-    int countPrefixes(String[] words, String s) {
+    public int countPrefixes(String[] words, String s) {
         int res = 0;
         for (String word : words) {
             if (s.startsWith(word)) {
