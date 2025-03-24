@@ -1,21 +1,24 @@
-package com.sean.learning01.class06;
+package com.sean.course01.lesson06;
 
 /**
- * https://leetcode-cn.com/problems/symmetric-tree/
+ * @Author xionghaiyang
+ * @Date 2025-03-24 20:28
+ * @Description https://leetcode.cn/problems/symmetric-tree
+ * 判断一棵树是否是镜面树
  */
 public class Code03_SymmetricTree {
 
-    public static class TreeNode {
+    public class TreeNode {
         public int val;
         public TreeNode left;
         public TreeNode right;
     }
 
-    public static boolean isSymmetric(TreeNode root) {
+    public boolean isSymmetric(TreeNode root) {
         return isMirror(root, root);
     }
 
-    public static boolean isMirror(TreeNode h1, TreeNode h2) {
+    private boolean isMirror(TreeNode h1, TreeNode h2) {
         if (h1 == null ^ h2 == null) {
             return false;
         }
@@ -24,4 +27,5 @@ public class Code03_SymmetricTree {
         }
         return h1.val == h2.val && isMirror(h1.left, h2.right) && isMirror(h1.right, h2.left);
     }
+
 }
