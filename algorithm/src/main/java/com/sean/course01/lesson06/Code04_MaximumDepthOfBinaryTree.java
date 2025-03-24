@@ -1,17 +1,20 @@
-package com.sean.learning01.class06;
+package com.sean.course01.lesson06;
 
 /**
- * https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
+ * @Author xionghaiyang
+ * @Date 2025-03-24 20:51
+ * @Description https://leetcode.cn/problems/maximum-depth-of-binary-tree
+ * 返回一棵树的最大深度
  */
 public class Code04_MaximumDepthOfBinaryTree {
 
-    public static class TreeNode {
+    public class TreeNode {
         public int val;
         public TreeNode left;
         public TreeNode right;
     }
 
-    public static int maxDepth(TreeNode root) {
+    public int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
