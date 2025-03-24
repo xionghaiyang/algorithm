@@ -1,17 +1,20 @@
-package com.sean.learning01.class06;
+package com.sean.course01.lesson06;
 
 /**
- * https://leetcode-cn.com/problems/same-tree/submissions/
+ * @Author xionghaiyang
+ * @Date 2025-03-24 20:14
+ * @Description https://leetcode.cn/problems/same-tree
+ * 判断两颗树是否结构相同
  */
 public class Code02_SameTree {
 
-    public static class TreeNode {
+    public class TreeNode {
         public int val;
         public TreeNode left;
         public TreeNode right;
     }
 
-    public static boolean isSameTree(TreeNode p, TreeNode q) {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null ^ q == null) {
             return false;
         }
@@ -20,4 +23,5 @@ public class Code02_SameTree {
         }
         return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
+
 }
