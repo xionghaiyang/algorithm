@@ -1,5 +1,10 @@
-package com.sean.learning01.class06;
+package com.sean.course01.lesson06;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-24 21:51
+ * @Description 二叉树的递归序, 先序、中序和后序
+ */
 public class Code06_TraversalBinaryTree {
 
     public static class Node {
@@ -12,7 +17,7 @@ public class Code06_TraversalBinaryTree {
         }
     }
 
-    public static void f(Node head) {
+    public void f(Node head) {
         if (head == null) {
             return;
         }
@@ -63,11 +68,11 @@ public class Code06_TraversalBinaryTree {
         head.right.right = new Node(7);
 
         pre(head);
-        System.out.println("==============");
+        System.out.println("=====================");
         in(head);
-        System.out.println("==============");
+        System.out.println("=====================");
         pos(head);
-        System.out.println("==============");
+        System.out.println("=====================");
     }
 
 }
