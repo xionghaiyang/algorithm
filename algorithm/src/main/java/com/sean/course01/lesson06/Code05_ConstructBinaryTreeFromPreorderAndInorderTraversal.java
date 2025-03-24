@@ -1,27 +1,36 @@
-package com.sean.learning01.class06;
+package com.sean.course01.lesson06;
 
 import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-24 21:10
+ * @Description https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal
+ * 用先序数组和中序数组重建一棵树
+ */
 public class Code05_ConstructBinaryTreeFromPreorderAndInorderTraversal {
 
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+    public class TreeNode {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
 
-        TreeNode(int val) {
+        public TreeNode(int val) {
             this.val = val;
         }
     }
 
-    public static TreeNode buildTree1(int[] pre, int[] in) {
+    public TreeNode buildTree(int[] pre, int[] in) {
         if (pre == null || in == null || pre.length != in.length) {
             return null;
         }
         return f(pre, 0, pre.length - 1, in, 0, in.length - 1);
     }
 
-    public static TreeNode f(int[] pre, int L1, int R1, int[] in, int L2, int R2) {
+    //有一棵树，先序结果是pre[L1...R1],中序结果是in[L2...R2]
+    //请建出整棵树返回头节点
+    private TreeNode f(int[] pre, int L1, int R1, int[] in, int L2, int R2) {
         if (L1 > R1) {
             return null;
         }
@@ -38,18 +47,19 @@ public class Code05_ConstructBinaryTreeFromPreorderAndInorderTraversal {
         return head;
     }
 
-    public static TreeNode buildTree(int[] pre, int[] in) {
+    public TreeNode buildTree1(int[] pre, int[] in) {
         if (pre == null || in == null || pre.length != in.length) {
             return null;
         }
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < in.length; i++) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = in.length;
+        for (int i = 0; i < n; i++) {
             map.put(in[i], i);
         }
-        return g(pre, 0, pre.length - 1, in, 0, in.length - 1, map);
+        return g(pre, 0, n - 1, in, 0, n - 1, map);
     }
 
-    public static TreeNode g(int[] pre, int L1, int R1, int[] in, int L2, int R2, HashMap<Integer, Integer> map) {
+    private TreeNode g(int[] pre, int L1, int R1, int[] in, int L2, int R2, Map<Integer, Integer> map) {
         if (L1 > R1) {
             return null;
         }
