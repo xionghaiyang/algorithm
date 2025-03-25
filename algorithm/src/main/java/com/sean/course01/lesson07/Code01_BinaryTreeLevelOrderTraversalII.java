@@ -1,33 +1,22 @@
-package com.sean.leetcode.LeetCode107;
+package com.sean.course01.lesson07;
 
 import java.util.*;
 
 /**
- * @Auther: xionghaiyang
- * @Date: 2024-02-15 09:04
- * @Description: https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/
- * 107. 二叉树的层序遍历 II
- * 给你二叉树的根节点 root ，返回其节点值 自底向上的层序遍历 。
- * （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+ * @Author xionghaiyang
+ * @Date 2025-03-25 20:13
+ * @Description https://leetcode.cn/problems/binary-tree-level-order-traversal-ii
+ * 二叉树按层遍历并收集节点
  */
-public class Solution {
+public class Code01_BinaryTreeLevelOrderTraversalII {
 
     public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
 
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
+        public TreeNode(int val) {
             this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
         }
     }
 
