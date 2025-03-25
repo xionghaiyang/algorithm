@@ -1,21 +1,36 @@
-package com.sean.learning01.class07;
+package com.sean.leetcode.LeetCode110;
 
 /**
- * https://leetcode-cn.com/problems/balanced-binary-tree/
+ * @Author xionghaiyang
+ * @Date 2025-03-25 20:41
+ * @Description https://leetcode.cn/problems/balanced-binary-tree/
+ * 110. 平衡二叉树
+ * 给定一个二叉树，判断它是否是 平衡二叉树
+ * 树中的节点数在范围 [0, 5000] 内
+ * -10^4 <= Node.val <= 10^4
  */
-public class Code02_BalancedBinaryTree {
+public class Solution {
 
-    public static class TreeNode {
-        public int val;
-        public TreeNode left;
-        public TreeNode right;
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
 
         TreeNode(int val) {
             this.val = val;
         }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 
-    public static class Info {
+    public class Info {
         public boolean isBalanced;
         public int height;
 
@@ -25,11 +40,11 @@ public class Code02_BalancedBinaryTree {
         }
     }
 
-    public static boolean isBalanced(TreeNode root) {
+    public boolean isBalanced(TreeNode root) {
         return process(root).isBalanced;
     }
 
-    public static Info process(TreeNode root) {
+    private Info process(TreeNode root) {
         if (root == null) {
             return new Info(true, 0);
         }
