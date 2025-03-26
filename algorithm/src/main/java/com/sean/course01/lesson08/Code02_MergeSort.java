@@ -1,7 +1,15 @@
-package com.sean.learning01.class08;
+package com.sean.course01.lesson08;
 
+import java.util.Arrays;
+
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-26 20:09
+ * @Description 归并排序
+ */
 public class Code02_MergeSort {
 
+    //递归方法实现
     public static void mergeSort1(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -9,35 +17,34 @@ public class Code02_MergeSort {
         process(arr, 0, arr.length - 1);
     }
 
-    //在arr[L...R]范围上，请让这个范围上的数，有序
-    public static void process(int[] arr, int L, int R) {
-        if (L == R) {
+    //请让arr[left...right]范围上的数有序
+    private static void process(int[] arr, int left, int right) {
+        if (left == right) {
             return;
         }
-        int mid = L + ((R - L) >> 1);
-        process(arr, L, mid);
-        process(arr, mid + 1, R);
-        merge(arr, L, mid, R);
+        int mid = left + ((right - left) >> 1);
+        process(arr, left, mid);
+        process(arr, mid + 1, right);
+        merge(arr, left, mid, right);
     }
 
-    public static void merge(int[] arr, int L, int M, int R) {
-        int[] help = new int[R - L + 1];
+    private static void merge(int[] arr, int left, int mid, int right) {
+        int[] help = new int[right - left + 1];
         int i = 0;
-        int p1 = L;
-        int p2 = M + 1;
-        while (p1 <= M && p2 <= R) {
+        int p1 = left;
+        int p2 = mid + 1;
+        while (p1 <= mid && p2 <= right) {
             help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
         }
-        //要么p1越界，要么p2越界
-        //不可能同时越界
-        while (p1 <= M) {
+        //要么p1越界，要么p2越界，不可能同时越界
+        while (p1 <= mid) {
             help[i++] = arr[p1++];
         }
-        while (p2 <= R) {
+        while (p2 <= right) {
             help[i++] = arr[p2++];
         }
         for (i = 0; i < help.length; i++) {
-            arr[L + i] = help[i];
+            arr[left + i] = help[i];
         }
     }
 
@@ -46,33 +53,33 @@ public class Code02_MergeSort {
             return;
         }
         int step = 1;
-        int N = arr.length;
-        while (step < N) {
-            int L = 0;
-            while (L < N) {
-                int M = 0;
-                if (N - L >= step) {
-                    M = L + step - 1;
+        int n = arr.length;
+        while (step < n) {
+            int left = 0;
+            while (left < n) {
+                int mid = 0;
+                if (n - left >= step) {
+                    mid = left + step - 1;
                 } else {
-                    M = N - 1;
+                    mid = n - 1;
                 }
-                if (M == N - 1) {
+                if (mid == n - 1) {
                     break;
                 }
-                int R = 0;
-                if (N - 1 - M >= step) {
-                    R = M + step;
+                int right = 0;
+                if (n - 1 - mid >= step) {
+                    right = mid + step;
                 } else {
-                    R = N - 1;
+                    right = n - 1;
                 }
-                merge(arr, L, M, R);
-                if (R == N - 1) {
+                merge(arr, left, mid, right);
+                if (right == n - 1) {
                     break;
                 } else {
-                    L = R + 1;
+                    left = right + 1;
                 }
             }
-            if (step > N / 2) {
+            if (step > n / 2) {
                 break;
             }
             step *= 2;
@@ -99,7 +106,7 @@ public class Code02_MergeSort {
     }
 
     public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
+        if (arr1 == null ^ arr2 == null) {
             return false;
         }
         if (arr1 == null && arr2 == null) {
@@ -134,15 +141,18 @@ public class Code02_MergeSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
+            int[] arr3 = copyArray(arr1);
             mergeSort1(arr1);
             mergeSort2(arr2);
-            if (!isEqual(arr1, arr2)) {
-                System.out.println("出错了！");
+            Arrays.sort(arr3);
+            if (!isEqual(arr1, arr3) || !isEqual(arr2, arr3)) {
+                System.out.println("出错了");
                 printArray(arr1);
                 printArray(arr2);
-                break;
+                printArray(arr3);
             }
         }
         System.out.println("测试结束");
     }
+
 }
