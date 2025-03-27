@@ -1,34 +1,31 @@
-package com.sean.learning02.class01;
+package com.sean.course02.lesson01;
 
 import java.util.Arrays;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-27 18:21
+ * @Description 在一个有序数组中，找>=某个数最左侧的位置
+ */
 public class Code05_BSNearLeft {
 
     public static int nearestIndex(int[] arr, int value) {
-        int L = 0;
-        int R = arr.length - 1;
+        int left = 0;
+        int right = arr.length - 1;
         int index = -1;
-        while (L <= R) {
-            int mid = L + ((R - L) >> 1);
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
             if (arr[mid] >= value) {
                 index = mid;
-                R = mid - 1;
+                right = mid - 1;
             } else {
-                L = mid + 1;
+                left = mid + 1;
             }
         }
         return index;
     }
 
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
-        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
-        }
-        return arr;
-    }
-
-    public static int test(int[] arr, int value) {
+    private static int test(int[] arr, int value) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] >= value) {
                 return i;
@@ -37,7 +34,15 @@ public class Code05_BSNearLeft {
         return -1;
     }
 
-    public static void printArray(int[] arr) {
+    private static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
+        }
+        return arr;
+    }
+
+    private static void printArray(int[] arr) {
         if (arr == null) {
             return;
         }
@@ -49,10 +54,9 @@ public class Code05_BSNearLeft {
 
     public static void main(String[] args) {
         int testTime = 500000;
-        int maxSize = 100;
+        int maxSize = 10;
         int maxValue = 100;
         boolean succeed = true;
-        System.out.println("test begin!");
         for (int i = 0; i < testTime; i++) {
             int[] arr = generateRandomArray(maxSize, maxValue);
             Arrays.sort(arr);
@@ -66,7 +70,7 @@ public class Code05_BSNearLeft {
                 break;
             }
         }
-        System.out.println(succeed ? "Nice!" : "Oops!");
-        System.out.println("test end!");
+        System.out.println(succeed ? "Nice!" : "ERROR!");
     }
+
 }
