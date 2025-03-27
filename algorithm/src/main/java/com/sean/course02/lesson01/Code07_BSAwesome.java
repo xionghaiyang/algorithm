@@ -1,8 +1,13 @@
-package com.sean.learning02.class01;
+package com.sean.course02.lesson01;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-27 20:08
+ * @Description 局部最小值问题
+ */
 public class Code07_BSAwesome {
 
-    public static int getLessIndex(int[] arr) {
+    public int getLessIndex(int[] arr) {
         if (arr == null || arr.length == 0) {
             return -1;
         }
@@ -14,8 +19,8 @@ public class Code07_BSAwesome {
         }
         int left = 1;
         int right = arr.length - 2;
-        int mid = 0;
-        while (left > right) {
+        int mid;
+        while (left < right) {
             mid = left + ((right - left) >> 1);
             if (arr[mid] > arr[mid - 1]) {
                 right = mid - 1;
@@ -27,4 +32,5 @@ public class Code07_BSAwesome {
         }
         return left;
     }
+
 }
