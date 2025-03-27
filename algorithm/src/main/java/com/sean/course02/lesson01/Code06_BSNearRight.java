@@ -7,7 +7,7 @@ import java.util.Arrays;
  * @Date 2025-03-27 19:09
  * @Description 在一个有序数组中，找<=某个数最右侧的位置
  */
-public class Code05_BSNearRight {
+public class Code06_BSNearRight {
 
     public static int nearestIndex(int[] arr, int value) {
         int left = 0;
