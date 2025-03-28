@@ -1,17 +1,23 @@
-package com.sean.learning02.class03;
+package com.sean.course02.lesson03;
 
+/**
+ * @Author xionghaiyang
+ * @Date 2025-03-28 21:47
+ * @Description 在链表中，把给定值都删除
+ */
 public class Code02_DeleteGivenValue {
 
-    public static class Node {
+    public class Node {
         public int value;
         public Node next;
 
-        public Node(int data) {
-            this.value = data;
+        public Node(int value) {
+            this.value = value;
         }
     }
 
-    public static Node removeValue(Node head, int num) {
+    public Node removeValue(Node head, int num) {
+        //head来到第一个不需要删的位置
         while (head != null) {
             if (head.value != num) {
                 break;
