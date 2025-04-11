@@ -1,7 +1,6 @@
 package com.sean.leetcode.LeetCode699;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author xionghaiyang
@@ -19,26 +18,101 @@ import java.util.List;
  */
 public class Solution {
 
-    public List<Integer> fallingSquares(int[][] positions) {
-        int n = positions.length;
-        List<Integer> heights = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int left1 = positions[i][0];
-            int right1 = positions[i][0] + positions[i][1] - 1;
-            int height = positions[i][1];
-            for (int j = 0; j < i; j++) {
-                int left2 = positions[j][0];
-                int right2 = positions[j][0] + positions[j][1] - 1;
-                if (right1 >= left2 && right2 >= left1) {
-                    height = Math.max(height, heights.get(j) + positions[i][1]);
-                }
+    public class SegmentTree {
+        private int[] max;
+        private int[] change;
+        private boolean[] update;
+
+        public SegmentTree(int size) {
+            int N = size + 1;
+            max = new int[N << 2];
+            change = new int[N << 2];
+            update = new boolean[N << 2];
+        }
+
+        private void pushUp(int index) {
+            max[index] = Math.max(max[index << 1], max[index << 1 | 1]);
+        }
+
+        //lSize表示左子树元素节点个数，rSize表示右子树节点个数
+        private void pushDown(int index, int lSize, int rSize) {
+            if (update[index]) {
+                update[index << 1] = true;
+                update[index << 1 | 1] = true;
+                change[index << 1] = change[index];
+                change[index << 1 | 1] = change[index];
+                max[index << 1] = change[index];
+                max[index << 1 | 1] = change[index];
+                update[index] = false;
             }
-            heights.add(height);
         }
-        for (int i = 1; i < n; i++) {
-            heights.set(i, Math.max(heights.get(i), heights.get(i - 1)));
+
+        public void update(int L, int R, int C, int l, int r, int index) {
+            if (L <= l && r <= R) {
+                update[index] = true;
+                change[index] = C;
+                max[index] = C;
+                return;
+            }
+            int mid = l + ((r - l) >> 1);
+            pushDown(index, mid - l + 1, r - mid);
+            if (L <= mid) {
+                update(L, R, C, l, mid, index << 1);
+            }
+            if (R > mid) {
+                update(L, R, C, mid + 1, r, index << 1 | 1);
+            }
+            pushUp(index);
         }
-        return heights;
+
+        public int query(int L, int R, int l, int r, int index) {
+            if (L <= l && r <= R) {
+                return max[index];
+            }
+            int mid = l + ((r - l) >> 1);
+            pushDown(index, mid - l + 1, r - mid);
+            int left = 0;
+            int right = 0;
+            if (L <= mid) {
+                left = query(L, R, l, mid, index << 1);
+            }
+            if (R > mid) {
+                right = query(L, R, mid + 1, r, index << 1 | 1);
+            }
+            return Math.max(left, right);
+        }
+
+    }
+
+    private Map<Integer, Integer> index(int[][] positions) {
+        TreeSet<Integer> pos = new TreeSet<>();
+        for (int[] arr : positions) {
+            pos.add(arr[0]);
+            pos.add(arr[0] + arr[1] - 1);
+        }
+        Map<Integer, Integer> res = new HashMap<>();
+        int count = 0;
+        for (int index : pos) {
+            res.put(index, ++count);
+        }
+        return res;
+    }
+
+    public List<Integer> fallingSquares(int[][] positions) {
+        Map<Integer, Integer> map = index(positions);
+        int N = map.size();
+        SegmentTree segmentTree = new SegmentTree(N);
+        int max = 0;
+        List<Integer> res = new ArrayList<>();
+        for (int[] arr : positions) {
+            int L = map.get(arr[0]);
+            int R = map.get(arr[0] + arr[1] - 1);
+            int height = segmentTree.query(L, R, 1, N, 1) + arr[1];
+            max = Math.max(max, height);
+            res.add(max);
+            segmentTree.update(L, R, height, 1, N, 1);
+        }
+        return res;
     }
 
 }
