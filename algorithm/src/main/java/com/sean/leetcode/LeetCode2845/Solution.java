@@ -16,6 +16,10 @@ import java.util.Map;
  * 并且 cnt % modulo == k 。
  * 以整数形式表示并返回趣味子数组的数目。
  * 注意：子数组是数组中的一个连续非空的元素序列。
+ * 1 <= nums.length <= 10^5
+ * 1 <= nums[i] <= 10^9
+ * 1 <= modulo <= 10^9
+ * 0 <= k < modulo
  */
 public class Solution {
 
