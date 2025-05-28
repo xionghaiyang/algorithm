@@ -10,6 +10,9 @@ package com.sean.leetcode.LeetCode11;
  * 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
  * 返回容器可以储存的最大水量。
  * 说明：你不能倾斜容器。
+ * n == height.length
+ * 2 <= n <= 10^5
+ * 0 <= height[i] <= 10^4
  */
 public class Solution {
 
@@ -17,8 +20,7 @@ public class Solution {
         int left = 0, right = height.length - 1;
         int res = 0;
         while (left < right) {
-            int s = Math.min(height[left], height[right]) * (right - left);
-            res = Math.max(res, s);
+            res = Math.max(res, Math.min(height[left], height[right]) * (right - left));
             if (height[left] <= height[right]) {
                 left++;
             } else {
