@@ -9,6 +9,8 @@ import java.util.Set;
  * @Description: https://leetcode.cn/problems/longest-substring-without-repeating-characters/
  * 3. 无重复字符的最长子串
  * 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+ * 0 <= s.length <= 5 * 10^4
+ * s 由英文字母、数字、符号和空格组成
  */
 public class Solution {
 
@@ -16,16 +18,15 @@ public class Solution {
         Set<Character> set = new HashSet<>();
         int n = s.length();
         int res = 0;
-        int index = -1;
-        for (int i = 0; i < n; i++) {
-            if (i != 0) {
-                set.remove(s.charAt(i - 1));
+        for (int left = 0, right = -1; left < n; left++) {
+            if (left > 0) {
+                set.remove(s.charAt(left - 1));
             }
-            while (index + 1 < n && !set.contains(s.charAt(index + 1))) {
-                set.add(s.charAt(index + 1));
-                index++;
+            while (right + 1 < n && !set.contains(s.charAt(right + 1))) {
+                set.add(s.charAt(right + 1));
+                right++;
             }
-            res = Math.max(res, index - i + 1);
+            res = Math.max(res, right - left + 1);
         }
         return res;
     }
