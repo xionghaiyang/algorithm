@@ -44,7 +44,7 @@ public class Solution {
 
     private boolean check(int[] cnt) {
         for (int i = 0; i < 26; i++) {
-            if (cnt[i] > 0) {
+            if (cnt[i] != 0) {
                 return false;
             }
         }
