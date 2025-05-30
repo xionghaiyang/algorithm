@@ -10,7 +10,7 @@ package com.sean.leetcode.LeetCode76;
  * 如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
  * m == s.length
  * n == t.length
- * 1 <= m, n <= 105
+ * 1 <= m, n <= 10^5
  * s 和 t 由英文字母组成
  */
 public class Solution {
