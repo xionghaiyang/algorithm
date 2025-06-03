@@ -3,9 +3,11 @@ package com.sean.leetcode.LeetCode206;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-06-15 10:20
- * @Description: https://leetcode.cn/problems/reverse-linked-list/?envType=study-plan-v2&envId=leetcode-75
+ * @Description: https://leetcode.cn/problems/reverse-linked-list
  * 206. 反转链表
  * 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+ * 链表中节点的数目范围是 [0, 5000]
+ * -5000 <= Node.val <= 5000
  */
 public class Solution {
 
