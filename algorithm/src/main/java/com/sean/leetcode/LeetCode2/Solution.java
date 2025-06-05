@@ -9,6 +9,9 @@ package com.sean.leetcode.LeetCode2;
  * 它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
  * 请你将两个数相加，并以相同形式返回一个表示和的链表。
  * 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+ * 每个链表中的节点数在范围 [1, 100] 内
+ * 0 <= Node.val <= 9
+ * 题目数据保证列表表示的数字不含前导零
  */
 public class Solution {
 
@@ -39,7 +42,7 @@ public class Solution {
             carry += x + y;
             ListNode nextNode = new ListNode(carry % 10);
             cur.next = nextNode;
-            cur = nextNode;
+            cur = cur.next;
             carry /= 10;
             if (l1 != null) {
                 l1 = l1.next;
@@ -60,19 +63,18 @@ public class Solution {
         ListNode curS = s;
         ListNode last = curL;
         int carry = 0;
-        int curNum = 0;
         while (curS != null) {
-            curNum = curL.val + curS.val + carry;
-            curL.val = curNum % 10;
-            carry = curNum / 10;
+            carry += curL.val + curS.val;
+            curL.val = carry % 10;
+            carry = carry / 10;
             last = curL;
             curL = curL.next;
             curS = curS.next;
         }
         while (curL != null) {
-            curNum = curL.val + carry;
-            curL.val = curNum % 10;
-            carry = curNum / 10;
+            carry += curL.val;
+            curL.val = carry % 10;
+            carry = carry / 10;
             last = curL;
             curL = curL.next;
         }
