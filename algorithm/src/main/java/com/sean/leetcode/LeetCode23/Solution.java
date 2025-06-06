@@ -31,7 +31,7 @@ public class Solution {
         int n = lists.length;
         for (int i = 0; i < n; i++) {
             if (lists[i] != null) {
-                heap.add(lists[i]);
+                heap.offer(lists[i]);
             }
         }
         if (heap.isEmpty()) {
@@ -40,14 +40,14 @@ public class Solution {
         ListNode head = heap.poll();
         ListNode pre = head;
         if (pre.next != null) {
-            heap.add(pre.next);
+            heap.offer(pre.next);
         }
         while (!heap.isEmpty()) {
             ListNode cur = heap.poll();
             pre.next = cur;
             pre = cur;
             if (cur.next != null) {
-                heap.add(cur.next);
+                heap.offer(cur.next);
             }
         }
         return head;
