@@ -8,9 +8,11 @@ import java.util.List;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-02-10 09:16
- * @Description: https://leetcode.cn/problems/binary-tree-inorder-traversal/description/
+ * @Description: https://leetcode.cn/problems/binary-tree-inorder-traversal
  * 94. 二叉树的中序遍历
  * 给定一个二叉树的根节点 root ，返回 它的 中序 遍历 。
+ * 树中节点数目在范围 [0, 100] 内
+ * -100 <= Node.val <= 100
  */
 public class Solution {
 
