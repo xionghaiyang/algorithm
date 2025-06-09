@@ -8,9 +8,11 @@ import java.util.Queue;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-18 16:49
- * @Description: https://leetcode.cn/problems/binary-tree-right-side-view/
+ * @Description: https://leetcode.cn/problems/binary-tree-right-side-view
  * 199. 二叉树的右视图
  * 给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+ * 二叉树的节点个数的范围是 [0,100]
+ * -100 <= Node.val <= 100
  */
 public class Solution {
 
