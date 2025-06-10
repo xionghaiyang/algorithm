@@ -43,16 +43,15 @@ public class Solution {
     }
 
     private int process(TreeNode root, long targetSum) {
-        int res = 0;
         if (root == null) {
             return 0;
         }
-        int val = root.val;
-        if (val == targetSum) {
+        int res = 0;
+        if (root.val == targetSum) {
             res++;
         }
-        res += process(root.left, targetSum - val);
-        res += process(root.right, targetSum - val);
+        res += process(root.left, targetSum - root.val);
+        res += process(root.right, targetSum - root.val);
         return res;
     }
 
