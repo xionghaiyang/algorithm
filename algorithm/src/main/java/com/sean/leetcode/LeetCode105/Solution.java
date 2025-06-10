@@ -39,32 +39,31 @@ public class Solution {
         }
     }
 
-    //前序遍历:[根节点，[左子树的前序遍历结果],[右子树的前序遍历结果]]
+    //前序遍历:[根节点，[左子树的前序遍历结果]，[右子树的前序遍历结果]]
     //中序遍历:[[左子树的中序遍历结果],根节点,[右子树的中序遍历结果]]
-
     public TreeNode buildTree(int[] pre, int[] in) {
         if (pre == null || in == null || pre.length != in.length) {
             return null;
         }
-        return f(pre, 0, pre.length - 1, in, 0, in.length - 1);
+        return build(pre, 0, pre.length - 1, in, 0, in.length - 1);
     }
 
-    //有一棵树，先序结果是pre[L1...R1],中序结果是in[L2...R2]
+    //有一棵树，先序结果是pre[left1...right1],中序结果是in[left2...right2]
     //请建出整棵树返回头节点
-    private TreeNode f(int[] pre, int L1, int R1, int[] in, int L2, int R2) {
-        if (L1 > R1) {
+    private TreeNode build(int[] pre, int left1, int right1, int[] in, int left2, int right2) {
+        if (left1 > right1) {
             return null;
         }
-        TreeNode head = new TreeNode(pre[L1]);
-        if (L1 == R1) {
+        TreeNode head = new TreeNode(pre[left1]);
+        if (left1 == right1) {
             return head;
         }
-        int find = L2;
-        while (in[find] != pre[L1]) {
+        int find = left2;
+        while (in[find] != pre[left1]) {
             find++;
         }
-        head.left = f(pre, L1 + 1, L1 + find - L2, in, L2, find - 1);
-        head.right = f(pre, L1 + find - L2 + 1, R1, in, find + 1, R2);
+        head.left = build(pre, left1 + 1, left1 + find - left2, in, left2, find - 1);
+        head.right = build(pre, left1 + find - left2 + 1, right1, in, find + 1, right2);
         return head;
     }
 
@@ -77,20 +76,20 @@ public class Solution {
         for (int i = 0; i < n; i++) {
             map.put(in[i], i);
         }
-        return g(pre, 0, n - 1, in, 0, n - 1, map);
+        return build(pre, 0, pre.length - 1, in, 0, in.length - 1, map);
     }
 
-    private TreeNode g(int[] pre, int L1, int R1, int[] in, int L2, int R2, Map<Integer, Integer> map) {
-        if (L1 > R1) {
+    private TreeNode build(int[] pre, int left1, int right1, int[] in, int left2, int right2, Map<Integer, Integer> map) {
+        if (left1 > right1) {
             return null;
         }
-        TreeNode head = new TreeNode(pre[L1]);
-        if (L1 == R1) {
+        TreeNode head = new TreeNode(pre[left1]);
+        if (left1 == right1) {
             return head;
         }
-        int find = map.get(pre[L1]);
-        head.left = g(pre, L1 + 1, L1 + find - L2, in, L2, find - 1, map);
-        head.right = g(pre, L1 + find - L2 + 1, R1, in, find + 1, R2, map);
+        int find = map.get(pre[left1]);
+        head.left = build(pre, left1 + 1, left1 + find - left2, in, left2, find - 1, map);
+        head.right = build(pre, left1 + find - left2 + 1, right1, in, find + 1, right2, map);
         return head;
     }
 
