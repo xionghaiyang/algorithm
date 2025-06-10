@@ -24,11 +24,11 @@ public class Solution {
         }
     }
 
-    List<TreeNode> pList;
-    boolean pFound = false;
-    List<TreeNode> qList;
-    boolean qFound = false;
-    List<TreeNode> temp = new ArrayList<>();
+    private List<TreeNode> pList;
+    private boolean pFound = false;
+    private List<TreeNode> qList;
+    private boolean qFound = false;
+    private List<TreeNode> temp = new ArrayList<>();
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         find(root, p, q);
@@ -62,6 +62,58 @@ public class Solution {
             find(root.right, p, q);
         }
         temp.remove(root);
+    }
+
+    public TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor1(root.left, p, q);
+        TreeNode right = lowestCommonAncestor1(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
+        }
+        return left == null ? right : left;
+    }
+
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        return process(root, p, q).bothParent;
+    }
+
+    public class Info {
+        boolean hasP;
+        boolean hasQ;
+        TreeNode bothParent;
+
+        public Info(boolean hasP, boolean hasQ, TreeNode bothParent) {
+            this.hasP = hasP;
+            this.hasQ = hasQ;
+            this.bothParent = bothParent;
+        }
+    }
+
+    public Info process(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return new Info(false, false, null);
+        }
+        Info leftInfo = process(root.left, p, q);
+        Info rightInfo = process(root.right, p, q);
+        boolean hasP = leftInfo.hasP || rightInfo.hasP || root == p;
+        boolean hasQ = leftInfo.hasQ || rightInfo.hasQ || root == q;
+        TreeNode bothParent = null;
+        if (leftInfo.bothParent != null) {
+            bothParent = leftInfo.bothParent;
+        }
+        if (rightInfo.bothParent != null) {
+            bothParent = rightInfo.bothParent;
+        }
+        if (bothParent == null && hasP && hasQ) {
+            bothParent = root;
+        }
+        return new Info(hasP, hasQ, bothParent);
     }
 
 }
