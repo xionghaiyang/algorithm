@@ -6,6 +6,7 @@ package com.sean.leetcode.LeetCode2413;
  * @Description: https://leetcode.cn/problems/smallest-even-multiple/
  * 2413. 最小偶倍数
  * 给你一个正整数 n ，返回 2 和 n 的最小公倍数（正整数）。
+ * 1 <= n <= 150
  */
 public class Solution {
 
