@@ -6,19 +6,20 @@ import java.util.Queue;
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-09-08 19:35
- * @Description: https://leetcode.cn/problems/number-of-islands/?plan=graph&plan_progress=zq56763
+ * @Description: https://leetcode.cn/problems/number-of-islands
  * 200. 岛屿数量
  * 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
  * 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
  * 此外，你可以假设该网格的四条边均被水包围。
+ * m == grid.length
+ * n == grid[i].length
+ * 1 <= m, n <= 300
+ * grid[i][j] 的值为 '0' 或 '1'
  */
 public class Solution {
 
-    //深度优化搜索
-    public int numIslands1(char[][] grid) {
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
+    //深度优先搜索
+    public int numIslands(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         int res = 0;
@@ -47,10 +48,7 @@ public class Solution {
     }
 
     //广度优先搜索
-    public int numIslands2(char[][] grid) {
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
+    public int numIslands1(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         int res = 0;
@@ -89,25 +87,28 @@ public class Solution {
     }
 
     class UnionFind {
-        int[] parent;
-        int[] help;
-        int[] size;
-        int count;
+        private int m;
+        private int n;
+        private int[] parent;
+        private int[] help;
+        private int[] size;
+        private int count;
 
         public UnionFind(char[][] grid) {
-            int m = grid.length;
-            int n = grid[0].length;
+            m = grid.length;
+            n = grid[0].length;
             parent = new int[m * n];
             help = new int[m * n];
             size = new int[m * n];
             count = 0;
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
+                    int index = getIndex(i, j);
                     if (grid[i][j] == '1') {
-                        parent[i * n + j] = i * n + j;
+                        parent[index] = index;
                         count++;
                     }
-                    size[i * n + j] = 1;
+                    size[index] = 1;
                 }
             }
         }
@@ -124,32 +125,32 @@ public class Solution {
             return i;
         }
 
-        public void union(int i, int j) {
-            int f1 = find(i);
-            int f2 = find(j);
-            if (f1 != f2) {
-                if (size[f1] >= size[f2]) {
-                    size[f1] += size[f2];
-                    parent[f2] = f1;
+        public void union(int xi, int xj, int yi, int yj) {
+            int fx = find(getIndex(xi, xj));
+            int fy = find(getIndex(yi, yj));
+            if (fx != fy) {
+                if (size[fx] >= size[fy]) {
+                    size[fx] += size[fy];
+                    parent[fy] = fx;
                 } else {
-                    size[f2] += size[f1];
-                    parent[f1] = f2;
+                    size[fy] += size[fx];
+                    parent[fx] = fy;
                 }
                 count--;
             }
         }
 
+        private int getIndex(int i, int j) {
+            return i * n + j;
+        }
+
         public int getCount() {
             return count;
         }
-
     }
 
     //并查集
-    public int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
+    public int numIslands2(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         UnionFind unionFind = new UnionFind(grid);
@@ -158,16 +159,16 @@ public class Solution {
                 if (grid[i][j] == '1') {
                     grid[i][j] = '0';
                     if (i - 1 >= 0 && grid[i - 1][j] == '1') {
-                        unionFind.union(i * n + j, (i - 1) * n + j);
+                        unionFind.union(i, j, i - 1, j);
                     }
                     if (i + 1 < m && grid[i + 1][j] == '1') {
-                        unionFind.union(i * n + j, (i + 1) * n + j);
+                        unionFind.union(i, j, i + 1, j);
                     }
                     if (j - 1 >= 0 && grid[i][j - 1] == '1') {
-                        unionFind.union(i * n + j, i * n + j - 1);
+                        unionFind.union(i, j, i, j - 1);
                     }
                     if (j + 1 < n && grid[i][j + 1] == '1') {
-                        unionFind.union(i * n + j, i * n + j + 1);
+                        unionFind.union(i, j, i, j + 1);
                     }
                 }
             }
