@@ -1,14 +1,13 @@
 package com.sean.leetcode.LeetCodeInterview0102;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-09-23 12:22
- * @Description: https://leetcode.cn/problems/check-permutation-lcci/?favorite=xb9lfcwi
+ * @Description: https://leetcode.cn/problems/check-permutation-lcci
  * 面试题 01.02. 判定是否互为字符重排
  * 给定两个字符串 s1 和 s2，请编写一个程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。
+ * 0 <= len(s1) <= 100
+ * 0 <= len(s2) <= 100
  */
 public class Solution {
 
@@ -24,19 +23,19 @@ public class Solution {
         if (m != n) {
             return false;
         }
-        Map<Character, Integer> map = new HashMap<>();
+        int[] count = new int[26];
         for (int i = 0; i < m; i++) {
-            char c = s1.charAt(i);
-            map.put(c, map.getOrDefault(c, 0) + 1);
+            count[s1.charAt(i) - 'a']++;
         }
         for (int i = 0; i < n; i++) {
-            char c = s2.charAt(i);
-            map.put(c, map.getOrDefault(c, 0) - 1);
-            if (map.get(c) == 0) {
-                map.remove(c);
+            count[s2.charAt(i) - 'a']--;
+        }
+        for (int num : count) {
+            if (num != 0) {
+                return false;
             }
         }
-        return map.size() == 0;
+        return true;
     }
 
 }
