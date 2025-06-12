@@ -41,7 +41,8 @@ public class Solution {
     }
 
     public int countGoodTriplets1(int[] arr, int a, int b, int c) {
-        Integer[] index = new Integer[arr.length];
+        int n = arr.length;
+        Integer[] index = new Integer[n];
         Arrays.setAll(index, i -> i);
         Arrays.sort(index, (i, j) -> arr[i] - arr[j]);
         int res = 0;
@@ -58,8 +59,7 @@ public class Solution {
                     right.add(arr[k]);
                 }
             }
-            int k1 = 0;
-            int k2 = 0;
+            int k1 = 0, k2 = 0;
             for (int x : left) {
                 while (k2 < right.size() && right.get(k2) <= x + c) {
                     k2++;
