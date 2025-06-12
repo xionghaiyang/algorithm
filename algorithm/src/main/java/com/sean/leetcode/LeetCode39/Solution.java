@@ -15,20 +15,26 @@ import java.util.List;
  * candidates 中的 同一个 数字可以 无限制重复被选取 。
  * 如果至少一个数字的被选数量不同，则两种组合是不同的。
  * 对于给定的输入，保证和为 target 的不同组合数少于 150 个。
+ * 1 <= candidates.length <= 30
+ * 2 <= candidates[i] <= 40
+ * candidates 的所有元素 互不相同
+ * 1 <= target <= 40
  */
 public class Solution {
 
     List<List<Integer>> res = new ArrayList<>();
     List<Integer> temp = new ArrayList<>();
+    int n;
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         Arrays.sort(candidates);
+        n = candidates.length;
         process(candidates, target, 0);
         return res;
     }
 
     private void process(int[] candidates, int target, int index) {
-        if (index == candidates.length) {
+        if (index == n) {
             return;
         }
         if (target == 0) {
