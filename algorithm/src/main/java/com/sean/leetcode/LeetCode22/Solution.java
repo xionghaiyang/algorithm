@@ -9,6 +9,7 @@ import java.util.List;
  * @Description: https://leetcode.cn/problems/generate-parentheses/
  * 22. 括号生成
  * 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+ * 1 <= n <= 8
  */
 public class Solution {
 
@@ -21,23 +22,23 @@ public class Solution {
             return res;
         }
         this.n = n;
-        dfs(0, 0);
+        process(0, 0);
         return res;
     }
 
-    private void dfs(int left, int right) {
+    private void process(int left, int right) {
         if (left == n && right == n) {
             res.add(sb.toString());
             return;
         }
         if (left < n) {
             sb.append('(');
-            dfs(left + 1, right);
+            process(left + 1, right);
             sb.deleteCharAt(sb.length() - 1);
         }
-        if (left > right && right < n) {
+        if (left > right) {
             sb.append(')');
-            dfs(left, right + 1);
+            process(left, right + 1);
             sb.deleteCharAt(sb.length() - 1);
         }
     }
