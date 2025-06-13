@@ -1,6 +1,7 @@
 package com.sean.leetcode.LeetCode51;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,39 +16,41 @@ import java.util.List;
  */
 public class Solution {
 
+    private int n;
+    private char[][] chess;
+    private List<List<String>> res = new ArrayList<>();
+
     public List<List<String>> solveNQueens(int n) {
-        char[][] chess = new char[n][n];
+        this.n = n;
+        chess = new char[n][n];
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                chess[i][j] = '.';
-            }
+            Arrays.fill(chess[i], '.');
         }
-        List<List<String>> res = new ArrayList<>();
-        dfs(res, chess, 0);
+        process(0);
         return res;
     }
 
-    private void dfs(List<List<String>> res, char[][] chess, int row) {
-        if (row == chess.length) {
-            res.add(construct(chess));
+    private void process(int row) {
+        if (row == n) {
+            res.add(build());
             return;
         }
-        for (int col = 0; col < chess.length; col++) {
-            if (valid(chess, row, col)) {
+        for (int col = 0; col < n; col++) {
+            if (valid(row, col)) {
                 chess[row][col] = 'Q';
-                dfs(res, chess, row + 1);
+                process(row + 1);
                 chess[row][col] = '.';
             }
         }
     }
 
-    private boolean valid(char[][] chess, int row, int col) {
+    private boolean valid(int row, int col) {
         for (int i = 0; i < row; i++) {
             if (chess[i][col] == 'Q') {
                 return false;
             }
         }
-        for (int i = row - 1, j = col + 1; i >= 0 && j < chess.length; i--, j++) {
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
             if (chess[i][j] == 'Q') {
                 return false;
             }
@@ -60,10 +63,10 @@ public class Solution {
         return true;
     }
 
-    private List<String> construct(char[][] chess) {
+    private List<String> build() {
         List<String> res = new ArrayList<>();
-        for (int i = 0; i < chess.length; i++) {
-            res.add(new String(chess[i]));
+        for (int i = 0; i < n; i++) {
+            res.add(String.valueOf(chess[i]));
         }
         return res;
     }
