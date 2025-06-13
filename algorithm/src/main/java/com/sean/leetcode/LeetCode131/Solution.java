@@ -29,14 +29,14 @@ public class Solution {
         }
         for (int i = n - 1; i >= 0; i--) {
             for (int j = i + 1; j < n; j++) {
-                dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i + 1][j - 1];
+                dp[i][j] = s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1];
             }
         }
-        dfs(s, 0);
+        process(s, 0);
         return res;
     }
 
-    private void dfs(String s, int i) {
+    private void process(String s, int i) {
         if (i == n) {
             res.add(new ArrayList<>(temp));
             return;
@@ -44,7 +44,7 @@ public class Solution {
         for (int j = i; j < n; j++) {
             if (dp[i][j]) {
                 temp.add(s.substring(i, j + 1));
-                dfs(s, j + 1);
+                process(s, j + 1);
                 temp.remove(temp.size() - 1);
             }
         }
