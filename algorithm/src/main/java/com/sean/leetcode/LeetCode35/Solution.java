@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode35;
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-09-08 20:57
- * @Description: https://leetcode.cn/problems/search-insert-position/?plan=algorithms&plan_progress=zq05vcm
+ * @Description: https://leetcode.cn/problems/search-insert-position
  * 35. 搜索插入位置
  * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。
  * 如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
