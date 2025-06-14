@@ -7,6 +7,12 @@ package com.sean.leetcode.LeetCode4;
  * 4. 寻找两个正序数组的中位数
  * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
  * 算法的时间复杂度应该为 O(log (m+n)) 。
+ * nums1.length == m
+ * nums2.length == n
+ * 0 <= m <= 1000
+ * 0 <= n <= 1000
+ * 1 <= m + n <= 2000
+ * -106 <= nums1[i], nums2[i] <= 106
  */
 public class Solution {
 
@@ -40,10 +46,10 @@ public class Solution {
             int newIndex1 = Math.min(index1 + half, m) - 1;
             int newIndex2 = Math.min(index2 + half, n) - 1;
             if (nums1[newIndex1] <= nums2[newIndex2]) {
-                k -= newIndex1 - index1 + 1;
+                k -= (newIndex1 - index1 + 1);
                 index1 = newIndex1 + 1;
             } else {
-                k -= newIndex2 - index2 + 1;
+                k -= (newIndex2 - index2 + 1);
                 index2 = newIndex2 + 1;
             }
         }
@@ -60,9 +66,9 @@ public class Solution {
         //median2:后一部分的最小值
         int median1 = 0, median2 = 0;
         while (left <= right) {
-            //前一部分包含nums1[0...i-1] 和nums2[0...j-1]
-            //后一部分包含nums1[i..m-1]和nums2[j..n-1]
-            int i = (left + right) / 2;
+            //前一部分包含nums1[0...i-1]和num2[0...j-1]
+            //后一部分包含num1[i...m-1]和num2[j...n-1]
+            int i = left + ((right - left) >> 1);
             int j = (m + n + 1) / 2 - i;
             int nums1_min = (i == 0 ? Integer.MIN_VALUE : nums1[i - 1]);
             int nums2_min = (j == 0 ? Integer.MIN_VALUE : nums2[j - 1]);
@@ -76,7 +82,7 @@ public class Solution {
                 right = i - 1;
             }
         }
-        return (m + n) % 2 == 0 ? (median1 + median2) / 2.0 : median1;
+        return ((m + n) & 1) == 0 ? (median1 + median2) / 2.0 : median1;
     }
 
 }
