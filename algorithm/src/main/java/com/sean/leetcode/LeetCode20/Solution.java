@@ -12,12 +12,14 @@ import java.util.*;
  * 左括号必须用相同类型的右括号闭合。
  * 左括号必须以正确的顺序闭合。
  * 每个右括号都有一个对应的相同类型的左括号。
+ * 1 <= s.length <= 10^4
+ * s 仅由括号 '()[]{}' 组成
  */
 public class Solution {
 
     public boolean isValid(String s) {
         int n = s.length();
-        if (n % 2 == 1) {
+        if ((n & 1) == 1) {
             return false;
         }
         Deque<Character> stack = new ArrayDeque<>();
