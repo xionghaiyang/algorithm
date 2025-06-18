@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode189;
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-09-09 19:58
- * @Description: https://leetcode.cn/problems/rotate-array/?plan=algorithms&plan_progress=zq05vcm
+ * @Description: https://leetcode.cn/problems/rotate-array
  * 189. 轮转数组
  * 给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
  * 1 <= nums.length <= 10^5
