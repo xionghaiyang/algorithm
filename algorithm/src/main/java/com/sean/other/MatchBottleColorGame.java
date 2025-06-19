@@ -1,7 +1,6 @@
 package com.sean.other;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -21,7 +20,6 @@ public class MatchBottleColorGame {
             System.out.println("数字的个数为" + n);
             arr = new int[n];
             Set<Integer> set = new HashSet<>();
-            Random random = new Random();
             int i = 0;
             int x;
             while (i < n) {
