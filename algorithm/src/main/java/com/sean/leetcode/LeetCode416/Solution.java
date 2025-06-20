@@ -16,31 +16,33 @@ public class Solution {
 
     public boolean canPartition(int[] nums) {
         int sum = Arrays.stream(nums).sum();
-        if ((sum & 1) != 0) {
+        if ((sum & 1) == 1) {
             return false;
         }
-        int[][] dp = new int[(sum >> 1) + 1][nums.length + 1];
-        for (int i = 0; i < dp.length; i++) {
+        int n = nums.length;
+        //只需要构建一个子集，另一个子集自动构建
+        //dp[i][sum]，以i的开头的数组，是否可以构建和为sum的子集
+        int[][] dp = new int[n + 1][(sum >> 1) + 1];
+        for (int i = 0; i <= n; i++) {
             Arrays.fill(dp[i], -1);
         }
-        return process(nums, sum >> 1, 0, dp);
+        return process(nums, 0, sum >> 1, dp) == 1;
     }
 
-    private boolean process(int[] nums, int sum, int i, int[][] dp) {
-        if (dp[sum][i] != -1) {
-            return dp[sum][i] == 1;
+    private int process(int[] nums, int i, int sum, int[][] dp) {
+        if (dp[i][sum] != -1) {
+            return dp[i][sum];
         }
         if (i == nums.length) {
-            dp[sum][i] = sum == 0 ? 1 : 0;
-            return dp[sum][i] == 1;
+            dp[i][sum] = sum == 0 ? 1 : 0;
+            return dp[i][sum];
         }
         if (sum == 0) {
-            dp[sum][i] = 1;
-            return true;
+            dp[i][sum] = 1;
+            return dp[i][sum];
         }
-        boolean res = process(nums, sum, i + 1, dp) || (sum >= nums[i] && process(nums, sum - nums[i], i + 1, dp));
-        dp[sum][i] = res ? 1 : 0;
-        return res;
+        dp[i][sum] = (process(nums, i + 1, sum, dp) == 1 || (nums[i] <= sum && process(nums, i + 1, sum - nums[i], dp) == 1)) ? 1 : 0;
+        return dp[i][sum];
     }
 
 }
