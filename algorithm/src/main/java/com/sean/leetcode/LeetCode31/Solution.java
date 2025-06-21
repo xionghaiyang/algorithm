@@ -15,23 +15,29 @@ package com.sean.leetcode.LeetCode31;
  * 而 arr = [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。
  * 给你一个整数数组 nums ，找出 nums 的下一个排列。
  * 必须 原地 修改，只允许使用额外常数空间。
+ * 1 <= nums.length <= 100
+ * 0 <= nums[i] <= 100
  */
 public class Solution {
 
     public void nextPermutation(int[] nums) {
         int n = nums.length;
+        //第一步：从右向左找到第一个小于右侧相邻数字的数nums[i]
         int i = n - 2;
         while (i >= 0 && nums[i] >= nums[i + 1]) {
             i--;
         }
+        //如果找到了，进入第二步；否则跳过第二步，反转整个数组
         if (i >= 0) {
+            //第二步：从右向左找到nums[i]右边最小的大于nums[i]的数nums[j]
             int j = n - 1;
             while (j >= 0 && nums[i] >= nums[j]) {
                 j--;
             }
             swap(nums, i, j);
         }
-        reverse(nums, i + 1);
+        //第三步：反转nums[i+1:]（如果跳过第二步，此时i=-1）
+        reverse(nums, i + 1, n - 1);
     }
 
     private void swap(int[] nums, int i, int j) {
@@ -40,12 +46,9 @@ public class Solution {
         nums[j] = temp;
     }
 
-    private void reverse(int[] nums, int start) {
-        int left = start, right = nums.length - 1;
+    private void reverse(int[] nums, int left, int right) {
         while (left < right) {
-            swap(nums, left, right);
-            left++;
-            right--;
+            swap(nums, left++, right--);
         }
     }
 
