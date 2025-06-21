@@ -16,13 +16,11 @@ package com.sean.leetcode.LeetCode75;
 public class Solution {
 
     public void sortColors(int[] nums) {
-        int n = nums.length;
         int[] cnt = new int[3];
         for (int num : nums) {
             cnt[num]++;
         }
-        int index = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0, index = 0; i < 3; i++) {
             while (cnt[i] > 0) {
                 nums[index++] = i;
                 cnt[i]--;
@@ -31,9 +29,7 @@ public class Solution {
     }
 
     public void sortColors1(int[] nums) {
-        int n = nums.length;
-        int index0 = 0, index2 = n - 1;
-        for (int i = 0; i <= index2; i++) {
+        for (int i = 0, index0 = 0, index2 = nums.length - 1; i <= index2; i++) {
             while (i <= index2 && nums[i] == 2) {
                 swap(nums, i, index2--);
             }
@@ -44,9 +40,9 @@ public class Solution {
     }
 
     private void swap(int[] nums, int i, int j) {
-        int tmp = nums[i];
+        int temp = nums[i];
         nums[i] = nums[j];
-        nums[j] = tmp;
+        nums[j] = temp;
     }
 
 }
