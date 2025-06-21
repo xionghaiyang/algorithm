@@ -21,11 +21,10 @@ public class Solution {
 
     public String[] divideString(String s, int k, char fill) {
         int n = s.length();
-        int m = n / k;
-        m += (n % k) != 0 ? 1 : 0;
+        int m = (n + k - 1) / k;
         String[] res = new String[m];
         for (int i = 0, j = 0; j < m; i += k, j++) {
-            if (i + k < n) {
+            if (i + k <= n) {
                 res[j] = s.substring(i, i + k);
             } else {
                 StringBuilder str = new StringBuilder(s.substring(i));
