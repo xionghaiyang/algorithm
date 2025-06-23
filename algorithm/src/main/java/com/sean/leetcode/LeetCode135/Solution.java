@@ -42,4 +42,25 @@ public class Solution {
         return res;
     }
 
+    public int candy1(int[] ratings) {
+        int n = ratings.length;
+        int res = n;
+        for (int i = 0; i < n; i++) {
+            int start = i > 0 && ratings[i - 1] < ratings[i] ? i - 1 : i;
+            //找严格递增段
+            while (i + 1 < n && ratings[i] < ratings[i + 1]) {
+                i++;
+            }
+            int top = i;
+            //找严格递减段
+            while (i + 1 < n && ratings[i] > ratings[i + 1]) {
+                i++;
+            }
+            int inc = top - start;
+            int dec = i - top;
+            res += (inc * (inc - 1) + dec * (dec - 1)) / 2 + Math.max(inc, dec);
+        }
+        return res;
+    }
+
 }
