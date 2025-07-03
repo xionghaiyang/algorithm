@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode11;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-05-30 10:19
- * @Description: https://leetcode.cn/problems/container-with-most-water/?envType=study-plan-v2&envId=leetcode-75
+ * @Description: https://leetcode.cn/problems/container-with-most-water
  * 11. 盛最多水的容器
  * 给定一个长度为 n 的整数数组 height 。
  * 有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
@@ -20,11 +20,16 @@ public class Solution {
         int left = 0, right = height.length - 1;
         int res = 0;
         while (left < right) {
-            res = Math.max(res, Math.min(height[left], height[right]) * (right - left));
-            if (height[left] <= height[right]) {
-                left++;
+            int h = Math.min(height[left], height[right]);
+            res = Math.max(res, h * (right - left));
+            if (height[left] < height[right]) {
+                while (left < right && height[left] <= h) {
+                    left++;
+                }
             } else {
-                right--;
+                while (left < right && height[right] <= h) {
+                    right--;
+                }
             }
         }
         return res;
