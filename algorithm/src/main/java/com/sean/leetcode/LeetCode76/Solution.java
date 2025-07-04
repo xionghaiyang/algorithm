@@ -25,11 +25,9 @@ public class Solution {
         String res = "";
         for (int left = 0, right = 0; left < m; left++) {
             while (right < m && !check(cnt)) {
-                cnt[s.charAt(right)]--;
-                right++;
+                cnt[s.charAt(right++)]--;
             }
             if (check(cnt) && right - left + 1 < minLength) {
-                System.out.println(left + "_" + right);
                 minLength = right - left + 1;
                 res = s.substring(left, right);
             }
