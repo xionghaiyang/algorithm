@@ -42,7 +42,7 @@ public class Solution {
             g[u].add(v);
             g[v].add(u);
         }
-        //记录每个节点在哪个堆中
+        //记录每个节点属于哪一个堆
         int[] belong = new int[c + 1];
         Arrays.fill(belong, -1);
         List<PriorityQueue<Integer>> heaps = new ArrayList<>();
@@ -83,12 +83,12 @@ public class Solution {
         return res;
     }
 
-    private void process(int x, List<Integer>[] g, int[] belong, int compId, PriorityQueue<Integer> heap) {
-        belong[x] = compId;
+    private void process(int x, List<Integer>[] g, int[] belong, int heapId, PriorityQueue<Integer> heap) {
+        belong[x] = heapId;
         heap.offer(x);
         for (int y : g[x]) {
-            if (belong[y] < 0) {
-                process(y, g, belong, compId, heap);
+            if (belong[y] == -1) {
+                process(y, g, belong, heapId, heap);
             }
         }
     }
