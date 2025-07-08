@@ -17,14 +17,16 @@ public class Solution {
 
     public void rotate(int[][] matrix) {
         int n = matrix.length;
+        //转置
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n - i; j++) {
-                swap(matrix, i, j, n - 1 - j, n - 1 - i);
+            for (int j = 0; j < i; j++) {
+                swap(matrix, i, j, j, i);
             }
         }
-        for (int i = 0; i < (n >> 1); i++) {
-            for (int j = 0; j < n; j++) {
-                swap(matrix, i, j, n - 1 - i, j);
+        //行翻转
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                swap(matrix, i, j, i, n - 1 - j);
             }
         }
     }
