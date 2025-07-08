@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode73;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-18 12:16
- * @Description: https://leetcode.cn/problems/set-matrix-zeroes/description/
+ * @Description: https://leetcode.cn/problems/set-matrix-zeroes
  * 73. 矩阵置零
  * 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。
  * 请使用 原地 算法。
@@ -15,8 +15,7 @@ package com.sean.leetcode.LeetCode73;
 public class Solution {
 
     public void setZeroes(int[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
+        int m = matrix.length, n = matrix[0].length;
         boolean[] row = new boolean[m];
         boolean[] col = new boolean[n];
         for (int i = 0; i < m; i++) {
@@ -37,17 +36,18 @@ public class Solution {
     }
 
     public void setZeroes1(int[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
+        int m = matrix.length, n = matrix[0].length;
         boolean flagCol = false, flagRow = false;
         for (int i = 0; i < m; i++) {
             if (matrix[i][0] == 0) {
                 flagCol = true;
+                break;
             }
         }
         for (int j = 0; j < n; j++) {
             if (matrix[0][j] == 0) {
                 flagRow = true;
+                break;
             }
         }
         for (int i = 1; i < m; i++) {
