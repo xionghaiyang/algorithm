@@ -26,22 +26,21 @@ public class Solution {
             list.add(str);
             map.put(key, list);
         }
-        return new ArrayList<List<String>>(map.values());
+        return new ArrayList<>(map.values());
     }
 
     public List<List<String>> groupAnagrams1(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
         for (String str : strs) {
-            int[] count = new int[26];
-            int n = str.length();
-            for (int i = 0; i < n; i++) {
-                count[str.charAt(i) - 'a']++;
+            int[] cnt = new int[26];
+            for (char c : str.toCharArray()) {
+                cnt[c - 'a']++;
             }
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 26; i++) {
-                if (count[i] != 0) {
+                if (cnt[i] != 0) {
                     sb.append((char) ('a' + i));
-                    sb.append(count[i]);
+                    sb.append(cnt[i]);
                 }
             }
             String key = sb.toString();
@@ -49,7 +48,7 @@ public class Solution {
             list.add(str);
             map.put(key, list);
         }
-        return new ArrayList<List<String>>(map.values());
+        return new ArrayList<>(map.values());
     }
 
 }
