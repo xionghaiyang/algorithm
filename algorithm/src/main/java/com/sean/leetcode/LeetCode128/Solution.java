@@ -35,18 +35,19 @@ public class Solution {
             }
             int fx = find(x);
             int fy = find(y);
-            if (fx != fy) {
-                int sx = size.get(fx);
-                int sy = size.get(fy);
-                if (sx < sy) {
-                    parents.put(fx, fy);
-                    size.put(fy, sx + sy);
-                } else {
-                    parents.put(fy, fx);
-                    size.put(fx, sx + sy);
-                }
-                maxSize = Math.max(maxSize, sx + sy);
+            if (fx == fy) {
+                return;
             }
+            int sx = size.get(fx);
+            int sy = size.get(fy);
+            if (sx < sy) {
+                parents.put(fx, fy);
+                size.put(fy, sx + sy);
+            } else {
+                parents.put(fy, fx);
+                size.put(fx, sx + sy);
+            }
+            maxSize = Math.max(maxSize, sx + sy);
         }
 
         public int find(int x) {
@@ -67,9 +68,6 @@ public class Solution {
     }
 
     public int longestConsecutive(int[] nums) {
-        if (nums == null) {
-            return 0;
-        }
         if (nums.length < 2) {
             return nums.length;
         }
