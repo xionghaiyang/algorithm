@@ -1,12 +1,11 @@
 package com.sean.leetcode.LeetCode452;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-24 21:06
- * @Description: https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/?envType=study-plan-v2&envId=top-interview-150
+ * @Description: https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons
  * 452. 用最少数量的箭引爆气球
  * 有一些球形气球贴在一堵用 XY 平面表示的墙面上。
  * 墙面上的气球记录在整数数组 points ，其中points[i] = [xstart, xend] 表示水平直径在 xstart 和 xend之间的气球。
@@ -16,25 +15,14 @@ import java.util.Comparator;
  * 可以射出的弓箭的数量 没有限制 。
  * 弓箭一旦被射出之后，可以无限地前进。
  * 给你一个数组 points ，返回引爆所有气球所必须射出的 最小 弓箭数 。
+ * 1 <= points.length <= 10^5
+ * points[i].length == 2
+ * -2^31 <= xstart < xend <= 2^31 - 1
  */
 public class Solution {
 
     public int findMinArrowShots(int[][] points) {
-        if (points == null || points.length == 0) {
-            return 0;
-        }
-        Arrays.sort(points, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[1] < o2[1]) {
-                    return -1;
-                } else if (o1[1] > o2[1]) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        });
+        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
         int pos = points[0][1];
         int res = 1;
         for (int[] point : points) {
