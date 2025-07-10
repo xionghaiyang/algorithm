@@ -23,8 +23,7 @@ public class Solution {
         Arrays.sort(intervals, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
         int left = intervals[0][0], right = intervals[0][1];
         for (int i = 1; i < n; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
+            int start = intervals[i][0], end = intervals[i][1];
             if (start <= right) {
                 right = Math.max(right, end);
             } else {
@@ -35,7 +34,7 @@ public class Solution {
         }
         list.add(new int[]{left, right});
         int size = list.size();
-        int[][] res = new int[size][2];
+        int[][] res = new int[size][];
         for (int i = 0; i < size; i++) {
             res[i] = list.get(i);
         }
