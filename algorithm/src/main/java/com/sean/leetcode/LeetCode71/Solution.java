@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-01-04 13:35
- * @Description: https://leetcode.cn/problems/simplify-path/?envType=study-plan-v2&envId=top-interview-150
+ * @Description: https://leetcode.cn/problems/simplify-path
  * 71. 简化路径
  * 给你一个字符串 path ，表示指向某一文件或目录的 Unix 风格 绝对路径 （以 '/' 开头），请你将其转化为更加简洁的规范路径。
  * 在 Unix 风格的文件系统中，一个点（.）表示当前目录本身；
@@ -19,6 +19,9 @@ import java.util.LinkedList;
  * 最后一个目录名（如果存在）不能 以 '/' 结尾。
  * 此外，路径仅包含从根目录到目标文件或目录的路径上的目录（即，不含 '.' 或 '..'）。
  * 返回简化后得到的 规范路径 。
+ * 1 <= path.length <= 3000
+ * path 由英文字母，数字，'.'，'/' 或 '_' 组成。
+ * path 是一个有效的 Unix 风格绝对路径。
  */
 public class Solution {
 
