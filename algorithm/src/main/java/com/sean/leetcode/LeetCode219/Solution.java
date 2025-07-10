@@ -8,10 +8,13 @@ import java.util.Set;
 /**
  * @Author xionghaiyang
  * @Date 2025-01-29 07:42
- * @Description https://leetcode.cn/problems/contains-duplicate-ii/
+ * @Description https://leetcode.cn/problems/contains-duplicate-ii
  * 219. 存在重复元素 II
  * 给你一个整数数组 nums 和一个整数 k ，判断数组中是否存在两个 不同的索引 i 和 j ，满足 nums[i] == nums[j] 且 abs(i - j) <= k 。
  * 如果存在，返回 true ；否则，返回 false 。
+ * 1 <= nums.length <= 10^5
+ * -109 <= nums[i] <= 10^9
+ * 0 <= k <= 10^5
  */
 public class Solution {
 
