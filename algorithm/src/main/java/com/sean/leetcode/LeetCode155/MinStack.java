@@ -18,8 +18,6 @@ package com.sean.leetcode.LeetCode155;
  */
 public class MinStack {
 
-    private Node head;
-
     private class Node {
         int value;
         int min;
@@ -30,6 +28,8 @@ public class MinStack {
             this.min = min;
         }
     }
+
+    private Node head;
 
     public MinStack() {
         head = null;
@@ -65,5 +65,4 @@ public class MinStack {
         }
         throw new IllegalStateException("Stack is empty");
     }
-
 }
