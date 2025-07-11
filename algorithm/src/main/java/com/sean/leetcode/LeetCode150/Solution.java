@@ -6,7 +6,7 @@ import java.util.Deque;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-25 18:54
- * @Description: https://leetcode.cn/problems/evaluate-reverse-polish-notation/description/
+ * @Description: https://leetcode.cn/problems/evaluate-reverse-polish-notation
  * 150. 逆波兰表达式求值
  * 给你一个字符串数组 tokens ，表示一个根据 逆波兰表示法 表示的算术表达式。
  * 请你计算该表达式。返回一个表示表达式值的整数。
@@ -22,9 +22,7 @@ public class Solution {
 
     public int evalRPN(String[] tokens) {
         Deque<Integer> stack = new ArrayDeque<>();
-        int n = tokens.length;
-        for (int i = 0; i < n; i++) {
-            String token = tokens[i];
+        for (String token : tokens) {
             if (isNumber(token)) {
                 stack.push(Integer.parseInt(token));
             } else {
