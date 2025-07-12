@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode2;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-04-21 08:18
- * @Description: https://leetcode.cn/problems/add-two-numbers/
+ * @Description: https://leetcode.cn/problems/add-two-numbers
  * 2. 两数相加
  * 给你两个 非空 的链表，表示两个非负的整数。
  * 它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
@@ -40,8 +40,7 @@ public class Solution {
             int x = l1 != null ? l1.val : 0;
             int y = l2 != null ? l2.val : 0;
             carry += x + y;
-            ListNode nextNode = new ListNode(carry % 10);
-            cur.next = nextNode;
+            cur.next = new ListNode(carry % 10);
             cur = cur.next;
             carry /= 10;
             if (l1 != null) {
@@ -66,7 +65,7 @@ public class Solution {
         while (curS != null) {
             carry += curL.val + curS.val;
             curL.val = carry % 10;
-            carry = carry / 10;
+            carry /= 10;
             last = curL;
             curL = curL.next;
             curS = curS.next;
@@ -74,7 +73,7 @@ public class Solution {
         while (curL != null) {
             carry += curL.val;
             curL.val = carry % 10;
-            carry = carry / 10;
+            carry /= 10;
             last = curL;
             curL = curL.next;
         }
