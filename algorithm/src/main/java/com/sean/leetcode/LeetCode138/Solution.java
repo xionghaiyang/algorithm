@@ -60,8 +60,8 @@ public class Solution {
         }
         Node cur = head;
         Node next = null;
-        // 1 -> 2 -> 3 -> null
-        // 1 -> 1' -> 2 -> 2' -> 3 -> 3' -> null
+        //1 -> 2 -> 3 -> null
+        //1 -> 1' -> 2 -> 2' -> 3 -> 3' -> null
         while (cur != null) {
             next = cur.next;
             cur.next = new Node(cur.val);
@@ -80,7 +80,7 @@ public class Solution {
         }
         Node res = head.next;
         cur = head;
-        //老新混在一起,next方向上，random正确
+        //老新混在一起,next方向上,random正确
         while (cur != null) {
             next = cur.next.next;
             copy = cur.next;
