@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode25;
 /**
  * @Author xionghaiyang
  * @Date 2025-03-19 21:50
- * @Description https://leetcode.cn/problems/reverse-nodes-in-k-group/
+ * @Description https://leetcode.cn/problems/reverse-nodes-in-k-group
  * 25. K 个一组翻转链表
  * 给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。
  * k 是一个正整数，它的值小于或等于链表的长度。
