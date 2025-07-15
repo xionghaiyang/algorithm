@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode101;
 /**
  * @Author xionghaiyang
  * @Date 2025-03-24 20:34
- * @Description https://leetcode.cn/problems/symmetric-tree/
+ * @Description https://leetcode.cn/problems/symmetric-tree
  * 101. 对称二叉树
  * 给你一个二叉树的根节点 root ， 检查它是否轴对称。
  * 树中节点数目在范围 [1, 1000] 内
