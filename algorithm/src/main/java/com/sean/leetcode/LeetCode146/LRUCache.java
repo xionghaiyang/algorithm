@@ -22,16 +22,16 @@ import java.util.Map;
  */
 public class LRUCache {
 
-    class Node {
+    public class Node {
         int key;
         int value;
         Node pre;
         Node next;
 
-        Node() {
+        public Node() {
         }
 
-        Node(int key, int value) {
+        public Node(int key, int value) {
             this.key = key;
             this.value = value;
         }
