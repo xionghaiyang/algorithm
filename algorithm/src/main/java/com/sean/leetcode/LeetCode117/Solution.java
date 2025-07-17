@@ -6,12 +6,14 @@ import java.util.Queue;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-01-12 15:01
- * @Description: https://leetcode.cn/problems/populating-next-right-pointers-in-each-node-ii/?envType=study-plan-v2&envId=top-interview-150
+ * @Description: https://leetcode.cn/problems/populating-next-right-pointers-in-each-node-ii
  * 117. 填充每个节点的下一个右侧节点指针 II
  * 给定一个二叉树：
  * 填充它的每个 next 指针，让这个指针指向其下一个右侧节点。
  * 如果找不到下一个右侧节点，则将 next 指针设置为 NULL 。
  * 初始状态下，所有 next 指针都被设置为 NULL 。
+ * 树中的节点数在范围 [0, 6000] 内
+ * -100 <= Node.val <= 100
  */
 public class Solution {
 
@@ -44,7 +46,7 @@ public class Solution {
         queue.offer(root);
         while (!queue.isEmpty()) {
             int n = queue.size();
-            Node last = null;
+            Node pre = new Node();
             for (int i = 0; i < n; i++) {
                 Node node = queue.poll();
                 if (node.left != null) {
@@ -53,46 +55,34 @@ public class Solution {
                 if (node.right != null) {
                     queue.offer(node.right);
                 }
-                if (last != null) {
-                    last.next = node;
-                }
-                last = node;
+                pre.next = node;
+                pre = pre.next;
             }
+            pre.next = null;
         }
         return root;
     }
-
-    private Node last = null, nextStart = null;
 
     public Node connect1(Node root) {
-        if (root == null) {
-            return null;
-        }
-        Node start = root;
-        while (start != null) {
-            last = null;
-            nextStart = null;
-            for (Node node = start; node != null; node = node.next) {
-                if (node.left != null) {
-                    process(node.left);
+        Node dummy = new Node();
+        Node cur = root;
+        while (cur != null) {
+            dummy.next = null;
+            Node next = dummy;
+            while (cur != null) {
+                if (cur.left != null) {
+                    next.next = cur.left;
+                    next = cur.left;
                 }
-                if (node.right != null) {
-                    process(node.right);
+                if (cur.right != null) {
+                    next.next = cur.right;
+                    next = cur.right;
                 }
+                cur = cur.next;
             }
-            start = nextStart;
+            cur = dummy.next;
         }
         return root;
-    }
-
-    private void process(Node node) {
-        if (last != null) {
-            last.next = node;
-        }
-        if (nextStart == null) {
-            nextStart = node;
-        }
-        last = node;
     }
 
 }
