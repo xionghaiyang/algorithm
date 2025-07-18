@@ -24,9 +24,9 @@ import java.util.Queue;
 public class Solution {
 
     public class Course {
-        int index;
-        int in;
-        List<Course> nexts;
+        private int index;
+        private int in;
+        private List<Course> nexts;
 
         public Course(int index) {
             this.index = index;
