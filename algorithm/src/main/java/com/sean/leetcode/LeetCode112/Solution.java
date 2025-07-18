@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode112;
 /**
  * @Author xionghaiyang
  * @Date 2025-03-25 21:08
- * @Description https://leetcode.cn/problems/path-sum/
+ * @Description https://leetcode.cn/problems/path-sum
  * 112. 路径总和
  * 给你二叉树的根节点 root 和一个表示目标和的整数 targetSum 。
  * 判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 。
@@ -45,14 +45,12 @@ public class Solution {
     }
 
     private void process(TreeNode x, int preSum, int sum) {
-        //x是叶节点
         if (x.left == null && x.right == null) {
             if (x.val + preSum == sum) {
                 isSum = true;
             }
             return;
         }
-        //x是非叶节点
         preSum += x.val;
         if (x.left != null) {
             process(x.left, preSum, sum);
@@ -66,15 +64,15 @@ public class Solution {
         if (root == null) {
             return false;
         }
-        return process1(root, sum);
+        return process(root, sum);
     }
 
-    private boolean process1(TreeNode root, int rest) {
+    private boolean process(TreeNode root, int rest) {
         if (root.left == null && root.right == null) {
             return root.val == rest;
         }
-        boolean res = root.left != null ? process1(root.left, rest - root.val) : false;
-        res |= root.right != null ? process1(root.right, rest - root.val) : false;
+        boolean res = root.left != null && process(root.left, rest - root.val);
+        res |= root.right != null && process(root.right, rest - root.val);
         return res;
     }
 
