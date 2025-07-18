@@ -86,13 +86,13 @@ public class Solution {
         return res;
     }
 
-    class UnionFind {
+    public class UnionFind {
         private int m;
         private int n;
         private int[] parent;
         private int[] help;
         private int[] size;
-        private int count;
+        private int set;
 
         public UnionFind(char[][] grid) {
             m = grid.length;
@@ -100,43 +100,16 @@ public class Solution {
             parent = new int[m * n];
             help = new int[m * n];
             size = new int[m * n];
-            count = 0;
+            set = 0;
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
                     int index = getIndex(i, j);
                     if (grid[i][j] == '1') {
                         parent[index] = index;
-                        count++;
+                        set++;
                     }
                     size[index] = 1;
                 }
-            }
-        }
-
-        public int find(int i) {
-            int index = 0;
-            while (i != parent[i]) {
-                help[index++] = i;
-                i = parent[i];
-            }
-            for (index--; index >= 0; index--) {
-                parent[help[index]] = i;
-            }
-            return i;
-        }
-
-        public void union(int xi, int xj, int yi, int yj) {
-            int fx = find(getIndex(xi, xj));
-            int fy = find(getIndex(yi, yj));
-            if (fx != fy) {
-                if (size[fx] >= size[fy]) {
-                    size[fx] += size[fy];
-                    parent[fy] = fx;
-                } else {
-                    size[fy] += size[fx];
-                    parent[fx] = fy;
-                }
-                count--;
             }
         }
 
@@ -144,16 +117,44 @@ public class Solution {
             return i * n + j;
         }
 
-        public int getCount() {
-            return count;
+        public int find(int x) {
+            int index = 0;
+            while (x != parent[x]) {
+                help[index++] = x;
+                x = parent[x];
+            }
+            for (index--; index >= 0; index--) {
+                parent[help[index]] = x;
+            }
+            return x;
+        }
+
+        public void union(int xi, int xj, int yi, int yj) {
+            int fx = find(getIndex(xi, xj));
+            int fy = find(getIndex(yi, yj));
+            if (fx == fy) {
+                return;
+            }
+            if (size[fx] >= size[fy]) {
+                size[fx] += size[fy];
+                parent[fy] = fx;
+            } else {
+                size[fy] += size[fx];
+                parent[fx] = fy;
+            }
+            set--;
+        }
+
+        public int getSet() {
+            return set;
         }
     }
 
     //并查集
     public int numIslands2(char[][] grid) {
+        UnionFind unionFind = new UnionFind(grid);
         int m = grid.length;
         int n = grid[0].length;
-        UnionFind unionFind = new UnionFind(grid);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
@@ -173,7 +174,7 @@ public class Solution {
                 }
             }
         }
-        return unionFind.getCount();
+        return unionFind.getSet();
     }
 
 }
