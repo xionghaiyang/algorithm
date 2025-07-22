@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-18 13:10
- * @Description: https://leetcode.cn/problems/combination-sum/description/
+ * @Description: https://leetcode.cn/problems/combination-sum
  * 39. 组合总和
  * 给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，
  * 找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。
@@ -22,9 +22,9 @@ import java.util.List;
  */
 public class Solution {
 
-    List<List<Integer>> res = new ArrayList<>();
-    List<Integer> temp = new ArrayList<>();
-    int n;
+    private List<List<Integer>> res = new ArrayList<>();
+    private List<Integer> temp = new ArrayList<>();
+    private int n;
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         Arrays.sort(candidates);
