@@ -5,10 +5,12 @@ import java.util.*;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-02-17 20:11
- * @Description: https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/?envType=daily-question&envId=2024-02-16
+ * @Description: https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal
  * 103. 二叉树的锯齿形层序遍历
  * 给你二叉树的根节点 root ，返回其节点值的 锯齿形层序遍历 。
  * （即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
+ * 树中节点数目在范围 [0, 2000] 内
+ * -100 <= Node.val <= 100
  */
 public class Solution {
 
@@ -40,16 +42,16 @@ public class Solution {
         queue.offer(root);
         boolean flag = true;
         while (!queue.isEmpty()) {
-            List<Integer> list = new ArrayList<>();
             int size = queue.size();
+            List<Integer> list = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
                 list.add(node.val);
                 if (node.left != null) {
-                    queue.add(node.left);
+                    queue.offer(node.left);
                 }
                 if (node.right != null) {
-                    queue.add(node.right);
+                    queue.offer(node.right);
                 }
             }
             flag = !flag;
