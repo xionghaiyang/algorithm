@@ -17,12 +17,12 @@ package com.sean.leetcode.LeetCode79;
  */
 public class Solution {
 
-    int m;
-    int n;
-    int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-    char[][] board;
-    char[] str;
-    boolean[][] visited;
+    private int m;
+    private int n;
+    private char[][] board;
+    private char[] str;
+    private boolean[][] visited;
+    private int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     public boolean exist(char[][] board, String word) {
         m = board.length;
@@ -48,12 +48,9 @@ public class Solution {
         }
         visited[i][j] = true;
         for (int[] dir : dirs) {
-            int x = i + dir[0];
-            int y = j + dir[1];
-            if (x >= 0 && x < m && y >= 0 && y < n && !visited[x][y]) {
-                if (process(x, y, k + 1)) {
-                    return true;
-                }
+            int x = i + dir[0], y = j + dir[1];
+            if (x >= 0 && x < m && y >= 0 && y < n && !visited[x][y] && process(x, y, k + 1)) {
+                return true;
             }
         }
         visited[i][j] = false;
