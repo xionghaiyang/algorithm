@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-01-15 16:53
- * @Description: https://leetcode.cn/problems/permutations/
+ * @Description: https://leetcode.cn/problems/permutations
  * 46. 全排列
  * 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。
  * 你可以 按任意顺序 返回答案。
