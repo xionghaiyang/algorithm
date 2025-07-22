@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-12-09 20:18
- * @Description: https://leetcode.cn/problems/letter-combinations-of-a-phone-number/
+ * @Description: https://leetcode.cn/problems/letter-combinations-of-a-phone-number
  * 17. 电话号码的字母组合
  * 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
  * 答案可以按 任意顺序 返回。
@@ -20,8 +20,8 @@ import java.util.Map;
 public class Solution {
 
     private List<String> res = new ArrayList<>();
-    private StringBuilder stringBuilder = new StringBuilder();
     private int n;
+    private StringBuilder str = new StringBuilder();
     private Map<Character, String> map = new HashMap<Character, String>() {{
         put('2', "abc");
         put('3', "def");
@@ -44,14 +44,14 @@ public class Solution {
 
     private void process(String digits, int i) {
         if (i == n) {
-            res.add(stringBuilder.toString());
+            res.add(str.toString());
             return;
         }
-        String str = map.get(digits.charAt(i));
-        for (char c : str.toCharArray()) {
-            stringBuilder.append(c);
+        String s = map.get(digits.charAt(i));
+        for (char c : s.toCharArray()) {
+            str.append(c);
             process(digits, i + 1);
-            stringBuilder.deleteCharAt(i);
+            str.deleteCharAt(i);
         }
     }
 
