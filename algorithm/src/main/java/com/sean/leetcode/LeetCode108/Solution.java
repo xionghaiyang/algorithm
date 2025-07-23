@@ -32,18 +32,15 @@ public class Solution {
     }
 
     public TreeNode sortedArrayToBST(int[] nums) {
-        return build(nums, 0, nums.length - 1);
+        return process(nums, 0, nums.length - 1);
     }
 
-    private TreeNode build(int[] nums, int left, int right) {
+    private TreeNode process(int[] nums, int left, int right) {
         if (left > right) {
             return null;
         }
         int mid = left + ((right - left) >> 1);
-        TreeNode res = new TreeNode(nums[mid]);
-        res.left = build(nums, left, mid - 1);
-        res.right = build(nums, mid + 1, right);
-        return res;
+        return new TreeNode(nums[mid], process(nums, left, mid - 1), process(nums, mid + 1, right));
     }
 
 }
