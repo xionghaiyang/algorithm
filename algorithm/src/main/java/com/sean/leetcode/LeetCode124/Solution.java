@@ -34,11 +34,11 @@ public class Solution {
         }
     }
 
-    int max = Integer.MIN_VALUE;
+    private int res = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
         process(root);
-        return max;
+        return res;
     }
 
     private int process(TreeNode root) {
@@ -47,7 +47,7 @@ public class Solution {
         }
         int leftMax = Math.max(0, process(root.left));
         int rightMax = Math.max(0, process(root.right));
-        max = Math.max(max, root.val + leftMax + rightMax);
+        res = Math.max(res, root.val + leftMax + rightMax);
         return root.val + Math.max(leftMax, rightMax);
     }
 
