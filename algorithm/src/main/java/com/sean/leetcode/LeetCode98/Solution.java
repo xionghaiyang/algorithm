@@ -34,20 +34,20 @@ public class Solution {
         }
     }
 
-    public boolean isValidBST(TreeNode root) {
-        return process(root).isBST;
-    }
-
     public class Info {
-        boolean isBST;
-        int max;
-        int min;
+        private boolean isBST;
+        private int max;
+        private int min;
 
         public Info(boolean isBST, int max, int min) {
             this.isBST = isBST;
             this.max = max;
             this.min = min;
         }
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        return process(root).isBST;
     }
 
     private Info process(TreeNode root) {
