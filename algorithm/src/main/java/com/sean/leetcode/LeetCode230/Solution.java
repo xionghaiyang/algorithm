@@ -31,10 +31,6 @@ public class Solution {
         }
     }
 
-    public int kthSmallest(TreeNode root, int k) {
-        return process(root, k).res;
-    }
-
     public class Info {
         public int size;
         public Integer res;
@@ -49,24 +45,25 @@ public class Solution {
         }
     }
 
+    public int kthSmallest(TreeNode root, int k) {
+        return process(root, k).res;
+    }
+
     private Info process(TreeNode root, int k) {
         if (root == null) {
             return new Info(0);
         }
-        Integer res = null;
         Info leftInfo = process(root.left, k);
-        int size = leftInfo.size;
         if (leftInfo.res != null) {
-            //res = leftInfo.res;
             return leftInfo;
         }
-        size++;
+        int size = leftInfo.size + 1;
+        Integer res = null;
         if (size == k) {
             res = root.val;
         } else {
             Info rightInfo = process(root.right, k - size);
             if (rightInfo.res != null) {
-                //res = rightInfo.res;
                 return rightInfo;
             }
             size += rightInfo.size;
