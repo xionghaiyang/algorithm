@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 /**
  * @Author xionghaiyang
  * @Date 2025-03-23 21:51
- * @Description https://leetcode.cn/problems/merge-k-sorted-lists/
+ * @Description https://leetcode.cn/problems/merge-k-sorted-lists
  * 23. 合并 K 个升序链表
  * 给你一个链表数组，每个链表都已经按升序排列。
  * 请你将所有链表合并到一个升序链表中，返回合并后的链表。
@@ -28,10 +28,9 @@ public class Solution {
             return null;
         }
         PriorityQueue<ListNode> heap = new PriorityQueue<>((a, b) -> a.val - b.val);
-        int n = lists.length;
-        for (int i = 0; i < n; i++) {
-            if (lists[i] != null) {
-                heap.offer(lists[i]);
+        for (ListNode list : lists) {
+            if (list != null) {
+                heap.offer(list);
             }
         }
         if (heap.isEmpty()) {
