@@ -6,11 +6,16 @@ import java.util.List;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-02-09 16:36
- * @Description: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/
+ * @Description: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
  * 236. 二叉树的最近公共祖先
  * 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
  * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，
  * 最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+ * 树中节点数目在范围 [2, 10^5] 内。
+ * -10^9 <= Node.val <= 10^9
+ * 所有 Node.val 互不相同 。
+ * p != q
+ * p 和 q 均存在于给定的二叉树中。
  */
 public class Solution {
 
@@ -79,14 +84,10 @@ public class Solution {
         return left == null ? right : left;
     }
 
-    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
-        return process(root, p, q).bothParent;
-    }
-
     public class Info {
-        boolean hasP;
-        boolean hasQ;
-        TreeNode bothParent;
+        private boolean hasP;
+        private boolean hasQ;
+        private TreeNode bothParent;
 
         public Info(boolean hasP, boolean hasQ, TreeNode bothParent) {
             this.hasP = hasP;
@@ -95,7 +96,11 @@ public class Solution {
         }
     }
 
-    public Info process(TreeNode root, TreeNode p, TreeNode q) {
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        return process(root, p, q).bothParent;
+    }
+
+    private Info process(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
             return new Info(false, false, null);
         }
