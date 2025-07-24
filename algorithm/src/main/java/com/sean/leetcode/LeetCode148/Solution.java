@@ -32,14 +32,14 @@ public class Solution {
         if (head == null || head.next == null) {
             return head;
         }
-        ListNode head2 = middleNode(head);
+        ListNode head2 = getMiddleNode(head);
         head = sortList(head);
         head2 = sortList(head2);
         return mergeTwoLists(head, head2);
     }
 
-    //找到中间节点,并断开其与前一个节点的连接
-    private ListNode middleNode(ListNode head) {
+    //找到中间节点，并断开其与前一个节点的连接
+    private ListNode getMiddleNode(ListNode head) {
         ListNode pre = head;
         ListNode slow = head;
         ListNode fast = head;
