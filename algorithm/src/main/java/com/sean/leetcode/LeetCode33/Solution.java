@@ -21,14 +21,12 @@ public class Solution {
 
     public int search(int[] nums, int target) {
         int n = nums.length;
-        if (n == 1) {
-            return nums[0] == target ? 0 : -1;
-        }
-        int left = 0, right = n - 1;
+        int left = 0, right = n - 1, res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (nums[mid] == target) {
-                return mid;
+                res = mid;
+                break;
             }
             if (nums[left] <= nums[mid]) {
                 if (nums[left] <= target && target < nums[mid]) {
@@ -44,7 +42,7 @@ public class Solution {
                 }
             }
         }
-        return -1;
+        return res;
     }
 
 }
