@@ -30,6 +30,12 @@ public class Solution {
         }
     }
 
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
     private int[] partition(int[] nums, int left, int right) {
         if (left > right) {
             return new int[]{-1, -1};
@@ -37,9 +43,7 @@ public class Solution {
         if (left == right) {
             return new int[]{left, right};
         }
-        int less = left - 1;
-        int more = right;
-        int index = left;
+        int less = left - 1, more = right, index = left;
         while (index < more) {
             if (nums[index] == nums[right]) {
                 index++;
@@ -51,12 +55,6 @@ public class Solution {
         }
         swap(nums, more, right);
         return new int[]{less + 1, more};
-    }
-
-    private void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
     }
 
 }
