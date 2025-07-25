@@ -23,14 +23,13 @@ public class Solution {
     }
 
     private int getStart(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
-        int res = -1;
+        int left = 0, right = nums.length - 1, res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
-            if (nums[mid] > target) {
-                right = mid - 1;
-            } else if (nums[mid] == target) {
+            if (nums[mid] == target) {
                 res = mid;
+                right = mid - 1;
+            } else if (nums[mid] > target) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
@@ -40,17 +39,16 @@ public class Solution {
     }
 
     private int getEnd(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
-        int res = -1;
+        int left = 0, right = nums.length - 1, res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
-            if (nums[mid] > target) {
-                right = mid - 1;
-            } else if (nums[mid] == target) {
+            if (nums[mid] == target) {
                 res = mid;
                 left = mid + 1;
-            } else {
+            } else if (nums[mid] < target) {
                 left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
         return res;
