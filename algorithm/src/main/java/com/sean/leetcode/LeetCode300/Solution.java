@@ -15,6 +15,7 @@ public class Solution {
 
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
+        //以第i个数字结尾的最长上升子序列长度
         int[] dp = new int[n];
         dp[0] = 1;
         int res = 1;
@@ -28,6 +29,33 @@ public class Solution {
             res = Math.max(res, dp[i]);
         }
         return res;
+    }
+
+    public int lengthOfLIS1(int[] nums) {
+        int len = 1, n = nums.length;
+        //长度为i的最长上升子序列的末尾元素的最小值
+        int[] d = new int[n + 1];
+        d[len] = nums[0];
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > d[len]) {
+                d[++len] = nums[i];
+            } else {
+                //找第一个（离i最近的）比nums[i]小的数d[j],并更新d[j+1] = nums[i]
+                //如果找不到则需要更新d[1] = nums[i]
+                int left = 1, right = len, j = 0;
+                while (left <= right) {
+                    int mid = left + ((right - left) >> 1);
+                    if (d[mid] < nums[i]) {
+                        j = mid;
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+                d[j + 1] = nums[i];
+            }
+        }
+        return len;
     }
 
 }
