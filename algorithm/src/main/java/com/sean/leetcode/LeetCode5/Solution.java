@@ -50,7 +50,7 @@ public class Solution {
 
     public String longestPalindrome1(String s) {
         int n = s.length();
-        if (n == 1) {
+        if (n < 2) {
             return s;
         }
         int start = 0, end = 0;
@@ -72,7 +72,7 @@ public class Solution {
             left--;
             right++;
         }
-        return right - left - 1;
+        return right - left + 1;
     }
 
 }
