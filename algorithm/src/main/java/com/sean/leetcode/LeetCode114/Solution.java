@@ -64,10 +64,10 @@ public class Solution {
     public void flatten1(TreeNode root) {
         TreeNode cur = root;
         while (cur != null) {
-            if (cur.left != null) {//左子节点不为空
+            if (cur.left != null) {//左子树节点不为空
                 TreeNode next = cur.left;
                 TreeNode pre = next;
-                while (pre.right != null) {//找到左子树中的最右节点,作为前驱节点
+                while (pre.right != null) {//找到左子树中的最右节点，作为前驱节点
                     pre = pre.right;
                 }
                 //当前节点的右节点挂在前驱节点下面
