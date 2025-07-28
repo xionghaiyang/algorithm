@@ -5,10 +5,17 @@ import java.util.*;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-01-12 14:39
- * @Description: https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/?envType=study-plan-v2&envId=top-interview-150
+ * @Description: https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal
  * 106. 从中序与后序遍历序列构造二叉树
  * 给定两个整数数组 inorder 和 postorder ，其中 inorder 是二叉树的中序遍历，
  * postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 。
+ * 1 <= inorder.length <= 3000
+ * postorder.length == inorder.length
+ * -3000 <= inorder[i], postorder[i] <= 3000
+ * inorder 和 postorder 都由 不同 的值组成
+ * postorder 中每一个值都在 inorder 中
+ * inorder 保证是树的中序遍历
+ * postorder 保证是树的后序遍历
  */
 public class Solution {
 
@@ -31,65 +38,26 @@ public class Solution {
         }
     }
 
-    int post_index;
-    int[] inorder;
-    int[] postorder;
-    Map<Integer, Integer> map = new HashMap<>();
-
+    //中序遍历:[[左子树的中序遍历结果],根节点,[右子树的中序遍历结果]]
+    //后序遍历:[[左子树的后序遍历结果],[右子树的后序遍历结果],根节点]
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        this.inorder = inorder;
-        this.postorder = postorder;
-        int n = postorder.length;
-        post_index = n - 1;
+        int n = inorder.length;
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
             map.put(inorder[i], i);
         }
-        return helper(0, n - 1);
+        return process(map, 0, n - 1, postorder, 0, n - 1);
     }
 
-    private TreeNode helper(int in_left, int in_right) {
-        if (in_left > in_right) {
+    private TreeNode process(Map<Integer, Integer> map, int inL, int inR, int[] postorder, int postL, int postR) {
+        if (inL > inR || postL > postR) {
             return null;
         }
-        //选择post_index位置的元素作为当前子树根节点
-        int root_val = postorder[post_index];
-        TreeNode root = new TreeNode(root_val);
-        //根据root所在位置分成左右两棵子树
-        int index = map.get(root_val);
-        //下标减一
-        post_index--;
-        //构造右子树
-        root.right = helper(index + 1, in_right);
-        //构造左子树
-        root.left = helper(in_left, index - 1);
-        return root;
-    }
-
-    public TreeNode buildTree1(int[] inorder, int[] postorder) {
-        if (postorder == null || postorder.length == 0) {
-            return null;
-        }
-        int n = postorder.length;
-        TreeNode root = new TreeNode(postorder[n - 1]);
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        stack.push(root);
-        int inorderIndex = n - 1;
-        for (int i = n - 2; i >= 0; i--) {
-            int postorderVal = postorder[i];
-            TreeNode node = stack.peek();
-            if (node.val != inorder[inorderIndex]) {
-                node.right = new TreeNode(postorderVal);
-                stack.push(node.right);
-            } else {
-                while (!stack.isEmpty() && stack.peek().val == inorder[inorderIndex]) {
-                    node = stack.pop();
-                    inorderIndex--;
-                }
-                node.left = new TreeNode(postorderVal);
-                stack.push(node.left);
-            }
-        }
-        return root;
+        int inRootIndex = map.get(postorder[postR]);
+        int leftSize = inRootIndex - inL;
+        TreeNode left = process(map, inL, inRootIndex - 1, postorder, postL, postL + leftSize - 1);
+        TreeNode right = process(map, inRootIndex + 1, inR, postorder, postL + leftSize, postR - 1);
+        return new TreeNode(postorder[postR], left, right);
     }
 
 }
