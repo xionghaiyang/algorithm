@@ -21,10 +21,16 @@ public class Solution {
     public int[] smallestSubarrays(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
+        //计算右端点为i的子数组的或值
         for (int i = 0; i < n; i++) {
+            int x = nums[i];
+            //子数组的长度至少是1
             res[i] = 1;
-            for (int j = i - 1; j >= 0 && (nums[j] | nums[i]) != nums[j]; j--) {
-                nums[j] |= nums[i];
+            //循环直到nums[j]无法增大，其左侧元素也无法增大
+            for (int j = i - 1; j >= 0 && (nums[j] | x) != nums[j]; j--) {
+                //nums[j]增大，现在nums[j]=原数组nums[j]到nums[i]的或值
+                nums[j] |= x;
+                //nums[j]最后依次增大时的子数组长度就是答案
                 res[j] = i - j + 1;
             }
         }
