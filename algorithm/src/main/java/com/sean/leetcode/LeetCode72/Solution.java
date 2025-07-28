@@ -17,23 +17,18 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    private char[] str1;
-    private char[] str2;
-    private int[][] dp;
-
     public int minDistance(String word1, String word2) {
-        str1 = word1.toCharArray();
-        str2 = word2.toCharArray();
-        int m = str1.length;
-        int n = str2.length;
-        dp = new int[m][n];
+        char[] str1 = word1.toCharArray();
+        char[] str2 = word2.toCharArray();
+        int m = str1.length, n = str2.length;
+        int[][] dp = new int[m][n];
         for (int i = 0; i < m; i++) {
             Arrays.fill(dp[i], -1);
         }
-        return process(m - 1, n - 1);
+        return process(str1, str2, m - 1, n - 1, dp);
     }
 
-    private int process(int i, int j) {
+    private int process(char[] str1, char[] str2, int i, int j, int[][] dp) {
         if (i < 0) {
             return j + 1;
         }
@@ -44,9 +39,11 @@ public class Solution {
             return dp[i][j];
         }
         if (str1[i] == str2[j]) {
-            dp[i][j] = process(i - 1, j - 1);
+            dp[i][j] = process(str1, str2, i - 1, j - 1, dp);
         } else {
-            dp[i][j] = Math.min(Math.min(process(i - 1, j), process(i, j - 1)), process(i - 1, j - 1)) + 1;
+            dp[i][j] = Math.min(Math.min(process(str1, str2, i - 1, j, dp),
+                    process(str1, str2, i, j - 1, dp)),
+                    process(str1, str2, i - 1, j - 1, dp)) + 1;
         }
         return dp[i][j];
     }
