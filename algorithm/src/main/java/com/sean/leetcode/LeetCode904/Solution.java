@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-10-17 08:20
- * @Description: https://leetcode.cn/problems/fruit-into-baskets/
+ * @Description: https://leetcode.cn/problems/fruit-into-baskets
  * 904. 水果成篮
  * 你正在探访一家农场，农场从左到右种植了一排果树。
  * 这些树用一个整数数组 fruits 表示，其中 fruits[i] 是第 i 棵树上的水果 种类 。
@@ -18,17 +18,19 @@ import java.util.Map;
  * 每采摘一次，你将会向右移动到下一棵树，并继续采摘。
  * 一旦你走到某棵树前，但水果不符合篮子的水果类型，那么就必须停止采摘。
  * 给你一个整数数组 fruits ，返回你可以收集的水果的 最大 数目。
+ * 1 <= fruits.length <= 10^5
+ * 0 <= fruits[i] < fruits.length
  */
 public class Solution {
 
     public int totalFruit(int[] fruits) {
         int n = fruits.length;
         Map<Integer, Integer> map = new HashMap<>();
-        int left = 0, res = 0;
-        for (int right = 0; right < n; right++) {
+        int res = 0;
+        for (int left = 0, right = 0; right < n; right++) {
             map.put(fruits[right], map.getOrDefault(fruits[right], 0) + 1);
             while (map.size() > 2) {
-                map.put(fruits[left], map.get(fruits[left]) - 1);
+                map.put(fruits[left], map.getOrDefault(fruits[left], 0) - 1);
                 if (map.get(fruits[left]) == 0) {
                     map.remove(fruits[left]);
                 }
