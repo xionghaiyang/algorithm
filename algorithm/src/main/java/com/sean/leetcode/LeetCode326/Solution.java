@@ -22,4 +22,8 @@ public class Solution {
         return n == 1;
     }
 
+    public boolean isPowerOfThree1(int n) {
+        return n > 0 && 1162261467 % n == 0;
+    }
+
 }
