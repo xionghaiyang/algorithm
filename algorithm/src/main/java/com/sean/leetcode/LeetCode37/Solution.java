@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-18 13:23
- * @Description: https://leetcode.cn/problems/sudoku-solver/
+ * @Description: https://leetcode.cn/problems/sudoku-solver
  * 37. 解数独
  * 编写一个程序，通过填充空格来解决数独问题。
  * 数独的解法需 遵循如下规则：
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class Solution {
 
-    private boolean[][] line = new boolean[9][9];
-    private boolean[][] column = new boolean[9][9];
-    private boolean[][][] block = new boolean[3][3][9];
+    private boolean[][] row = new boolean[9][9];
+    private boolean[][] col = new boolean[9][9];
+    private boolean[][] box = new boolean[9][9];
     private List<int[]> spaces = new ArrayList<>();
     private boolean valid = false;
 
@@ -29,10 +29,11 @@ public class Solution {
                 if (board[i][j] == '.') {
                     spaces.add(new int[]{i, j});
                 } else {
-                    int digit = board[i][j] - '0' - 1;
-                    line[i][digit] = true;
-                    column[j][digit] = true;
-                    block[i / 3][j / 3][digit] = true;
+                    int digit = board[i][j] - '1';
+                    int boxIndex = (i / 3) * 3 + j / 3;
+                    row[i][digit] = true;
+                    col[j][digit] = true;
+                    box[boxIndex][digit] = true;
                 }
             }
         }
@@ -45,17 +46,17 @@ public class Solution {
             return;
         }
         int[] space = spaces.get(pos);
-        int i = space[0], j = space[1];
+        int i = space[0], j = space[1], boxIndex = (i / 3) * 3 + j / 3;
         for (int digit = 0; digit < 9 && !valid; digit++) {
-            if (!line[i][digit] && !column[j][digit] && !block[i / 3][j / 3][digit]) {
-                line[i][digit] = true;
-                column[j][digit] = true;
-                block[i / 3][j / 3][digit] = true;
-                board[i][j] = (char) (digit + '0' + 1);
+            if (!row[i][digit] && !col[j][digit] && !box[boxIndex][digit]) {
+                row[i][digit] = true;
+                col[j][digit] = true;
+                box[boxIndex][digit] = true;
+                board[i][j] = (char) (digit + '1');
                 dfs(board, pos + 1);
-                line[i][digit] = false;
-                column[j][digit] = false;
-                block[i / 3][j / 3][digit] = false;
+                row[i][digit] = false;
+                col[j][digit] = false;
+                box[boxIndex][digit] = false;
             }
         }
     }
