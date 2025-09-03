@@ -30,7 +30,7 @@ public class Solution {
             this.right = right;
         }
     }
-    
+
     public int goodNodes(TreeNode root) {
         return process(root, root.val);
     }
@@ -43,7 +43,7 @@ public class Solution {
         if (preMax <= root.val) {
             res++;
         }
-        preMax = Math.max(root.val, preMax);
+        preMax = Math.max(preMax, root.val);
         res += process(root.left, preMax);
         res += process(root.right, preMax);
         return res;
