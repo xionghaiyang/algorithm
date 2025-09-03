@@ -30,8 +30,7 @@ public class Solution {
             this.right = right;
         }
     }
-
-
+    
     public int goodNodes(TreeNode root) {
         return process(root, root.val);
     }
