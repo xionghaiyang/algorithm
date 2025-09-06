@@ -27,6 +27,19 @@ import java.util.List;
  * 嵌套列表中的整数值在范围 [-10^6, 10^6] 内
  */
 public class NestedIterator implements Iterator<Integer> {
+    interface NestedInteger {
+        // @return true if this NestedInteger holds a single integer, rather than a nested list.
+        boolean isInteger();
+
+        // @return the single integer that this NestedInteger holds, if it holds a single integer
+        // Return null if this NestedInteger holds a nested list
+        Integer getInteger();
+
+        // @return the nested list that this NestedInteger holds, if it holds a nested list
+        // Return empty list if this NestedInteger holds a single integer
+        List<NestedInteger> getList();
+    }
+
     private List<Integer> list;
     private Iterator<Integer> iter;
 
@@ -55,17 +68,4 @@ public class NestedIterator implements Iterator<Integer> {
     public Integer next() {
         return iter.next();
     }
-}
-
-interface NestedInteger {
-    // @return true if this NestedInteger holds a single integer, rather than a nested list.
-    boolean isInteger();
-
-    // @return the single integer that this NestedInteger holds, if it holds a single integer
-    // Return null if this NestedInteger holds a nested list
-    Integer getInteger();
-
-    // @return the nested list that this NestedInteger holds, if it holds a nested list
-    // Return empty list if this NestedInteger holds a single integer
-    List<NestedInteger> getList();
 }
