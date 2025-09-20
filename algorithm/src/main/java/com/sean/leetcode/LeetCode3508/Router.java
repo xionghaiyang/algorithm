@@ -78,8 +78,7 @@ public class Router {
     private Queue<Packet> queue;
     private Set<Packet> set;
     private Map<Integer, Pair> map;
-
-
+    
     //初始化路由器对象，并设置固定的内存限制。
     //memoryLimit 是路由器在任意时间点可以存储的 最大 数据包数量。
     public Router(int memoryLimit) {
