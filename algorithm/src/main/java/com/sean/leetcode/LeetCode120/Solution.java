@@ -21,7 +21,6 @@ public class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
         int[] dp = new int[n];
-        //第n-1层
         for (int j = 0; j < n; j++) {
             dp[j] = triangle.get(n - 1).get(j);
         }
