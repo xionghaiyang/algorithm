@@ -6,20 +6,24 @@ import java.util.List;
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-09-16 23:06
- * @Description: https://leetcode.cn/problems/pacific-atlantic-water-flow/?plan=graph&plan_progress=zq56763
+ * @Description: https://leetcode.cn/problems/pacific-atlantic-water-flow
  * 417. 太平洋大西洋水流问题
  * 有一个 m × n 的矩形岛屿，与 太平洋 和 大西洋 相邻。 “太平洋” 处于大陆的左边界和上边界，而 “大西洋” 处于大陆的右边界和下边界。
  * 这个岛被分割成一个由若干方形单元格组成的网格。给定一个 m x n 的整数矩阵 heights ， heights[r][c] 表示坐标 (r, c) 上单元格 高于海平面的高度 。
- * 岛上雨水较多，如果相邻单元格的高度 小于或等于 当前单元格的高度，雨水可以直接向北、南、东、西流向相邻单元格。水可以从海洋附近的任何单元格流入海洋。
+ * 岛上雨水较多，如果相邻单元格的高度 小于或等于 当前单元格的高度，雨水可以直接向北、南、东、西流向相邻单元格。
+ * 水可以从海洋附近的任何单元格流入海洋。
  * 返回网格坐标 result 的 2D 列表 ，其中 result[i] = [ri, ci] 表示雨水从单元格 (ri, ci) 流动 既可流向太平洋也可流向大西洋 。
+ * m == heights.length
+ * n == heights[r].length
+ * 1 <= m, n <= 200
+ * 0 <= heights[r][c] <= 10^5
  */
 public class Solution {
 
-    int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
-        int m = heights.length;
-        int n = heights[0].length;
+        int m = heights.length, n = heights[0].length;
         boolean[][] pacific = new boolean[m][n];
         boolean[][] atlantic = new boolean[m][n];
         for (int i = 0; i < m; i++) {
@@ -38,10 +42,10 @@ public class Solution {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (pacific[i][j] && atlantic[i][j]) {
-                    List<Integer> cell = new ArrayList<>();
-                    cell.add(i);
-                    cell.add(j);
-                    res.add(cell);
+                    List<Integer> list = new ArrayList<>();
+                    list.add(i);
+                    list.add(j);
+                    res.add(list);
                 }
             }
         }
@@ -53,11 +57,9 @@ public class Solution {
             return;
         }
         ocean[x][y] = true;
-        int m = heights.length;
-        int n = heights[0].length;
+        int m = heights.length, n = heights[0].length;
         for (int[] dir : dirs) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
+            int nx = x + dir[0], ny = y + dir[1];
             if (nx >= 0 && nx < m && ny >= 0 && ny < n && heights[nx][ny] >= heights[x][y]) {
                 dfs(heights, nx, ny, ocean);
             }
