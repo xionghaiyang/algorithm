@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode1625;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-03-20 09:11
- * @Description: https://leetcode.cn/problems/lexicographically-smallest-string-after-applying-operations/
+ * @Description: https://leetcode.cn/problems/lexicographically-smallest-string-after-applying-operations
  * 1625. 执行操作后字典序最小的字符串
  * 给你一个字符串 s 以及两个整数 a 和 b 。
  * 其中，字符串 s 的长度为偶数，且仅由数字 0 到 9 组成。
@@ -17,6 +17,11 @@ package com.sean.leetcode.LeetCode1625;
  * 如果两个字符串长度相同，那么字符串 a 字典序比字符串 b 小可以这样定义：
  * 在 a 和 b 出现不同的第一个位置上，字符串 a 中的字符出现在字母表中的时间早于 b 中的对应字符。
  * 例如，"0158” 字典序比 "0190" 小，因为不同的第一个位置是在第三个字符，显然 '5' 出现在 '9' 之前。
+ * 2 <= s.length <= 100
+ * s.length 是偶数
+ * s 仅由数字 0 到 9 组成
+ * 1 <= a <= 9
+ * 1 <= b <= s.length - 1
  */
 public class Solution {
 
@@ -47,6 +52,46 @@ public class Solution {
             }
         }
         return res;
+    }
+
+    public String findLexSmallestString1(String s, int a, int b) {
+        char[] str = s.toCharArray();
+        int n = str.length;
+        char[] t = new char[n];
+        int step = gcd(b, n);
+        int g = gcd(a, 10);
+        String res = null;
+        for (int i = 0; i < n; i += step) {
+            //t = str[i,n)+str[0,i)
+            System.arraycopy(str, i, t, 0, n - i);
+            System.arraycopy(str, 0, t, n - i, i);
+            modify(t, 1, g);
+            if (step % 2 > 0) {
+                modify(t, 0, g);
+            }
+            String str1 = String.valueOf(t);
+            if (res == null || str1.compareTo(res) < 0) {
+                res = str1;
+            }
+        }
+        return res;
+    }
+
+    private int gcd(int a, int b) {
+        while (a != 0) {
+            int tmp = a;
+            a = b % a;
+            b = tmp;
+        }
+        return b;
+    }
+
+    private void modify(char[] t, int start, int g) {
+        int ch = t[start] - '0';
+        int inc = ch % g - ch + 10;
+        for (int j = start; j < t.length; j += 2) {
+            t[j] = (char) ('0' + (t[j] - '0' + inc) % 10);
+        }
     }
 
 }
