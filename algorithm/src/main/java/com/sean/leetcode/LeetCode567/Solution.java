@@ -19,48 +19,14 @@ public class Solution {
             return false;
         }
         int[] cnt = new int[26];
-        for (char c : s1.toCharArray()) {
-            cnt[c - 'a']--;
-        }
-        for (int i = 0; i < m; i++) {
-            int x = ++cnt[s2.charAt(i) - 'a'];
-            int left = i + 1 - n;
-            if (left < 0) {
-                continue;
-            }
-            if (x == 0 && check(cnt)) {
-                return true;
-            }
-            cnt[s2.charAt(left) - 'a']--;
-        }
-        return false;
-    }
-
-    private boolean check(int[] cnt) {
-        for (int i = 0; i < 26; i++) {
-            if (cnt[i] != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean checkInclusion1(String s1, String s2) {
-        int n = s1.length(), m = s2.length();
-        if (n > m) {
-            return false;
-        }
-        int[] cnt = new int[26];
         int less = 0;
         for (char c : s1.toCharArray()) {
-            if (cnt[c - 'a'] == 0) {
+            if (cnt[c - 'a']++ == 0) {
                 less++;
             }
-            cnt[c - 'a']++;
         }
         for (int i = 0; i < m; i++) {
-            int x = --cnt[s2.charAt(i) - 'a'];
-            if (x == 0) {
+            if (--cnt[s2.charAt(i) - 'a'] == 0) {
                 less--;
             }
             int left = i + 1 - n;
@@ -70,8 +36,7 @@ public class Solution {
             if (less == 0) {
                 return true;
             }
-            int y = cnt[s2.charAt(left) - 'a']++;
-            if (y == 0) {
+            if (cnt[s2.charAt(left) - 'a']++ == 0) {
                 less++;
             }
         }
