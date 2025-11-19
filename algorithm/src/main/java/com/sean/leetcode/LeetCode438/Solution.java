@@ -16,39 +16,37 @@ import java.util.List;
 public class Solution {
 
     public List<Integer> findAnagrams(String s, String p) {
-        int n = s.length();
-        int m = p.length();
         List<Integer> res = new ArrayList<>();
-        if (n < m) {
+        int n = s.length(), m = p.length();
+        if (m > n) {
             return res;
         }
         int[] cnt = new int[26];
+        int less = 0;
         for (char c : p.toCharArray()) {
+            if (cnt[c - 'a'] == 0) {
+                less++;
+            }
             cnt[c - 'a']++;
         }
-        for (int i = 0; i < m; i++) {
-            cnt[s.charAt(i) - 'a']--;
-        }
-        if (check(cnt)) {
-            res.add(0);
-        }
-        for (int i = 1; i <= n - m; i++) {
-            cnt[s.charAt(i - 1) - 'a']++;
-            cnt[s.charAt(m + i - 1) - 'a']--;
-            if (cnt[s.charAt(i - 1) - 'a'] == 0 && cnt[s.charAt(m + i - 1) - 'a'] == 0 && check(cnt)) {
-                res.add(i);
+        for (int i = 0; i < n; i++) {
+            int x = --cnt[s.charAt(i) - 'a'];
+            if (x == 0) {
+                less--;
+            }
+            int left = i + 1 - m;
+            if (left < 0) {
+                continue;
+            }
+            if (less == 0) {
+                res.add(left);
+            }
+            int y = cnt[s.charAt(left) - 'a']++;
+            if (y == 0) {
+                less++;
             }
         }
         return res;
-    }
-
-    private boolean check(int[] cnt) {
-        for (int i = 0; i < 26; i++) {
-            if (cnt[i] != 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }
