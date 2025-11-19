@@ -24,14 +24,12 @@ public class Solution {
         int[] cnt = new int[26];
         int less = 0;
         for (char c : p.toCharArray()) {
-            if (cnt[c - 'a'] == 0) {
+            if (cnt[c - 'a']++ == 0) {
                 less++;
             }
-            cnt[c - 'a']++;
         }
         for (int i = 0; i < n; i++) {
-            int x = --cnt[s.charAt(i) - 'a'];
-            if (x == 0) {
+            if (--cnt[s.charAt(i) - 'a'] == 0) {
                 less--;
             }
             int left = i + 1 - m;
@@ -41,12 +39,12 @@ public class Solution {
             if (less == 0) {
                 res.add(left);
             }
-            int y = cnt[s.charAt(left) - 'a']++;
-            if (y == 0) {
+            if (cnt[s.charAt(left) - 'a']++ == 0) {
                 less++;
             }
         }
         return res;
     }
+
 
 }
