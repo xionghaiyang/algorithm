@@ -22,38 +22,29 @@ import java.util.*;
 public class Solution {
 
     public List<Integer> findSubstring(String s, String[] words) {
-        //一个单词的长度
         int wordLength = words[0].length();
-        //所有单词的总长度，即窗口大小
         int windowLength = wordLength * words.length;
         Map<String, Integer> map = new HashMap<>();
         for (String word : words) {
             map.put(word, map.getOrDefault(word, 0) + 1);
         }
         List<Integer> res = new ArrayList<>();
-        //枚举窗口起点，做wordLength次滑动窗口
         for (int start = 0; start < wordLength; start++) {
             Map<String, Integer> cnt = new HashMap<>();
             int overload = 0;
-            //枚举窗口窗口最后一个单词的右端点+1
             for (int right = start + wordLength; right <= s.length(); right += wordLength) {
-                //inWord进入窗口
                 String inWord = s.substring(right - wordLength, right);
                 if (cnt.getOrDefault(inWord, 0).equals(map.getOrDefault(inWord, 0))) {
                     overload++;
                 }
                 cnt.put(inWord, cnt.getOrDefault(inWord, 0) + 1);
-                //窗口第一个单词的左端点
                 int left = right - windowLength;
                 if (left < 0) {
                     continue;
                 }
-                //更新答案
-                //如果没有超出map的单词，那么也不会有少于map的单词
                 if (overload == 0) {
                     res.add(left);
                 }
-                //窗口最左边的单词outWord离开窗口，为下一轮循环做准备
                 String outWord = s.substring(left, left + wordLength);
                 cnt.put(outWord, cnt.getOrDefault(outWord, 0) - 1);
                 if (cnt.getOrDefault(outWord, 0).equals(map.getOrDefault(outWord, 0))) {
