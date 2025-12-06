@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * @Author xionghaiyang
  * @Date 2025-06-09 11:45
- * @Description https://leetcode.cn/problems/count-partitions-with-max-min-difference-at-most-k/
+ * @Description https://leetcode.cn/problems/count-partitions-with-max-min-difference-at-most-k
  * 3578. 统计极差最大为 K 的分割方式数
  * 给你一个整数数组 nums 和一个整数 k。
  * 你的任务是将 nums 分割成一个或多个 非空 的连续子段，使得每个子段的 最大值 与 最小值 之间的差值 不超过 k。
