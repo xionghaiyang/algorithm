@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode3577;
 /**
  * @Author xionghaiyang
  * @Date 2025-06-09 10:53
- * @Description https://leetcode.cn/problems/count-the-number-of-computer-unlocking-permutations/
+ * @Description https://leetcode.cn/problems/count-the-number-of-computer-unlocking-permutations
  * 3577. 统计计算机解锁顺序排列数
  * 给你一个长度为 n 的数组 complexity。
  * 在房间里有 n 台 上锁的 计算机，这些计算机的编号为 0 到 n - 1，每台计算机都有一个 唯一 的密码。
