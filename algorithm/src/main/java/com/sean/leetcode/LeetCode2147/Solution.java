@@ -1,0 +1,46 @@
+package com.sean.leetcode.LeetCode2147;
+
+/**
+ * @Author xionghaiyang
+ * @Date 2025-12-14 09:41
+ * @Description https://leetcode.cn/problems/number-of-ways-to-divide-a-long-corridor
+ * 2147. 分隔长廊的方案数
+ * 在一个图书馆的长廊里，有一些座位和装饰植物排成一列。
+ * 给你一个下标从 0 开始，长度为 n 的字符串 corridor ，它包含字母 'S' 和 'P' ，其中每个 'S' 表示一个座位，每个 'P' 表示一株植物。
+ * 在下标 0 的左边和下标 n - 1 的右边 已经 分别各放了一个屏风。
+ * 你还需要额外放置一些屏风。
+ * 每一个位置 i - 1 和 i 之间（1 <= i <= n - 1），至多能放一个屏风。
+ * 请你将走廊用屏风划分为若干段，且每一段内都 恰好有两个座位 ，而每一段内植物的数目没有要求。
+ * 可能有多种划分方案，如果两个方案中有任何一个屏风的位置不同，那么它们被视为 不同 方案。
+ * 请你返回划分走廊的方案数。
+ * 由于答案可能很大，请你返回它对 10^9 + 7 取余 的结果。
+ * 如果没有任何方案，请返回 0 。
+ * n == corridor.length
+ * 1 <= n <= 10^5
+ * corridor[i] 要么是 'S' ，要么是 'P' 。
+ */
+public class Solution {
+
+    private static final int MOD = 1_000_000_007;
+
+    public int numberOfWays(String corridor) {
+        char[] str = corridor.toCharArray();
+        int n = str.length;
+        long res = 1;
+        int cntS = 0, lastS = 0;
+        for (int i = 0; i < n; i++) {
+            if (str[i] == 'S') {
+                cntS++;
+                if (cntS >= 3 && cntS % 2 == 1) {
+                    res = res * (i - lastS) % MOD;
+                }
+                lastS = i;
+            }
+        }
+        if (cntS == 0 || cntS % 2 > 0) {
+            return 0;
+        }
+        return (int) res;
+    }
+
+}
