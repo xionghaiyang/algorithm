@@ -28,8 +28,9 @@ package com.sean.leetcode.LeetCode3652;
 public class Solution {
 
     public long maxProfit(int[] prices, int[] strategy, int k) {
+        int n = prices.length;
         long total = 0, maxSum = 0, sum = 0;
-        for (int i = 0; i < prices.length; i++) {
+        for (int i = 0; i < n; i++) {
             int p = prices[i], s = strategy[i];
             total += p * s;
             sum += p * (1 - s);
