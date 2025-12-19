@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-26 15:50
- * @Description: https://leetcode.cn/problems/find-all-people-with-secret/description/
+ * @Description: https://leetcode.cn/problems/find-all-people-with-secret
  * 2092. 找出知晓秘密的所有专家
  * 给你一个整数 n ，表示有 n 个专家从 0 到 n - 1 编号。
  * 另外给你一个下标从 0 开始的二维整数数组 meetings ，
@@ -19,62 +19,78 @@ import java.util.*;
  * 也就是说，在同一时间，一个专家不光可以接收到秘密，还能在其他会议上与其他专家分享。
  * 在所有会议都结束之后，返回所有知晓这个秘密的专家列表。
  * 你可以按 任何顺序 返回答案。
+ * 2 <= n <= 10^5
+ * 1 <= meetings.length <= 10^5
+ * meetings[i].length == 3
+ * 0 <= xi, yi <= n - 1
+ * xi != yi
+ * 1 <= timei <= 10^5
+ * 1 <= firstPerson <= n - 1
  */
 public class Solution {
 
-    //并查集数组，记录每个元素的祖先节点
-    private int[] parent;
+    public class UnionFind {
+        private int[] parent;
+        private int[] help;
 
-    //查找每个元素的祖先，（路径压缩）
-    private int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);
+        public UnionFind(int n) {
+            parent = new int[n];
+            help = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+            }
         }
-        return parent[x];
+
+        public int find(int x) {
+            int i = 0;
+            while (x != parent[x]) {
+                help[i++] = x;
+                x = parent[x];
+            }
+            for (i--; i >= 0; i--) {
+                parent[help[i]] = x;
+            }
+            return x;
+        }
+
+        public boolean isSameSet(int x, int y) {
+            return find(x) == find(y);
+        }
+
+        public void union(int x, int y) {
+            int fx = find(x);
+            int fy = find(y);
+            parent[fy] = fx;
+        }
+
+        public void reset(int x) {
+            parent[x] = x;
+        }
     }
 
     public List<Integer> findAllPeople(int n, int[][] meetings, int firstPerson) {
-        parent = new int[n + 1];
-        //祖先数组初始化，将每个元素的祖先标记为自己
-        for (int i = 1; i <= n; i++) {
-            parent[i] = i;
-        }
-        //合并0号专家与firstPerson
-        parent[firstPerson] = 0;
-        Map<Integer, List<int[]>> map = new TreeMap<>();
-        //构造以时刻为key，会议列表为value的map,TreeMap将自动按照key升序排序
-        for (int[] meeting : meetings) {
-            List<int[]> list = map.getOrDefault(meeting[2], new ArrayList<>());
-            list.add(new int[]{meeting[0], meeting[1]});
-            map.put(meeting[2], list);
-        }
-        for (int time : map.keySet()) {
-            for (int[] arr : map.get(time)) {
-                int x = arr[0];
-                int y = arr[1];
-                if (parent[find(x)] == 0 || parent[find(y)] == 0) {
-                    parent[find(x)] = 0;
-                    parent[find(y)] = 0;
-                }
-                parent[find(y)] = parent[find(x)];
+        Arrays.sort(meetings, (a, b) -> a[2] - b[2]);
+        UnionFind unionFind = new UnionFind(n);
+        unionFind.union(firstPerson, 0);
+        int m = meetings.length;
+        for (int i = 0; i < m; ) {
+            int start = i, time = meetings[i][2];
+            for (; i < m && meetings[i][2] == time; i++) {
+                unionFind.union(meetings[i][0], meetings[i][1]);
             }
-            for (int[] arr : map.get(time)) {
-                int x = arr[0];
-                int y = arr[1];
-                //场景一:两位专家在前面的会议均不知道秘密，后面遍历中其中议围专家知道了秘密，瞬时共享，两人都将知道秘密
-                if (parent[find(x)] == 0 || parent[find(y)] == 0) {
-                    parent[find(x)] = 0;
-                    parent[find(y)] = 0;
-                } else {//场景二：两位专家在该时刻始终都不知道秘密，将合并的集合分离开，防止后面时刻有一个专家知道秘密，将秘密分享给另一个专家
-                    parent[x] = x;
-                    parent[y] = y;
+            for (int j = start; j < i; j++) {
+                int x = meetings[j][0], y = meetings[j][1];
+                if (!unionFind.isSameSet(x, 0)) {
+                    unionFind.reset(x);
+                }
+                if (!unionFind.isSameSet(y, 0)) {
+                    unionFind.reset(y);
                 }
             }
-
         }
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (parent[find(i)] == 0) {
+            if (unionFind.isSameSet(i, 0)) {
                 res.add(i);
             }
         }
