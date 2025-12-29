@@ -3,7 +3,7 @@ package com.sean.course03.lesson13;
 /**
  * @Author xionghaiyang
  * @Date 2025-12-13 21:03
- * @Description AVLNode
+ * @Description AVLTree
  */
 public class Code01_AVLTreeMap {
 
