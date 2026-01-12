@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode1266;
 /**
  * @Auther: xionghaiyang
  * @Date: 2023-12-27 12:55
- * @Description: https://leetcode.cn/problems/minimum-time-visiting-all-points/description/
+ * @Description: https://leetcode.cn/problems/minimum-time-visiting-all-points
  * 1266. 访问所有点的最小时间
  * 平面上有 n 个点，点的位置用整数坐标表示 points[i] = [xi, yi] 。
  * 请你计算访问所有这些点需要的 最小时间（以秒为单位）。
@@ -14,6 +14,10 @@ package com.sean.leetcode.LeetCode1266;
  * 跨过对角线移动 sqrt(2) 个单位长度（可以看作在一秒内向水平和竖直方向各移动一个单位长度）。
  * 必须按照数组中出现的顺序来访问这些点。
  * 在访问某个点时，可以经过该点后面出现的点，但经过的那些点不算作有效访问。
+ * points.length == n
+ * 1 <= n <= 100
+ * points[i].length == 2
+ * -1000 <= points[i][0], points[i][1] <= 1000
  */
 public class Solution {
 
