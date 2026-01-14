@@ -111,7 +111,7 @@ public class Code02_SizeBalancedTreeMap {
 
         private SBTNode<K, V> findLastNoBigIndex(K key) {
             SBTNode<K, V> ans = null;
-            SBTNode<K, V> cur = null;
+            SBTNode<K, V> cur = root;
             while (cur != null) {
                 if (key.compareTo(cur.key) == 0) {
                     ans = cur;
