@@ -18,17 +18,6 @@ package com.sean.leetcode.LeetCode744;
 public class Solution {
 
     public char nextGreatestLetter(char[] letters, char target) {
-        char res = letters[0];
-        for (char letter : letters) {
-            if (letter > target) {
-                res = letter;
-                break;
-            }
-        }
-        return res;
-    }
-
-    public char nextGreatestLetter1(char[] letters, char target) {
         int n = letters.length;
         if (target >= letters[n - 1]) {
             return letters[0];
