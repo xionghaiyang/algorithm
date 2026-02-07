@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode110;
 /**
  * @Author xionghaiyang
  * @Date 2025-03-25 20:41
- * @Description https://leetcode.cn/problems/balanced-binary-tree/
+ * @Description https://leetcode.cn/problems/balanced-binary-tree
  * 110. 平衡二叉树
  * 给定一个二叉树，判断它是否是 平衡二叉树
  * 树中的节点数在范围 [0, 5000] 内
@@ -51,7 +51,7 @@ public class Solution {
         Info leftInfo = process(root.left);
         Info rightInfo = process(root.right);
         int height = Math.max(leftInfo.height, rightInfo.height) + 1;
-        boolean isBalanced = leftInfo.isBalanced && rightInfo.isBalanced && Math.abs(leftInfo.height - rightInfo.height) < 2;
+        boolean isBalanced = leftInfo.isBalanced && rightInfo.isBalanced && Math.abs(leftInfo.height - rightInfo.height) <= 1;
         return new Info(isBalanced, height);
     }
 
