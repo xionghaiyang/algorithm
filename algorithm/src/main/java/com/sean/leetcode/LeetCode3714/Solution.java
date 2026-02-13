@@ -39,11 +39,11 @@ public class Solution {
         int[] cnt = new int[3];
         for (int i = 0; i < n; i++) {
             cnt[str[i] - 'a']++;
-            long p = (long) (cnt[0] - cnt[1] + n) << 32 | (cnt[1] - cnt[2] + n);
-            if (map.containsKey(p)) {
-                res = Math.max(res, i - map.get(p));
+            long k = ((long) (cnt[0] - cnt[1] + n) << 32) | (cnt[1] - cnt[2] + n);
+            if (map.containsKey(k)) {
+                res = Math.max(res, i - map.get(k));
             } else {
-                map.put(p, i);
+                map.put(k, i);
             }
         }
         return res;
