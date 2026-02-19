@@ -27,7 +27,7 @@ public class Solution {
         for (int i = 1; i < n; i++) {
             int x = cnt[i];
             int j = i - x;
-            if (j >= 0 && cnt[j] >= x && s.charAt(i) != s.charAt(j)) {
+            if (j >= 0 && cnt[j] >= x) {
                 res++;
             }
         }
