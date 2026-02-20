@@ -1,14 +1,13 @@
 package com.sean.leetcode.LeetCode761;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 /**
  * @Auther: xionghaiyang
  * @Date: 2022-08-08 11:30
- * @Description: https://leetcode.cn/problems/special-binary-string/
+ * @Description: https://leetcode.cn/problems/special-binary-string
  * 761. 特殊的二进制序列
  * 特殊的二进制序列是具有以下两个性质的二进制序列：
  * 0 的数量与 1 的数量相等。
@@ -17,35 +16,26 @@ import java.util.List;
  * 定义一个操作 为首先选择 S 的两个连续且非空的特殊的子串，然后将它们交换。
  * （两个子串为连续的当且仅当第一个子串的最后一个字符恰好为第二个子串的第一个字符的前一个字符。)
  * 在任意次数的操作之后，交换后的字符串按照字典序排列的最大的结果是什么？
+ * 1 <= s.length <= 50
+ * s[i] 为 '0' 或 '1'。
+ * s 是一个特殊的二进制字符串。
  */
 public class Solution {
 
     public String makeLargestSpecial(String s) {
-        if (s == null || s.length() <= 2) {
-            return s;
-        }
-        int count = 0, left = 0, n = s.length();
-        List<String> subs = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            if (s.charAt(i) == '1') {
-                count++;
-            } else {
-                count--;
-                if (count == 0) {
-                    subs.add("1" + makeLargestSpecial(s.substring(left + 1, i)) + "0");
-                    left = i + 1;
-                }
+        List<String> items = new ArrayList<>();
+        int n = s.length();
+        for (int left = 0, right = 0, cnt = 0; right < n; right++) {
+            cnt += s.charAt(right) == '1' ? 1 : -1;
+            if (cnt == 0) {
+                items.add("1" + makeLargestSpecial(s.substring(left + 1, right)) + "0");
+                left = right + 1;
             }
         }
-        Collections.sort(subs, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o2.compareTo(o1);
-            }
-        });
+        items.sort(Comparator.reverseOrder());
         StringBuilder res = new StringBuilder();
-        for (String sub : subs) {
-            res.append(sub);
+        for (String item : items) {
+            res.append(item);
         }
         return res.toString();
     }
