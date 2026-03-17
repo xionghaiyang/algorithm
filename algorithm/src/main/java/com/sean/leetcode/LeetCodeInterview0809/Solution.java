@@ -16,7 +16,7 @@ public class Solution {
 
     private List<String> res = new ArrayList<>();
     private int n;
-    char[] str;
+    private char[] str;
 
     public List<String> generateParenthesis(int n) {
         this.n = n;
