@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-01-16 12:31
- * @Description: https://leetcode.cn/problems/number-of-2s-in-range-lcci/
+ * @Description: https://leetcode.cn/problems/number-of-2s-in-range-lcci
  * 面试题 17.06. 2出现的次数
  * 编写一个方法，计算从 0 到 n (含 n) 中数字 2 出现的次数。
  */
@@ -32,7 +32,6 @@ public class Solution {
             return dp[i][cnt2];
         }
         int res = 0;
-        //枚举要填入的数字d
         for (int d = 0, up = isLimit ? s[i] - '0' : 9; d <= up; d++) {
             res += process(i + 1, cnt2 + (d == 2 ? 1 : 0), isLimit && d == up);
         }
