@@ -7,7 +7,7 @@ package com.sean.leetcode.LeetCodeInterview1608;
  * 面试题 16.08. 整数的英语表示
  * 给定一个整数，打印该整数的英文描述。
  */
-public class Solution { 
+public class Solution {
 
     private String[] singles = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
     private String[] teens = {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
