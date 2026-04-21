@@ -58,11 +58,11 @@ public class Solution {
                 return;
             }
             if (size[fx] >= size[fy]) {
-                parent[fy] = fx;
                 size[fx] += size[fy];
+                parent[fy] = fx;
             } else {
-                parent[fx] = fy;
                 size[fy] += size[fx];
+                parent[fx] = fy;
             }
         }
     }
@@ -75,18 +75,16 @@ public class Solution {
         }
         Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            int group = unionFind.find(i);
-            map.putIfAbsent(group, new HashMap<>());
-            Map<Integer, Integer> cnt = map.get(group);
-            cnt.put(target[i], cnt.getOrDefault(target[i], 0) + 1);
+            int p = unionFind.find(i);
+            map.putIfAbsent(p, new HashMap<>());
+            map.get(p).merge(target[i], 1, Integer::sum);
         }
         int res = n;
         for (int i = 0; i < n; i++) {
-            int group = unionFind.find(i);
-            Map<Integer, Integer> cnt = map.get(group);
-            if (cnt.getOrDefault(source[i], 0) > 0) {
+            int p = unionFind.find(i);
+            if (map.get(p).getOrDefault(source[i], 0) > 0) {
                 res--;
-                cnt.put(source[i], cnt.get(source[i]) - 1);
+                map.get(p).merge(source[i], -1, Integer::sum);
             }
         }
         return res;
