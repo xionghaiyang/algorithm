@@ -83,4 +83,33 @@ public class Solution {
         return false;
     }
 
+    private int[][] dirs = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+    public boolean containsCycle1(char[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!visited[i][j] && process(grid, visited, i, j, -1, -1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean process(char[][] grid, boolean[][] visited, int x, int y, int px, int py) {
+        visited[x][y] = true;
+        for (int[] dir : dirs) {
+            int nx = x + dir[0], ny = y + dir[1];
+            if ((nx != px || ny != py)
+                    && (0 <= nx && nx < grid.length && 0 <= ny && ny < grid[0].length)
+                    && grid[nx][ny] == grid[x][y]
+                    && (visited[nx][ny] || process(grid, visited, nx, ny, x, y))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
