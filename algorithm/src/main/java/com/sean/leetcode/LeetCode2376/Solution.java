@@ -13,40 +13,30 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    private char[] s;
-    private int[][] memo;
-    private int m;
-
     public int countSpecialNumbers(int n) {
-        s = Integer.toString(n).toCharArray();
-        m = s.length;
-        memo = new int[m][1 << 10];
+        char[] s = Integer.toString(n).toCharArray();
+        int m = s.length;
+        int[][] memo = new int[m][1 << 10];
         for (int i = 0; i < m; i++) {
             Arrays.fill(memo[i], -1);
         }
-        return process(0, 0, true, false);
+        return process(s, memo, 0, 0, true, false);
     }
 
-    private int process(int i, int mask, boolean isLimit, boolean isNum) {
-        if (i == m) {
-            //isNum为true表示得到了一个合法数字
+    private int process(char[] s, int[][] memo, int i, int mask, boolean isLimit, boolean isNum) {
+        if (i == s.length) {
             return isNum ? 1 : 0;
         }
         if (!isLimit && isNum && memo[i][mask] != -1) {
             return memo[i][mask];
         }
         int res = 0;
-        //可以跳过当前数位
         if (!isNum) {
-            res += process(i + 1, mask, false, false);
+            res += process(s, memo, i + 1, mask, false, false);
         }
-        //如果前面填的数字都和n一样，那么这一位至多填数字s[i](否则就超过n了)
-        int up = isLimit ? s[i] - '0' : 9;
-        //枚举要填入的数字d
-        for (int d = isNum ? 0 : 1; d <= up; d++) {
-            //d不在mask中
+        for (int d = isNum ? 0 : 1, up = isLimit ? s[i] - '0' : 9; d <= up; d++) {
             if ((mask & (1 << d)) == 0) {
-                res += process(i + 1, mask | (1 << d), isLimit && d == up, true);
+                res += process(s, memo, i + 1, mask | (1 << d), isLimit && d == up, true);
             }
         }
         if (!isLimit && isNum) {
