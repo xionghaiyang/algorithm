@@ -23,16 +23,21 @@ public class Solution {
 
     public int findMin(int[] nums) {
         int n = nums.length;
-        int left = 0, right = n - 1;
+        int left = 0, right = n - 1, res = 0;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (nums[mid] <= nums[n - 1]) {
+                //mid在第二段（或者nums只有一段）
+                //mid要么是最小值，要么在最小值右边
+                res = mid;
                 right = mid - 1;
             } else {
+                //nums一定被分成左右两个递增段，第一段的所有元素均大于第二段的所有元素
+                //mid在第一段，最小值在第二段
                 left = mid + 1;
             }
         }
-        return nums[left];
+        return nums[res];
     }
 
 }
