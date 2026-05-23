@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode1306;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-17 06:29
  * @Description: https://leetcode.cn/problems/jump-game-iii
  * 1306. 跳跃游戏 III
