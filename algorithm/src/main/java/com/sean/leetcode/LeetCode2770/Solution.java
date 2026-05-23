@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode2770;
 import java.util.Arrays;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-10 08:41
  * @Description: https://leetcode.cn/problems/maximum-number-of-jumps-to-reach-the-last-index
  * 2770. 达到末尾下标所需的最大跳跃次数
