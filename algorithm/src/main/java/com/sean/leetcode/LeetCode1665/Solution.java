@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode1665;
 import java.util.Arrays;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-12 06:01
  * @Description: https://leetcode.cn/problems/minimum-initial-energy-to-finish-tasks
  * 1665. 完成所有任务的最少初始能量
