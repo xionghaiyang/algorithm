@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode2657;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-20 05:57
  * @Description: https://leetcode.cn/problems/find-the-prefix-common-array-of-two-arrays
  * 2657. 找到两个数组的前缀公共数组
