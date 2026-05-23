@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode788;
 import java.util.*;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-09-25 21:07
  * @Description: https://leetcode.cn/problems/rotated-digits
  * 788. 旋转数字
