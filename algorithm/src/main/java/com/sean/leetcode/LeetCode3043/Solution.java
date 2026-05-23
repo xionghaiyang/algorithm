@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode3043;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-21 10:45
  * @Description: https://leetcode.cn/problems/find-the-length-of-the-longest-common-prefix
  * 3043. 最长公共前缀的长度
