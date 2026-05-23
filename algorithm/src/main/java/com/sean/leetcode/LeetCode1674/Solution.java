@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode1674;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-13 06:25
  * @Description: https://leetcode.cn/problems/minimum-moves-to-make-array-complementary
  * 1674. 使数组互补的最少操作次数
