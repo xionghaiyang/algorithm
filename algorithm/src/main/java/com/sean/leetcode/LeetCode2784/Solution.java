@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode2784;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-14 06:00
  * @Description: https://leetcode.cn/problems/check-if-array-is-good
  * 2784. 检查数组是否是好的
