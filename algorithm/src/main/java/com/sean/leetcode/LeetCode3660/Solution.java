@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode3660;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-07 08:54
  * @Description: https://leetcode.cn/problems/jump-game-ix
  * 3660. 跳跃游戏 IX
