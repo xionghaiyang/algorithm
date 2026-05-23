@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode2376;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2024-01-16 12:57
  * @Description: https://leetcode.cn/problems/count-special-integers
  * 2376. 统计特殊整数
