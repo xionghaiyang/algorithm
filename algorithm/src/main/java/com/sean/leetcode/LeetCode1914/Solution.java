@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-09 21:25
  * @Description: https://leetcode.cn/problems/cyclically-rotating-a-grid
  * 1914. 循环轮转矩阵
