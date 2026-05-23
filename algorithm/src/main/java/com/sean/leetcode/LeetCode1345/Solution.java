@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode1345;
 import java.util.*;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-18 05:51
  * @Description: https://leetcode.cn/problems/jump-game-iv
  * 1345. 跳跃游戏 IV
