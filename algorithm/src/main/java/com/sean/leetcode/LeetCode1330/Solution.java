@@ -1,14 +1,17 @@
 package com.sean.leetcode.LeetCode1330;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-05-12 08:17
- * @Description: https://leetcode.cn/problems/reverse-subarray-to-maximize-array-value/
+ * @Description: https://leetcode.cn/problems/reverse-subarray-to-maximize-array-value
  * 1330. 翻转子数组得到最大的数组值
  * 给你一个整数数组 nums 。
  * 「数组值」定义为所有满足 0 <= i < nums.length-1 的 |nums[i]-nums[i+1]| 的和。
  * 你可以选择给定数组的任意子数组，并将该子数组翻转。但你只能执行这个操作 一次 。
  * 请你找到可行的最大 数组值 。
+ * 2 <= nums.length <= 3*10^4
+ * -10^5 <= nums[i] <= 10^5
+ * 答案保证在 32 位整数范围内。
  */
 public class Solution {
 
