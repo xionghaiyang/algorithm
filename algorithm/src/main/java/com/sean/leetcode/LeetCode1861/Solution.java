@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode1861;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-06 08:51
  * @Description: https://leetcode.cn/problems/rotating-the-box
  * 1861. 旋转盒子
