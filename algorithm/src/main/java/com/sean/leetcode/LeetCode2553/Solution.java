@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-11 06:15
  * @Description: https://leetcode.cn/problems/separate-the-digits-in-an-array
  * 2553. 分割数组中数字的数位
