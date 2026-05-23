@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode796;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-03 20:19
  * @Description: https://leetcode.cn/problems/rotate-string
  * 796. 旋转字符串
