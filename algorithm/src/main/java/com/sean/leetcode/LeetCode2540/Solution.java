@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode2540;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-19 06:28
  * @Description: https://leetcode.cn/problems/minimum-common-value
  * 2540. 最小公共值
