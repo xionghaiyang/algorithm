@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode154;
 
 /**
- * @Autnor: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2026-05-17 05:54
  * @Description: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii
  * 154. 寻找旋转排序数组中的最小值 II
