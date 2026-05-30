@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode2126;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-12-29 15:40
  * @Description: https://leetcode.cn/problems/destroying-asteroids
  * 2126. 摧毁小行星
