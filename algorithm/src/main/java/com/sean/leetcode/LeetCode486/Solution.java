@@ -34,7 +34,7 @@ public class Solution {
                 Arrays.fill(memo[i][j], -1);
             }
         }
-        int res = process1(nums, memo, 0, nums.length - 1);
+        int res = process1(nums, memo, 0, n - 1);
         return res >= sum - res;
     }
 
