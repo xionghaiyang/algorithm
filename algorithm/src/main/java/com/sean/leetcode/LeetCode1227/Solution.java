@@ -1,4 +1,4 @@
-package com.sean.leetcode.LeetCode1927;
+package com.sean.leetcode.LeetCode1227;
 
 /**
  * @Author xionghaiyang
