@@ -1,9 +1,20 @@
-package com.sean.leetcode;
+package com.sean.leetcode.LeetCode111;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class LeetCode111 {
+/**
+ * @Author: xionghaiyang
+ * @Date: 2026-09-04 12:03
+ * @Description: https://leetcode.cn/problems/minimum-depth-of-binary-tree
+ * 111. 二叉树的最小深度
+ * 给定一个二叉树，找出其最小深度。
+ * 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+ * 说明：叶子节点是指没有子节点的节点。
+ * 树中节点数的范围在 [0, 10^5] 内
+ * -1000 <= Node.val <= 1000
+ */
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -24,21 +35,21 @@ public class LeetCode111 {
         }
     }
 
-    public static int minDepth(TreeNode root) {
+    public int minDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
         if (root.left == null && root.right == null) {
             return 1;
         }
-        int mindepth = Integer.MAX_VALUE;
+        int minDepth = Integer.MAX_VALUE;
         if (root.left != null) {
-            mindepth = Math.min(minDepth(root.left), mindepth);
+            minDepth = Math.min(minDepth(root.left), minDepth);
         }
         if (root.right != null) {
-            mindepth = Math.min(minDepth(root.right), mindepth);
+            minDepth = Math.min(minDepth(root.right), minDepth);
         }
-        return mindepth + 1;
+        return minDepth + 1;
     }
 
     public class Info {
@@ -73,4 +84,5 @@ public class LeetCode111 {
         }
         return 0;
     }
+
 }
