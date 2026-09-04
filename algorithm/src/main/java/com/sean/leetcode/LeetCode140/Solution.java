@@ -18,37 +18,28 @@ import java.util.*;
  */
 public class Solution {
 
+    private List<String> res = new ArrayList<>();
+    private List<String> temp = new ArrayList<>();
+
     public List<String> wordBreak(String s, List<String> wordDict) {
-        Map<Integer, List<List<String>>> map = new HashMap<>();
-        List<List<String>> wordBreaks = backstrack(s, s.length(), new HashSet<>(wordDict), 0, map);
-        List<String> list = new ArrayList<>();
-        for (List<String> wordBreak : wordBreaks) {
-            list.add(String.join(" ", wordBreak));
-        }
-        return list;
+        dfs(s, new HashSet<>(wordDict), 0);
+        return res;
     }
 
-    private List<List<String>> backstrack(String s, int length, Set<String> wordSet, int index, Map<Integer, List<List<String>>> map) {
-        if (!map.containsKey(index)) {
-            List<List<String>> wordBreaks = new ArrayList<>();
-            if (index == length) {
-                wordBreaks.add(new ArrayList<>());
-            }
-            for (int i = index + 1; i <= length; i++) {
-                String word = s.substring(index, i);
-                if (wordSet.contains(word)) {
-                    List<List<String>> nextWordBreaks = backstrack(s, length, wordSet, i, map);
-                    for (List<String> nextWordBreak : nextWordBreaks) {
-                        List<String> wordBreak = new ArrayList<>();
-                        wordBreak.add(word);
-                        wordBreak.addAll(nextWordBreak);
-                        wordBreaks.add(wordBreak);
-                    }
-                }
-            }
-            map.put(index, wordBreaks);
+    private void dfs(String s, Set<String> wordSet, int index) {
+        int n = s.length();
+        if (index == n) {
+            res.add(String.join(" ", temp));
+            return;
         }
-        return map.get(index);
+        for (int i = index + 1; i <= n; i++) {
+            String word = s.substring(index, i);
+            if (wordSet.contains(word)) {
+                temp.add(word);
+                dfs(s, wordSet, i);
+                temp.remove(temp.size() - 1);
+            }
+        }
     }
 
 }
