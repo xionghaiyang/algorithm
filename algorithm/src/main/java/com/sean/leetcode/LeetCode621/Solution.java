@@ -1,8 +1,5 @@
 package com.sean.leetcode.LeetCode621;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @Author: xionghaiyang
  * @Date: 2026-09-08 13:01
@@ -19,23 +16,24 @@ import java.util.Map;
 public class Solution {
 
     public int leastInterval(char[] tasks, int n) {
-        Map<Character, Integer> map = new HashMap<>();
-        //最多的执行次数
-        int maxExec = 0;
-        for (char task : tasks) {
-            int exec = map.getOrDefault(task, 0) + 1;
-            map.put(task, exec);
-            maxExec = Math.max(maxExec, exec);
+        int m = tasks.length;
+        int[] counts = new int[26];
+        for (int i = 0; i < m; i++) {
+            counts[tasks[i] - 'A']++;
         }
-        //具有最多执行任务次数的任务数量
-        int maxCount = 0;
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            int value = entry.getValue();
-            if (value == maxExec) {
-                maxCount++;
+        int maxF = 0;
+        for (int count : counts) {
+            if (count > maxF) {
+                maxF = count;
             }
         }
-        return Math.max((maxExec - 1) * (n + 1) + maxCount, tasks.length);
+        int num = 0;
+        for (int count : counts) {
+            if (count == maxF) {
+                num++;
+            }
+        }
+        return Math.max((maxF - 1) * (n + 1) + num, m);
     }
 
 }
