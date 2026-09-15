@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode70;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-14 19:38
  * @Description: https://leetcode.cn/problems/climbing-stairs
  * 70. 爬楼梯
