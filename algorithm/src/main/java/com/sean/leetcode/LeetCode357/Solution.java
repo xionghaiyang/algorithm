@@ -3,9 +3,10 @@ package com.sean.leetcode.LeetCode357;
 /**
  * @Auther: xionghaiyang
  * @Date: 2024-01-16 13:41
- * @Description: https://leetcode.cn/problems/count-numbers-with-unique-digits/
+ * @Description: https://leetcode.cn/problems/count-numbers-with-unique-digits
  * 357. 统计各位数字都不同的数字个数
  * 给你一个整数 n ，统计并返回各位数字都不同的数字 x 的个数，其中 0 <= x < 10^n 。
+ * 0 <= n <= 8
  */
 public class Solution {
 
