@@ -33,8 +33,7 @@ public class Solution {
         int res = nums[i] + process(nums, dp, i + 2);
         //不偷取
         res = Math.max(res, process(nums, dp, i + 1));
-        dp[i] = res;
-        return res;
+        return dp[i] = res;
     }
 
     public int rob1(int[] nums) {
