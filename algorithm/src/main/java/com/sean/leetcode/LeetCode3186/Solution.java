@@ -33,21 +33,21 @@ public class Solution {
         Arrays.sort(arr);
         long[] memo = new long[n];
         Arrays.fill(memo, -1);
-        return dfs(arr, map, memo, n - 1);
+        return dfs(map, arr, memo, n - 1);
     }
 
-    private long dfs(int[] arr, Map<Integer, Integer> map, long[] memo, int i) {
+    private long dfs(Map<Integer, Integer> map, int[] arr, long[] memo, int i) {
         if (i < 0) {
             return 0;
         }
         if (memo[i] != -1) {
             return memo[i];
         }
-        int num = arr[i], j = i;
-        while (j > 0 && arr[j - 1] >= num - 2) {
+        int x = arr[i], j = i;
+        while (j > 0 && arr[j - 1] >= x - 2) {
             j--;
         }
-        return memo[i] = Math.max(dfs(arr, map, memo, i - 1), dfs(arr, map, memo, j - 1) + (long) num * map.get(num));
+        return memo[i] = Math.max(dfs(map, arr, memo, i - 1), dfs(map, arr, memo, j - 1) + (long) x * map.get(x));
     }
 
 }
