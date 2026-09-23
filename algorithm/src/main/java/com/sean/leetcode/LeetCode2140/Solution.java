@@ -23,47 +23,28 @@ public class Solution {
 
     public long mostPoints(int[][] questions) {
         int n = questions.length;
-        return process(questions, 0);
+        long[] memo = new long[n];
+        Arrays.fill(memo, -1);
+        return process(questions, memo, 0);
     }
 
-    private long process(int[][] questions, int i) {
+    private long process(int[][] questions, long[] memo, int i) {
+        if (memo[i] != -1) {
+            return memo[i];
+        }
         int n = questions.length;
         long res1 = questions[i][0];
         if (i + questions[i][1] + 1 < n) {
-            res1 += process(questions, i + questions[i][1] + 1);
+            res1 += process(questions, memo, i + questions[i][1] + 1);
         }
         long res2 = 0;
         if (i + 1 < n) {
-            res2 = process(questions, i + 1);
+            res2 = process(questions, memo, i + 1);
         }
-        return Math.max(res1, res2);
+        return memo[i] = Math.max(res1, res2);
     }
 
     public long mostPoints1(int[][] questions) {
-        int n = questions.length;
-        long[] dp = new long[n];
-        Arrays.fill(dp, -1);
-        return process1(questions, 0, dp);
-    }
-
-    private long process1(int[][] questions, int i, long[] dp) {
-        if (dp[i] != -1) {
-            return dp[i];
-        }
-        int n = questions.length;
-        long res1 = questions[i][0];
-        if (i + questions[i][1] + 1 < n) {
-            res1 += process1(questions, i + questions[i][1] + 1, dp);
-        }
-        long res2 = 0;
-        if (i + 1 < n) {
-            res2 = process1(questions, i + 1, dp);
-        }
-        dp[i] = Math.max(res1, res2);
-        return dp[i];
-    }
-
-    public long mostPoints2(int[][] questions) {
         int n = questions.length;
         long[] dp = new long[n];
         for (int i = n - 1; i >= 0; i--) {
