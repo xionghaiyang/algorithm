@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode1096;
 import java.util.*;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-03-07 08:08
  * @Description: https://leetcode.cn/problems/brace-expansion-ii
  * 1096. 花括号展开 II
