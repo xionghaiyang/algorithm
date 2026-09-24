@@ -17,24 +17,15 @@ package com.sean.leetcode.LeetCode918;
 public class Solution {
 
     public int maxSubarraySumCircular(int[] nums) {
-        int n = nums.length;
-        int preMax = nums[0], maxRes = nums[0];
-        int preMin = nums[0], minRes = nums[0];
-        int sum = nums[0];
-        for (int i = 1; i < n; i++) {
-            //以nums[i]结尾的最大子数组和
-            preMax = Math.max(preMax + nums[i], nums[i]);
+        int preMax = 0, maxRes = Integer.MIN_VALUE, preMin = 0, minRes = 0, sum = 0;
+        for (int num : nums) {
+            preMax = Math.max(preMax, 0) + num;
             maxRes = Math.max(maxRes, preMax);
-            //以nums[i]结尾的最小子数组和
-            preMin = Math.min(preMin + nums[i], nums[i]);
+            preMin = Math.min(preMin, 0) + num;
             minRes = Math.min(minRes, preMin);
-            sum += nums[i];
+            sum += num;
         }
-        if (maxRes < 0) {
-            return maxRes;
-        } else {
-            return Math.max(maxRes, sum - minRes);
-        }
+        return maxRes < 0 ? maxRes : Math.max(maxRes, sum - minRes);
     }
 
 }
