@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode64;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-29 09:48
  * @Description: https://leetcode.cn/problems/minimum-path-sum
  * 64. 最小路径和
@@ -16,38 +16,31 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    private int[][] grid;
-    private int m;
-    private int n;
-
     public int minPathSum(int[][] grid) {
-        this.grid = grid;
-        m = grid.length;
-        n = grid[0].length;
-        int[][] dp = new int[m][n];
+        int m = grid.length, n = grid[0].length;
+        int[][] memo = new int[m][n];
         for (int i = 0; i < m; i++) {
-            Arrays.fill(dp[i], -1);
+            Arrays.fill(memo[i], -1);
         }
-        return process(0, 0, dp);
+        return process(grid, memo, 0, 0);
     }
 
-    private int process(int i, int j, int[][] dp) {
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+    private int process(int[][] grid, int[][] memo, int i, int j) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
+        int m = grid.length, n = grid[0].length;
         if (i == m - 1 && j == n - 1) {
-            dp[i][j] = grid[i][j];
-            return dp[i][j];
+            return memo[i][j] = grid[i][j];
         }
         int res = Integer.MAX_VALUE;
         if (i < m - 1) {
-            res = Math.min(res, process(i + 1, j, dp));
+            res = Math.min(res, process(grid, memo, i + 1, j) + grid[i][j]);
         }
         if (j < n - 1) {
-            res = Math.min(res, process(i, j + 1, dp));
+            res = Math.min(res, process(grid, memo, i, j + 1) + grid[i][j]);
         }
-        dp[i][j] = res + grid[i][j];
-        return dp[i][j];
+        return memo[i][j] = res;
     }
 
 }
