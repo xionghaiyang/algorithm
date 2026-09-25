@@ -16,14 +16,31 @@ public class Solution {
 
     public long maxSubarraySum(int[] nums, int k) {
         int n = nums.length;
+        long[] preSum = new long[n + 1];
+        for (int i = 0; i < n; i++) {
+            preSum[i + 1] = preSum[i] + nums[i];
+        }
+        long[] minS = new long[k];
+        Arrays.fill(minS, Long.MAX_VALUE / 2);
+        long res = Long.MIN_VALUE;
+        for (int j = 0; j <= n; j++) {
+            int i = j % k;
+            res = Math.max(res, preSum[j] - minS[i]);
+            minS[i] = Math.min(minS[i], preSum[j]);
+        }
+        return res;
+    }
+
+    public long maxSubarraySum1(int[] nums, int k) {
+        int n = nums.length;
         long[] minS = new long[k];
         Arrays.fill(minS, 0, k - 1, Long.MAX_VALUE / 2);
-        long res = Long.MIN_VALUE, sum = 0;
+        long res = Long.MIN_VALUE, s = 0;
         for (int j = 0; j < n; j++) {
-            sum += nums[j];
+            s += nums[j];
             int i = j % k;
-            res = Math.max(res, sum - minS[i]);
-            minS[i] = Math.min(minS[i], sum);
+            res = Math.max(res, s - minS[i]);
+            minS[i] = Math.min(minS[i], s);
         }
         return res;
     }
