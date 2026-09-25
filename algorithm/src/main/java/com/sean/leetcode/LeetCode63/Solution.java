@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode63;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-29 09:32
  * @Description: https://leetcode.cn/problems/unique-paths-ii
  * 63. 不同路径 II
@@ -23,29 +23,27 @@ import java.util.Arrays;
 public class Solution {
 
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
-        int[][] dp = new int[m][n];
+        int m = obstacleGrid.length, n = obstacleGrid[0].length;
+        int[][] memo = new int[m][n];
         for (int i = 0; i < m; i++) {
-            Arrays.fill(dp[i], -1);
+            Arrays.fill(memo[i], -1);
         }
-        return process(obstacleGrid, m - 1, n - 1, dp);
+        return process(obstacleGrid, memo, m - 1, n - 1);
     }
 
-    private int process(int[][] obstacleGrid, int i, int j, int[][] dp) {
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+    private int process(int[][] obstacleGrid, int[][] memo, int i, int j) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
         if (obstacleGrid[i][j] == 0) {
             if (i == 0 && j == 0) {
-                dp[i][j] = 1;
-                return dp[i][j];
+                return memo[i][j] = 1;
             }
-            dp[i][j] = (i - 1 >= 0 ? process(obstacleGrid, i - 1, j, dp) : 0) + (j - 1 >= 0 ? process(obstacleGrid, i, j - 1, dp) : 0);
+            memo[i][j] = (i - 1 >= 0 ? process(obstacleGrid, memo, i - 1, j) : 0) + (j - 1 >= 0 ? process(obstacleGrid, memo, i, j - 1) : 0);
         } else {
-            dp[i][j] = 0;
+            memo[i][j] = 0;
         }
-        return dp[i][j];
+        return memo[i][j];
     }
 
 }
