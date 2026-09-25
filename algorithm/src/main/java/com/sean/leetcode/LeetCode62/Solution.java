@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode62;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-28 17:36
  * @Description: https://leetcode.cn/problems/unique-paths
  * 62. 不同路径
@@ -17,30 +17,21 @@ import java.util.Arrays;
 public class Solution {
 
     public int uniquePaths(int m, int n) {
-        //dp[i][j],从(i,j)走到(m-1,n-1)有多少条路径
-        int[][] dp = new int[m][n];
+        int[][] memo = new int[m][n];
         for (int i = 0; i < m; i++) {
-            Arrays.fill(dp[i], -1);
+            Arrays.fill(memo[i], -1);
         }
-        return process(m, n, 0, 0, dp);
+        return process(m, n, memo, 0, 0);
     }
 
-    private int process(int m, int n, int i, int j, int[][] dp) {
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+    private int process(int m, int n, int[][] memo, int i, int j) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
-        if (i == m - 1) {
-            dp[i][j] = 1;
-            return dp[i][j];
+        if (i == m - 1 || j == n - 1) {
+            return memo[i][j] = 1;
         }
-        if (j == n - 1) {
-            dp[i][j] = 1;
-            return dp[i][j];
-        }
-        int res = process(m, n, i + 1, j, dp) + process(m, n, i, j + 1, dp);
-        dp[i][j] = res;
-        return dp[i][j];
+        return memo[i][j] = process(m, n, memo, i + 1, j) + process(m, n, memo, i, j + 1);
     }
-
 
 }
