@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode120;
 import java.util.List;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-28 17:03
  * @Description: https://leetcode.cn/problems/triangle
  * 120. 三角形最小路径和
