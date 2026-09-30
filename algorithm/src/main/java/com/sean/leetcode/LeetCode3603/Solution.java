@@ -31,20 +31,19 @@ public class Solution {
         this.m = m;
         this.n = n;
         this.waitCost = waitCost;
-        long[][] dp = new long[m][n];
+        long[][] memo = new long[m][n];
         for (int i = 0; i < m; i++) {
-            Arrays.fill(dp[i], Long.MAX_VALUE);
+            Arrays.fill(memo[i], Long.MAX_VALUE);
         }
-        return process(m - 1, n - 1, dp);
+        return process(memo, m - 1, n - 1);
     }
 
-    private long process(int i, int j, long[][] dp) {
-        if (dp[i][j] != Long.MAX_VALUE) {
-            return dp[i][j];
+    private long process(long[][] memo, int i, int j) {
+        if (memo[i][j] != Long.MAX_VALUE) {
+            return memo[i][j];
         }
         if (i == 0 && j == 0) {
-            dp[i][j] = (i + 1) * (j + 1);
-            return dp[i][j];
+            return memo[i][j] = (i + 1) * (j + 1);
         }
         long res = (i + 1) * (j + 1);
         if (!(i == m - 1 && j == n - 1)) {
@@ -52,13 +51,12 @@ public class Solution {
         }
         long res1 = Long.MAX_VALUE;
         if (i > 0) {
-            res1 = Math.min(res1, process(i - 1, j, dp));
+            res1 = Math.min(res1, process(memo, i - 1, j));
         }
         if (j > 0) {
-            res1 = Math.min(res1, process(i, j - 1, dp));
+            res1 = Math.min(res1, process(memo, i, j - 1));
         }
-        dp[i][j] = res + res1;
-        return dp[i][j];
+        return memo[i][j] = res + res1;
     }
 
 }
