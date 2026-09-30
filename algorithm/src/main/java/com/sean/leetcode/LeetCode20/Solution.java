@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode20;
 import java.util.*;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-12-23 17:59
  * @Description: https://leetcode.cn/problems/valid-parentheses
  * 20. 有效的括号
