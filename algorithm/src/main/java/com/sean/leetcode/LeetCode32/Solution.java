@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode32;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-09-27 20:02
  * @Description: https://leetcode.cn/problems/longest-valid-parentheses
  * 32. 最长有效括号
@@ -17,7 +17,7 @@ public class Solution {
             return 0;
         }
         int res = 0;
-        //以i结尾的最长有效括号子串的长度
+        //dp[i]:以s[i]结尾德最长有效括号子串的长度
         int[] dp = new int[n];
         for (int i = 1; i < n; i++) {
             if (s.charAt(i) == ')') {
