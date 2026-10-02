@@ -33,21 +33,22 @@ public class Solution {
         }
         int res = Integer.MAX_VALUE;
         for (int j = 0; j < n; j++) {
-            res = Math.min(res, dfs(grid, moveCost, memo, 0, j));
+            res = Math.min(res, process(grid, moveCost, memo, 0, j));
         }
         return res;
     }
 
-    private int dfs(int[][] grid, int[][] moveCost, int[][] memo, int i, int j) {
+    private int process(int[][] grid, int[][] moveCost, int[][] memo, int i, int j) {
         if (memo[i][j] != -1) {
             return memo[i][j];
         }
-        if (i == grid.length - 1) {
+        int m = grid.length, n = grid[0].length;
+        if (i == m - 1) {
             return memo[i][j] = grid[i][j];
         }
         int res = Integer.MAX_VALUE;
-        for (int k = 0; k < grid[0].length; k++) {
-            res = Math.min(res, dfs(grid, moveCost, memo, i + 1, k) + moveCost[grid[i][j]][k]);
+        for (int k = 0; k < n; k++) {
+            res = Math.min(res, process(grid, moveCost, memo, i + 1, k) + moveCost[grid[i][j]][k]);
         }
         return memo[i][j] = res + grid[i][j];
     }
