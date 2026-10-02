@@ -23,12 +23,8 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    private int m;
-    private int n;
-
     public int maximumAmount(int[][] coins) {
-        m = coins.length;
-        n = coins[0].length;
+        int m = coins.length, n = coins[0].length;
         int[][][] memo = new int[m][n][3];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -42,6 +38,7 @@ public class Solution {
         if (memo[i][j][k] != Integer.MIN_VALUE) {
             return memo[i][j][k];
         }
+        int m = coins.length, n = coins[0].length;
         if (i == m - 1 && j == n - 1) {
             return memo[i][j][k] = coins[i][j] < 0 && k > 0 ? 0 : coins[i][j];
         }
