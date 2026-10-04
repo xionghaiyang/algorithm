@@ -19,17 +19,16 @@ public class Solution {
 
     public int minRotations(String s) {
         int res = 0;
-        int pre = 0;
+        char pre = '0';
         for (char c : s.toCharArray()) {
-            int cur = c - '0';
-            res += getCost(pre, cur);
-            pre = cur;
+            res += getCost(pre, c);
+            pre = c;
         }
         return res;
     }
 
-    private int getCost(int i, int j) {
-        int diff = Math.abs(i - j);
+    private int getCost(char x, char y) {
+        int diff = Math.abs(x - y);
         return Math.min(diff, 10 - diff);
     }
 
