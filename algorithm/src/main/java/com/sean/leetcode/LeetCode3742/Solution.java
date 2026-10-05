@@ -31,22 +31,30 @@ public class Solution {
                 Arrays.fill(memo[i][j], -1);
             }
         }
-        int res = process(grid, memo, m - 1, n - 1, k);
+        int res = process(grid, memo, 0, 0, k);
         return res < 0 ? -1 : res;
     }
 
     private int process(int[][] grid, int[][][] memo, int i, int j, int k) {
-        if (i < 0 || j < 0 || k < 0) {
-            return Integer.MIN_VALUE;
-        }
-        if (i == 0 && j == 0) {
-            return 0;
-        }
         if (memo[i][j][k] != -1) {
             return memo[i][j][k];
         }
+        int m = grid.length, n = grid[0].length;
         int rest = grid[i][j] != 0 ? k - 1 : k;
-        return memo[i][j][k] = Math.max(process(grid, memo, i - 1, j, rest), process(grid, memo, i, j - 1, rest)) + grid[i][j];
+        if (rest < 0) {
+            return memo[i][j][k] = Integer.MIN_VALUE;
+        }
+        if (i == m - 1 && j == n - 1) {
+            return memo[i][j][k] = grid[i][j];
+        }
+        int res = Integer.MIN_VALUE;
+        if (i + 1 < m) {
+            res = Math.max(res, process(grid, memo, i + 1, j, rest) + grid[i][j]);
+        }
+        if (j + 1 < n) {
+            res = Math.max(res, process(grid, memo, i, j + 1, rest) + grid[i][j]);
+        }
+        return memo[i][j][k] = res;
     }
 
 }
