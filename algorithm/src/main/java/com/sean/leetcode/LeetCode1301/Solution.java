@@ -24,7 +24,7 @@ public class Solution {
         int m = board.size(), n = board.get(0).length();
         int[][] maxSum = new int[m + 1][n + 1];
         int[][] ways = new int[m + 1][n + 1];
-        for (int i = 0; i < m + 1; i++) {
+        for (int i = 0; i <= m; i++) {
             Arrays.fill(maxSum[i], Integer.MIN_VALUE);
         }
         maxSum[0][0] = 0;
@@ -35,11 +35,9 @@ public class Solution {
                 if (c == 'X') {
                     continue;
                 }
-                //左上、正上、正左
                 maxSum[i + 1][j + 1] = Math.max(Math.max(maxSum[i][j], maxSum[i][j + 1]), maxSum[i + 1][j]);
                 int s = maxSum[i + 1][j + 1];
                 long w = 0;
-                //如果路径和相同，则累加方案数（加法原理）
                 if (maxSum[i][j] == s) {
                     w += ways[i][j];
                 }
