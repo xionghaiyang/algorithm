@@ -28,26 +28,26 @@ public class Solution {
         m = grid.length;
         n = grid[0].length;
         this.k = k;
-        long[][][] dp = new long[m][n][k];
+        long[][][] memo = new long[m][n][k];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                Arrays.fill(dp[i][j], -1);
+                Arrays.fill(memo[i][j], -1);
             }
         }
-        return (int) (process(grid, dp, 0, 0, 0) % MOD);
+        return (int) (process(grid, memo, 0, 0, 0) % MOD);
     }
 
-    private long process(int[][] grid, long[][][] dp, int x, int y, int z) {
+    private long process(int[][] grid, long[][][] memo, int x, int y, int z) {
         if (x >= m || y >= n) {
             return 0;
         }
-        if (dp[x][y][z] != -1) {
-            return dp[x][y][z];
+        if (memo[x][y][z] != -1) {
+            return memo[x][y][z];
         }
         if (x == m - 1 && y == n - 1) {
-            return dp[x][y][z] = (z + grid[x][y]) % k == 0 ? 1 : 0;
+            return memo[x][y][z] = (z + grid[x][y]) % k == 0 ? 1 : 0;
         }
-        return dp[x][y][z] = (process(grid, dp, x + 1, y, (z + grid[x][y]) % k) + process(grid, dp, x, y + 1, (z + grid[x][y]) % k)) % MOD;
+        return memo[x][y][z] = (process(grid, memo, x + 1, y, (z + grid[x][y]) % k) + process(grid, memo, x, y + 1, (z + grid[x][y]) % k)) % MOD;
     }
 
 }
