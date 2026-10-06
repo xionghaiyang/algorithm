@@ -21,27 +21,25 @@ public class Solution {
 
     public List<String> removeInvalidParentheses(String s) {
         int n = s.length();
-        //应该删除left个左括号和right个右括号
         int left = 0, right = 0;
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
+        for (char c : s.toCharArray()) {
             if (c == '(') {
                 left++;
             } else if (c == ')') {
-                if (left == 0) {
-                    right++;
-                } else {
+                if (left > 0) {
                     left--;
+                } else {
+                    right++;
                 }
             }
         }
-        process(s, 0, left, right);
+        process(s, left, right, 0);
         return res;
     }
 
-    private void process(String s, int start, int left, int right) {
+    private void process(String s, int left, int right, int start) {
         if (left == 0 && right == 0) {
-            if (isValid(s)) {
+            if (check(s)) {
                 res.add(s);
             }
             return;
@@ -55,27 +53,27 @@ public class Solution {
                 return;
             }
             if (left > 0 && s.charAt(i) == '(') {
-                process(s.substring(0, i) + s.substring(i + 1), i, left - 1, right);
+                process(s.substring(0, i) + s.substring(i + 1), left - 1, right, i);
             }
             if (right > 0 && s.charAt(i) == ')') {
-                process(s.substring(0, i) + s.substring(i + 1), i, left, right - 1);
+                process(s.substring(0, i) + s.substring(i + 1), left, right - 1, i);
             }
         }
     }
 
-    private boolean isValid(String s) {
-        int cnt = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                cnt++;
-            } else if (s.charAt(i) == ')') {
-                cnt--;
-                if (cnt < 0) {
+    private boolean check(String s) {
+        int left = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                left++;
+            } else if (c == ')') {
+                left--;
+                if (left < 0) {
                     return false;
                 }
             }
         }
-        return cnt == 0;
+        return left == 0;
     }
 
 }
