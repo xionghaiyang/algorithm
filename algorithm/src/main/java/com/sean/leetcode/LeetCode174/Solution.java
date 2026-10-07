@@ -29,27 +29,26 @@ public class Solution {
         for (int i = 0; i < m; i++) {
             Arrays.fill(memo[i], -1);
         }
-        return 1 + dfs(dungeon, memo, 0, 0);
+        return 1 + process(dungeon, memo, 0, 0);
     }
 
-    private int dfs(int[][] dungeon, int[][] memo, int x, int y) {
-        if (x >= dungeon.length || y >= dungeon[0].length) {
-            return Integer.MAX_VALUE;
+    private int process(int[][] dungeon, int[][] memo, int i, int j) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
-        if (memo[x][y] != -1) {
-            return memo[x][y];
+        int m = dungeon.length, n = dungeon[0].length;
+        if (i == m - 1 && j == n - 1) {
+            return memo[i][j] = dungeon[i][j] > 0 ? 0 : -dungeon[i][j];
         }
-        if (x == dungeon.length - 1 && y == dungeon[0].length - 1) {
-            if (dungeon[x][y] > 0) {
-                return memo[x][y] = 0;
-            } else {
-                return memo[x][y] = -dungeon[x][y];
-            }
+        int res = Integer.MAX_VALUE;
+        if (i + 1 < m) {
+            res = Math.min(res, process(dungeon, memo, i + 1, j));
         }
-        int right = dfs(dungeon, memo, x + 1, y);
-        int down = dfs(dungeon, memo, x, y + 1);
-        int need = Math.min(right, down) - dungeon[x][y];
-        return memo[x][y] = need < 0 ? 0 : need;
+        if (j + 1 < n) {
+            res = Math.min(res, process(dungeon, memo, i, j + 1));
+        }
+        res -= dungeon[i][j];
+        return memo[i][j] = res < 0 ? 0 : res;
     }
 
 }
