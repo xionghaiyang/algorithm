@@ -34,10 +34,10 @@ public class Solution {
         for (int i = 0; i < n; i++) {
             res += fruits[i][i];
         }
-        //从(0,n-1)出发的小朋友(倒着走)
+        //从(0,n-1)出发的小朋友（倒着走）
         //从下往上走
-        res += dfs(n - 2, n - 1, fruits, memo);
-        //从(n-1,0)出发的小朋友(按主对角线反转，然后倒走着)
+        res += dfs(fruits, memo, n - 2, n - 1);
+        //从(n-1,0)出发的小朋友（按主对角线反转，然后倒走着）
         //把下三角形中的数据填到上三角形中
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < i; j++) {
@@ -47,11 +47,11 @@ public class Solution {
         for (int i = 0; i < n; i++) {
             Arrays.fill(memo[i], -1);
         }
-        res += dfs(n - 2, n - 1, fruits, memo);
+        res += dfs(fruits, memo, n - 2, n - 1);
         return res;
     }
 
-    private int dfs(int i, int j, int[][] fruits, int[][] memo) {
+    private int dfs(int[][] fruits, int[][] memo, int i, int j) {
         int n = fruits.length;
         if (j < n - 1 - i || j >= n) {
             return Integer.MIN_VALUE;
@@ -62,8 +62,7 @@ public class Solution {
         if (memo[i][j] != -1) {
             return memo[i][j];
         }
-        int res = Math.max(Math.max(dfs(i - 1, j - 1, fruits, memo), dfs(i - 1, j, fruits, memo)), dfs(i - 1, j + 1, fruits, memo)) + fruits[i][j];
-        return memo[i][j] = res;
+        return memo[i][j] = Math.max(Math.max(dfs(fruits, memo, i - 1, j - 1), dfs(fruits, memo, i - 1, j)), dfs(fruits, memo, i - 1, j + 1)) + fruits[i][j];
     }
 
 }
