@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * @Author xionghaiyang
  * @Date 2024-05-07 06:56
- * @Description https://leetcode.cn/problems/cherry-pickup-ii/
+ * @Description https://leetcode.cn/problems/cherry-pickup-ii
  * 1463. 摘樱桃 II
  * 给你一个 rows x cols 的矩阵 grid 来表示一块樱桃地。
  * grid 中每个格子的数字表示你能获得的樱桃数目。
@@ -16,44 +16,40 @@ import java.util.Arrays;
  * 当两个机器人同时到达同一个格子时，它们中只有一个可以摘到樱桃。
  * 两个机器人在任意时刻都不能移动到 grid 外面。
  * 两个机器人最后都要到达 grid 最底下一行。
+ * rows == grid.length
+ * cols == grid[i].length
+ * 2 <= rows, cols <= 70
+ * 0 <= grid[i][j] <= 100
  */
 public class Solution {
 
     public int cherryPickup(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        int[][] f = new int[n][n];
-        int[][] g = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(f[i], -1);
-            Arrays.fill(g[i], -1);
-        }
-        f[0][n - 1] = grid[0][0] + grid[0][n - 1];
-        for (int i = 1; i < m; i++) {
+        int m = grid.length, n = grid[0].length;
+        int[][][] memo = new int[m][n][n];
+        for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                for (int k = 0; k < n; k++) {
-                    int best = -1;
-                    for (int dj = j - 1; dj <= j + 1; dj++) {
-                        for (int dk = k - 1; dk <= k + 1; dk++) {
-                            if (dj >= 0 && dj < n && dk >= 0 && dk < n && f[dj][dk] != -1) {
-                                best = Math.max(best, f[dj][dk] + (j == k ? grid[i][j] : grid[i][j] + grid[i][k]));
-                            }
-                        }
-                    }
-                    g[j][k] = best;
-                }
+                Arrays.fill(memo[i][j], -1);
             }
-            int[][] temp = f;
-            f = g;
-            g = temp;
+        }
+        return process(grid, memo, 0, 0, n - 1);
+    }
+
+    private int process(int[][] grid, int[][][] memo, int i, int j, int k) {
+        int m = grid.length, n = grid[0].length;
+        if (i == m || j < 0 || j >= n || k < 0 || k >= n) {
+            return 0;
+        }
+        if (memo[i][j][k] != -1) {
+            return memo[i][j][k];
         }
         int res = 0;
-        for (int j = 0; j < n; j++) {
-            for (int k = 0; k < n; k++) {
-                res = Math.max(res, f[j][k]);
+        for (int j0 = j - 1; j0 <= j + 1; j0++) {
+            for (int k0 = k - 1; k0 <= k + 1; k0++) {
+                res = Math.max(res, process(grid, memo, i + 1, j0, k0));
             }
         }
-        return res;
+        res += grid[i][j] + (k != j ? grid[i][k] : 0);
+        return memo[i][j][k] = res;
     }
 
 }
