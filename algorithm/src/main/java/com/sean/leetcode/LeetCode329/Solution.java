@@ -1,6 +1,5 @@
 package com.sean.leetcode.LeetCode329;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -19,52 +18,43 @@ import java.util.Queue;
  */
 public class Solution {
 
+    private static final int[][] dirs = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
     public int longestIncreasingPath(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
         int[][] memo = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            Arrays.fill(memo[i], -1);
-        }
         int res = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                res = Math.max(res, process(matrix, i, j, memo));
+                res = Math.max(res, process(matrix, memo, i, j));
             }
         }
         return res;
     }
 
-    private int process(int[][] matrix, int i, int j, int[][] memo) {
-        if (memo[i][j] != -1) {
-            return memo[i][j];
+    private int process(int[][] matrix, int[][] memo, int x, int y) {
+        if (memo[x][y] != 0) {
+            return memo[x][y];
         }
         int m = matrix.length, n = matrix[0].length;
         int res = 1;
-        if (i - 1 >= 0 && matrix[i - 1][j] > matrix[i][j]) {
-            res = Math.max(res, 1 + process(matrix, i - 1, j, memo));
+        for (int[] dir : dirs) {
+            int nx = x + dir[0], ny = y + dir[1];
+            if (0 <= nx && nx < m && 0 <= ny && ny < n && matrix[nx][ny] > matrix[x][y]) {
+                res = Math.max(res, process(matrix, memo, nx, ny) + 1);
+            }
         }
-        if (i + 1 < m && matrix[i + 1][j] > matrix[i][j]) {
-            res = Math.max(res, 1 + process(matrix, i + 1, j, memo));
-        }
-        if (j - 1 >= 0 && matrix[i][j - 1] > matrix[i][j]) {
-            res = Math.max(res, 1 + process(matrix, i, j - 1, memo));
-        }
-        if (j + 1 < n && matrix[i][j + 1] > matrix[i][j]) {
-            res = Math.max(res, 1 + process(matrix, i, j + 1, memo));
-        }
-        memo[i][j] = res;
-        return res;
+        return memo[x][y] = res;
     }
 
     public int longestIncreasingPath1(int[][] matrix) {
-        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         int m = matrix.length, n = matrix[0].length;
         int[][] outDegrees = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 for (int[] dir : dirs) {
                     int x = i + dir[0], y = j + dir[1];
-                    if (x >= 0 && x < m && y >= 0 && y < n && matrix[x][y] > matrix[i][j]) {
+                    if (0 <= x && x < m && 0 <= y && y < n && matrix[x][y] > matrix[i][j]) {
                         outDegrees[i][j]++;
                     }
                 }
@@ -87,7 +77,7 @@ public class Solution {
                 int x = cell[0], y = cell[1];
                 for (int[] dir : dirs) {
                     int nx = x + dir[0], ny = y + dir[1];
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && matrix[nx][ny] < matrix[x][y]) {
+                    if (0 <= nx && nx < m && 0 <= ny && ny < n && matrix[nx][ny] < matrix[x][y]) {
                         if (--outDegrees[nx][ny] == 0) {
                             queue.offer(new int[]{nx, ny});
                         }
