@@ -22,7 +22,7 @@ package com.sean.leetcode.LeetCode3459;
  */
 public class Solution {
 
-    private int[][] dirs = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
+    private static final int[][] DIRS = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
 
     public int lenOfVDiagonal(int[][] grid) {
         int m = grid.length, n = grid[0].length;
@@ -33,11 +33,10 @@ public class Solution {
                 if (grid[i][j] != 1) {
                     continue;
                 }
-                //理论最大值
                 int[] maxs = {m - i, j + 1, i + 1, n - j};
                 for (int k = 0; k < 4; k++) {
                     if (maxs[k] > res) {
-                        res = Math.max(res, dfs(i, j, k, true, 2, grid, memo) + 1);
+                        res = Math.max(res, process(grid, memo, i, j, k, true, 2) + 1);
                     }
                 }
             }
@@ -45,30 +44,24 @@ public class Solution {
         return res;
     }
 
-    //上一步在(i,j)
-    //移动方向为dirs[k]
-    //是否可以右转canTurn
-    //当前位置目标值target
-    private int dfs(int i, int j, int k, boolean canTurn, int target, int[][] grid, int[][][] memo) {
-        i += dirs[k][0];
-        j += dirs[k][1];
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length || grid[i][j] != target) {
+    private int process(int[][] grid, int[][][] memo, int i, int j, int k, boolean canTurn, int target) {
+        i += DIRS[k][0];
+        j += DIRS[k][1];
+        int m = grid.length, n = grid[0].length;
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != target) {
             return 0;
         }
         if (!canTurn && memo[i][j][k] > 0) {
             return memo[i][j][k];
         }
-        //直行
-        int res = dfs(i, j, k, canTurn, 2 - target, grid, memo) + 1;
+        int res = process(grid, memo, i, j, k, canTurn, 2 - target) + 1;
         if (!canTurn) {
             return memo[i][j][k] = res;
         }
-        //理论最大值
-        int[] maxs = {grid.length - i, j + 1, i + 1, grid[i].length - j};
+        int[] maxs = {m - i, j + 1, i + 1, n - j};
         k = (k + 1) % 4;
         if (Math.min(maxs[k], maxs[(k + 3) % 4]) > res) {
-            //右转
-            res = Math.max(res, dfs(i, j, k, false, 2 - target, grid, memo) + 1);
+            res = Math.max(res, process(grid, memo, i, j, k, false, 2 - target) + 1);
         }
         return res;
     }
