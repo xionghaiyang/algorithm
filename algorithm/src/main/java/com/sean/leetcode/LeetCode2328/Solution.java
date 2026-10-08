@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class Solution {
 
     private static final int MOD = 1_000_000_007;
-    private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private static final int[][] DIRS = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
 
     public int countPaths(int[][] grid) {
         int m = grid.length, n = grid[0].length;
@@ -31,21 +31,22 @@ public class Solution {
         long res = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                res += dfs(grid, memo, i, j);
+                res += process(grid, memo, i, j);
             }
         }
         return (int) (res % MOD);
     }
 
-    private int dfs(int[][] grid, int[][] memo, int i, int j) {
+    private int process(int[][] grid, int[][] memo, int i, int j) {
         if (memo[i][j] != -1) {
             return memo[i][j];
         }
+        int m = grid.length, n = grid[0].length;
         long res = 1;
         for (int[] dir : DIRS) {
             int x = i + dir[0], y = j + dir[1];
-            if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] > grid[i][j]) {
-                res += dfs(grid, memo, x, y);
+            if (0 <= x && x < m && 0 <= y && y < n && grid[x][y] > grid[i][j]) {
+                res += process(grid, memo, x, y);
             }
         }
         return memo[i][j] = (int) (res % MOD);
