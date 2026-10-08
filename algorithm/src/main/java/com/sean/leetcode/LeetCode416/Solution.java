@@ -1,7 +1,5 @@
 package com.sean.leetcode.LeetCode416;
 
-import java.util.Arrays;
-
 /**
  * @Author xionghaiyang
  * @Date 2025-04-07 08:55
@@ -15,34 +13,27 @@ import java.util.Arrays;
 public class Solution {
 
     public boolean canPartition(int[] nums) {
-        int sum = Arrays.stream(nums).sum();
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
         if ((sum & 1) == 1) {
             return false;
         }
         int n = nums.length;
-        //只需要构建一个子集，另一个子集自动构建
-        //dp[i][sum]，以i的开头的数组，是否可以构建和为sum的子集
-        int[][] dp = new int[n + 1][(sum >> 1) + 1];
-        for (int i = 0; i <= n; i++) {
-            Arrays.fill(dp[i], -1);
-        }
-        return process(nums, 0, sum >> 1, dp) == 1;
+        int[][] memo = new int[n + 1][(sum >> 1) + 1];
+        return process(nums, memo, 0, sum >> 1) == 1;
     }
 
-    private int process(int[] nums, int i, int sum, int[][] dp) {
-        if (dp[i][sum] != -1) {
-            return dp[i][sum];
+    private int process(int[] nums, int[][] memo, int i, int sum) {
+        if (memo[i][sum] != 0) {
+            return memo[i][sum];
         }
-        if (i == nums.length) {
-            dp[i][sum] = sum == 0 ? 1 : 0;
-            return dp[i][sum];
+        int n = nums.length;
+        if (i == n) {
+            return memo[i][sum] = sum == 0 ? 1 : -1;
         }
-        if (sum == 0) {
-            dp[i][sum] = 1;
-            return dp[i][sum];
-        }
-        dp[i][sum] = (process(nums, i + 1, sum, dp) == 1 || (nums[i] <= sum && process(nums, i + 1, sum - nums[i], dp) == 1)) ? 1 : 0;
-        return dp[i][sum];
+        return memo[i][sum] = (process(nums, memo, i + 1, sum) == 1 || (nums[i] <= sum && process(nums, memo, i + 1, sum - nums[i]) == 1)) ? 1 : -1;
     }
 
 }
