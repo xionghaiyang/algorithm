@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode2333;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-12-26 13:43
  * @Description: https://leetcode.cn/problems/minimum-sum-of-squared-difference
  * 2333. 最小差值平方和
@@ -22,28 +22,31 @@ import java.util.Arrays;
 public class Solution {
 
     public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
-        int n = nums1.length;
-        int k = k1 + k2;
+        int n = nums1.length, k = k1 + k2;
         long res = 0, sum = 0;
         for (int i = 0; i < n; i++) {
             nums1[i] = Math.abs(nums1[i] - nums2[i]);
             sum += nums1[i];
             res += (long) nums1[i] * nums1[i];
         }
+        //所有的nums[i]均可以为0
         if (sum <= k) {
-            //所有nums[i]均可以为0
             return 0;
         }
         Arrays.sort(nums1);
         for (int i = n - 1; ; i--) {
+            //nums[i...n-1]均已经变为v,共有m个
             int m = n - i;
-            long v = nums1[i], c = m * (v - (i > 0 ? nums1[i - 1] : 0));
+            long v = nums1[i];
+            //m个v都要变为nums[i-1]
+            long c = m * (v - (i > 0 ? nums1[i - 1] : 0));
+            //撤销
             res -= v * v;
             if (c < k) {
                 k -= c;
                 continue;
             }
-            v -= k / m;
+            v -= k / m;//共m-k%m个,其余k%m个可以多减1
             return res + k % m * (v - 1) * (v - 1) + (m - k % m) * v * v;
         }
     }
