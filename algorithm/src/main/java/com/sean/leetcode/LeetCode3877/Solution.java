@@ -26,26 +26,24 @@ public class Solution {
         if (target > maxXor) {
             return -1;
         }
-        int[] dp = new int[maxXor + 1];
-        Arrays.fill(dp, -1);
-        dp[0] = 0;
+        int[] f = new int[maxXor + 1];
+        Arrays.fill(f, -1);
+        f[0] = 0;
         for (int num : nums) {
-            int[] prevDp = dp.clone();
+            int[] nf = f.clone();
             for (int x = 0; x <= maxXor; x++) {
-                if (prevDp[x] == -1) {
+                if (f[x] == -1) {
                     continue;
                 }
                 int newXor = x ^ num;
-                int newLen = prevDp[x] + 1;
-                if (newLen > dp[newXor]) {
-                    dp[newXor] = newLen;
+                int newLen = f[x] + 1;
+                if (newLen > nf[newXor]) {
+                    nf[newXor] = newLen;
                 }
             }
+            f = nf;
         }
-        if (dp[target] == -1) {
-            return -1;
-        }
-        return nums.length - dp[target];
+        return f[target] < 0 ? -1 : nums.length - f[target];
     }
 
 }
