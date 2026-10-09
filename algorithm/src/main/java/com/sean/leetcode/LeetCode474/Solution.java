@@ -19,9 +19,11 @@ public class Solution {
 
     public int findMaxForm(String[] strs, int m, int n) {
         int k = strs.length;
-        int[] cnt0 = new int[k];
+        int[][] cnt = new int[k][2];
         for (int i = 0; i < k; i++) {
-            cnt0[i] = (int) strs[i].chars().filter(c -> c == '0').count();
+            for (char c : strs[i].toCharArray()) {
+                cnt[i][c - '0']++;
+            }
         }
         int[][][] memo = new int[k][m + 1][n + 1];
         for (int i = 0; i < k; i++) {
@@ -29,20 +31,19 @@ public class Solution {
                 Arrays.fill(memo[i][j], -1);
             }
         }
-        return dfs(strs, cnt0, memo, k - 1, m, n);
+        return process(cnt, memo, k - 1, m, n);
     }
 
-    private int dfs(String[] strs, int[] cnt0, int[][][] memo, int i, int j, int k) {
+    private int process(int[][] cnt, int[][][] memo, int i, int j, int k) {
         if (i < 0) {
             return 0;
         }
         if (memo[i][j][k] != -1) {
             return memo[i][j][k];
         }
-        int res = dfs(strs, cnt0, memo, i - 1, j, k);
-        int cnt1 = strs[i].length() - cnt0[i];
-        if (j >= cnt0[i] && k >= cnt1) {
-            res = Math.max(res, dfs(strs, cnt0, memo, i - 1, j - cnt0[i], k - cnt1) + 1);
+        int res = process(cnt, memo, i - 1, j, k);
+        if (j >= cnt[i][0] && k >= cnt[i][1]) {
+            res = Math.max(res, process(cnt, memo, i - 1, j - cnt[i][0], k - cnt[i][1]) + 1);
         }
         return memo[i][j][k] = res;
     }
