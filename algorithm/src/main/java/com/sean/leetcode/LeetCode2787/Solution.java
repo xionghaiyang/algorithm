@@ -26,7 +26,6 @@ public class Solution {
                 break;
             }
             for (int j = n; j >= val; j--) {
-                //dp[j] = (dp[j] + dp[j - val]) % MOD;
                 dp[j] += dp[j - val];
             }
         }
