@@ -3,11 +3,13 @@ package com.sean.leetcode.LeetCode1774;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-04 20:36
- * @Description: https://leetcode.cn/problems/closest-dessert-cost/
+ * @Description: https://leetcode.cn/problems/closest-dessert-cost
  * 1774. 最接近目标价格的甜点成本
- * 你打算做甜点，现在需要购买配料。目前共有 n 种冰激凌基料和 m 种配料可供选购。而制作甜点需要遵循以下几条规则：
+ * 你打算做甜点，现在需要购买配料。
+ * 目前共有 n 种冰激凌基料和 m 种配料可供选购。
+ * 而制作甜点需要遵循以下几条规则：
  * 必须选择 一种 冰激凌基料。
  * 可以添加 一种或多种 配料，也可以不添加任何配料。
  * 每种类型的配料 最多两份 。
@@ -18,35 +20,46 @@ import java.util.Arrays;
  * 你希望自己做的甜点总成本尽可能接近目标价格 target 。
  * 返回最接近 target 的甜点成本。
  * 如果有多种方案，返回 成本相对较低 的一种。
+ * n == baseCosts.length
+ * m == toppingCosts.length
+ * 1 <= n, m <= 10
+ * 1 <= baseCosts[i], toppingCosts[i] <= 10^4
+ * 1 <= target <= 10^4
  */
 public class Solution {
 
-    int res;
-
     public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
-        res = Arrays.stream(baseCosts).min().getAsInt();
-        for (int baseCost : baseCosts) {
-            dfs(toppingCosts, 0, baseCost, target);
+        int x = Arrays.stream(baseCosts).min().getAsInt();
+        if (x >= target) {
+            return x;
         }
-        return res;
-    }
-
-    public void dfs(int[] toppingCosts, int i, int curCost, int target) {
-        if (Math.abs(res - target) < curCost - target) {
-            return;
-        } else if (Math.abs(res - target) >= Math.abs(curCost - target)) {
-            if (Math.abs(res - target) > Math.abs(curCost - target)) {
-                res = curCost;
+        boolean[] can = new boolean[target + 1];
+        int res = 2 * target - x;
+        for (int cost : baseCosts) {
+            if (cost <= target) {
+                can[cost] = true;
             } else {
-                res = Math.min(res, curCost);
+                res = Math.min(res, cost);
             }
         }
-        if (i == toppingCosts.length) {
-            return;
+        for (int cost : toppingCosts) {
+            for (int k = 0; k < 2; k++) {
+                for (int i = target; i > 0; i--) {
+                    if (can[i] && i + cost > target) {
+                        res = Math.min(res, i + cost);
+                    }
+                    if (i - cost > 0) {
+                        can[i] |= can[i - cost];
+                    }
+                }
+            }
         }
-        dfs(toppingCosts, i + 1, curCost + toppingCosts[i] * 2, target);
-        dfs(toppingCosts, i + 1, curCost + toppingCosts[i], target);
-        dfs(toppingCosts, i + 1, curCost, target);
+        for (int i = 0; i <= res - target; i++) {
+            if (can[target - i]) {
+                return target - i;
+            }
+        }
+        return res;
     }
 
 }
