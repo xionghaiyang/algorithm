@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * @Author xionghaiyang
  * @Date 2024-06-28 15:40
- * @Description https://leetcode.cn/problems/painting-the-walls/
+ * @Description https://leetcode.cn/problems/painting-the-walls
  * 2742. 给墙壁刷油漆
  * 给你两个长度为 n 下标从 0 开始的整数数组 cost 和 time ，分别表示给 n 堵不同的墙刷油漆需要的开销和时间。
  * 你有两名油漆匠：
@@ -13,45 +13,48 @@ import java.util.Arrays;
  * 一位 免费 的油漆匠，刷 任意 一堵墙的时间为 1 单位，开销为 0 。
  * 但是必须在付费油漆匠 工作 时，免费油漆匠才会工作。
  * 请你返回刷完 n 堵墙最少开销为多少。
+ * 1 <= cost.length <= 500
+ * cost.length == time.length
+ * 1 <= cost[i] <= 10^6
+ * 1 <= time[i] <= 500
  */
 public class Solution {
 
     public int paintWalls(int[] cost, int[] time) {
         int n = cost.length;
-        int[] f = new int[n * 2 + 1];
-        Arrays.fill(f, Integer.MAX_VALUE / 2);
-        f[n] = 0;
+        //memo[i][j]:考虑前i个物品，剩余还需要凑出j个体积，此时的最小价值和
+        int[][] memo = new int[n][n + 1];
         for (int i = 0; i < n; i++) {
-            int[] g = new int[n * 2 + 1];
-            Arrays.fill(g, Integer.MAX_VALUE / 2);
-            for (int j = 0; j <= n * 2; j++) {
-                //付费
-                g[Math.min(j + time[i], n * 2)] = Math.min(g[Math.min(j + time[i], n * 2)], f[j] + cost[i]);
-                //免费
-                if (j > 0) {
-                    g[j - 1] = Math.min(g[j - 1], f[j]);
-                }
-            }
-            f = g;
+            Arrays.fill(memo[i], -1);
         }
-        int res = f[n];
-        for (int i = n + 1; i <= n * 2; i++) {
-            res = Math.min(res, f[i]);
+        return process(cost, time, memo, n - 1, n);
+    }
+
+    private int process(int[] cost, int[] time, int[][] memo, int i, int j) {
+        if (j <= 0) {
+            return 0;
         }
-        return res;
+        if (i < 0) {
+            return Integer.MAX_VALUE / 2;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        return memo[i][j] = Math.min(process(cost, time, memo, i - 1, j - time[i] - 1) + cost[i], process(cost, time, memo, i - 1, j));
     }
 
     public int paintWalls1(int[] cost, int[] time) {
         int n = cost.length;
-        int[] f = new int[n + 2];
+        int[] f = new int[n + 1];
         Arrays.fill(f, Integer.MAX_VALUE / 2);
         f[0] = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = n + 1; j >= 0; j--) {
-                f[Math.min(j + time[i], n) + 1] = Math.min(f[Math.min(j + time[i], n) + 1], f[j] + cost[i]);
+            int c = cost[i], t = time[i] + 1;
+            for (int j = n; j > 0; j--) {
+                f[j] = Math.min(f[j], f[Math.max(j - t, 0)] + c);
             }
         }
-        return Math.min(f[n], f[n + 1]);
+        return f[n];
     }
 
 }
