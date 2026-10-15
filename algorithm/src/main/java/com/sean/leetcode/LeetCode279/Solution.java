@@ -1,9 +1,7 @@
 package com.sean.leetcode.LeetCode279;
 
-import java.util.Arrays;
-
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-29 14:19
  * @Description: https://leetcode.cn/problems/perfect-squares
  * 279. 完全平方数
@@ -16,28 +14,14 @@ public class Solution {
 
     public int numSquares(int n) {
         int[] dp = new int[n + 1];
-        Arrays.fill(dp, -1);
-        int res = process(dp, n);
-        return res == Integer.MAX_VALUE ? -1 : res;
-    }
-
-    private int process(int[] dp, int i) {
-        if (dp[i] != -1) {
-            return dp[i];
+        for (int i = 1; i <= n; i++) {
+            int min = Integer.MAX_VALUE;
+            for (int j = 1; j * j <= i; j++) {
+                min = Math.min(min, dp[i - j * j]);
+            }
+            dp[i] = min + 1;
         }
-        if (i == 0) {
-            dp[i] = 0;
-            return dp[i];
-        }
-        int res = Integer.MAX_VALUE;
-        for (int j = 1; j * j <= i; j++) {
-            res = Math.min(res, process(dp, i - j * j));
-        }
-        if (res != Integer.MAX_VALUE) {
-            res++;
-        }
-        dp[i] = res;
-        return dp[i];
+        return dp[n];
     }
 
 }
