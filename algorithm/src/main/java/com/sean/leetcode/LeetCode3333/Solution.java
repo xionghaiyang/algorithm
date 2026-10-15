@@ -21,20 +21,21 @@ import java.util.List;
  */
 public class Solution {
 
+    private static final int MOD = 1_000_000_007;
+
     public int possibleStringCount(String word, int k) {
         int n = word.length();
         if (n < k) {
             return 0;
         }
-        List<Integer> cnts = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         long res = 1;
         for (int i = 0, cnt = 0; i < n; i++) {
             cnt++;
             if (i == n - 1 || word.charAt(i) != word.charAt(i + 1)) {
-                //如果cnt = 1,这组字符串必选，无需计算
                 if (cnt > 1) {
                     if (k > 0) {
-                        cnts.add(cnt - 1);
+                        list.add(cnt - 1);
                     }
                     res = res * cnt % MOD;
                 }
@@ -45,58 +46,17 @@ public class Solution {
         if (k <= 0) {
             return (int) res;
         }
-        int m = cnts.size();
-        int[][] dp = new int[m + 1][k];
-        Arrays.fill(dp[0], 1);
-        int[] s = new int[k + 1];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < k; j++) {
-                s[j + 1] = (s[j] + dp[i][j]) % MOD;
-            }
-            int c = cnts.get(i);
-            for (int j = 0; j < k; j++) {
-                dp[i + 1][j] = (s[j + 1] - s[Math.max(j - c, 0)]) % MOD;
-            }
-        }
-        return (int) ((res - dp[m][k - 1] + MOD) % MOD);
-    }
-
-    private static final int MOD = 1_000_000_007;
-
-    public int possibleStringCount1(String word, int k) {
-        int n = word.length();
-        if (n < k) {
-            return 0;
-        }
-        List<Integer> cnts = new ArrayList<>();
-        long res = 1;
-        for (int i = 0, cnt = 0; i < n; i++) {
-            cnt++;
-            if (i == n - 1 || word.charAt(i) != word.charAt(i + 1)) {
-                if (cnt > 1) {
-                    if (k > 0) {
-                        cnts.add(cnt - 1);
-                    }
-                    res = res * cnt % MOD;
-                }
-                k--;
-                cnt = 0;
-            }
-        }
-        if (k <= 0) {
-            return (int) res;
-        }
-        int[] dp = new int[k];
-        Arrays.fill(dp, 1);
-        for (int cnt : cnts) {
+        int[] f = new int[k];
+        Arrays.fill(f, 1);
+        for (int c : list) {
             for (int j = 1; j < k; j++) {
-                dp[j] = (dp[j] + dp[j - 1]) % MOD;
+                f[j] = (f[j] + f[j - 1]) % MOD;
             }
-            for (int j = k - 1; j > cnt; j--) {
-                dp[j] = (dp[j] - dp[j - cnt - 1]) % MOD;
+            for (int j = k - 1; j > c; j--) {
+                f[j] = (f[j] - f[j - c - 1]) % MOD;
             }
         }
-        return (int) ((res - dp[k - 1] + MOD) % MOD);
+        return (int) ((res - f[k - 1] + MOD) % MOD);
     }
 
 }
