@@ -21,22 +21,21 @@ public class Solution {
 
     public List<Integer> findCoins(int[] numWays) {
         int n = numWays.length;
-        int[] dp = new int[n + 1];
-        dp[0] = 1;
+        int[] f = new int[n + 1];
+        f[0] = 1;
         List<Integer> res = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
             int ways = numWays[i - 1];
             //和为i的方案均由小于i的元素组成
-            if (ways == dp[i]) {
+            if (ways == f[i]) {
                 continue;
             }
-            if (ways - 1 != dp[i]) {
+            if (ways - 1 != f[i]) {
                 return new ArrayList<>();
             }
             res.add(i);
-            //现在得到了一个大小为i的物品，用i计算完全背包
             for (int j = i; j <= n; j++) {
-                dp[j] += dp[j - i];
+                f[j] += f[j - i];
             }
         }
         return res;
