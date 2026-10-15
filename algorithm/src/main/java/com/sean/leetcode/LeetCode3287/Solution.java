@@ -1,14 +1,9 @@
 package com.sean.leetcode.LeetCode3287;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * @Author xionghaiyang
  * @Date 2025-01-18 19:53
- * @Description https://leetcode.cn/problems/find-the-maximum-sequence-value-of-array/
+ * @Description https://leetcode.cn/problems/find-the-maximum-sequence-value-of-array
  * 3287. 求出数组中最大序列值
  * 给你一个整数数组 nums 和一个 正 整数 k 。
  * 定义长度为 2 * x 的序列 seq 的 值 为：
@@ -20,45 +15,53 @@ import java.util.Set;
  */
 public class Solution {
 
+    private static final int MAX = 1 << 7;
+
     public int maxValue(int[] nums, int k) {
-        List<Set<Integer>> A = findORs(nums, k);
-        List<Set<Integer>> B = findORs(reverse(nums), k);
-        int max = 0;
         int n = nums.length;
-        for (int i = k - 1; i < n - k; i++) {
-            for (int a : A.get(i)) {
-                for (int b : B.get(n - i - 2)) {
-                    max = Math.max(max, a ^ b);
+        boolean[][] suf = new boolean[n - k + 1][];
+        boolean[][] f = new boolean[k + 1][MAX];
+        f[0][0] = true;
+        for (int i = n - 1; i >= k; i--) {
+            int v = nums[i];
+            for (int j = Math.min(k - 1, n - 1 - i); j >= 0; j--) {
+                for (int x = 0; x < MAX; x++) {
+                    if (f[j][x]) {
+                        f[j + 1][x | v] = true;
+                    }
                 }
             }
+            if (i <= n - k) {
+                suf[i] = f[k].clone();
+            }
         }
-        return max;
-    }
-
-    private List<Set<Integer>> findORs(int[] nums, int k) {
-        List<Set<Integer>> dp = new ArrayList<>();
-        List<Set<Integer>> prev = new ArrayList<>();
-        for (int i = 0; i <= k; i++) {
-            prev.add(new HashSet<>());
-        }
-        prev.get(0).add(0);
-        int n = nums.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = Math.min(k - 1, i + 1); j >= 0; j--) {
-                for (int x : prev.get(j)) {
-                    prev.get(j + 1).add(x | nums[i]);
+        int res = 0;
+        f = new boolean[k + 1][MAX];
+        f[0][0] = true;
+        for (int i = 0; i < n - k; i++) {
+            int v = nums[i];
+            for (int j = Math.min(k - 1, i); j >= 0; j--) {
+                for (int x = 0; x < MAX; x++) {
+                    if (f[j][x]) {
+                        f[j + 1][x | v] = true;
+                    }
                 }
             }
-            dp.add(new HashSet<>(prev.get(k)));
-        }
-        return dp;
-    }
-
-    private int[] reverse(int[] nums) {
-        int n = nums.length;
-        int[] res = new int[n];
-        for (int i = 0; i < n; i++) {
-            res[i] = nums[n - 1 - i];
+            if (i < k - 1) {
+                continue;
+            }
+            for (int x = 0; x < MAX; x++) {
+                if (f[k][x]) {
+                    for (int y = 0; y < MAX; y++) {
+                        if (suf[i + 1][y]) {
+                            res = Math.max(res, x ^ y);
+                        }
+                    }
+                }
+                if (res == MAX - 1) {
+                    return res;
+                }
+            }
         }
         return res;
     }
