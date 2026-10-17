@@ -1,9 +1,9 @@
 package com.sean.leetcode.LeetCode1569;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-12-29 14:10
- * @Description: https://leetcode.cn/problems/number-of-ways-to-reorder-array-to-get-same-bst/description/
+ * @Description: https://leetcode.cn/problems/number-of-ways-to-reorder-array-to-get-same-bst
  * 1569. 将子数组重新排序得到同一个二叉搜索树的方案数
  * 给你一个数组 nums 表示 1 到 n 的一个排列。
  * 我们按照元素在 nums 中的顺序依次插入一个初始为空的二叉搜索树（BST）。
@@ -12,78 +12,57 @@ package com.sean.leetcode.LeetCode1569;
  * 数组 [2,3,1] 也能得到相同的 BST，但 [3,2,1] 会得到一棵不同的 BST 。
  * 请你返回重排 nums 后，与原数组 nums 得到相同二叉搜索树的方案数。
  * 由于答案可能会很大，请将结果对 10^9 + 7 取余数。
+ * 1 <= nums.length <= 1000
+ * 1 <= nums[i] <= nums.length
+ * nums 中所有数 互不相同 。
  */
 public class Solution {
 
-    class TreeNode {
-        TreeNode left;
-        TreeNode right;
-        int value;
-        int size;
-        int res;
-
-        public TreeNode(int value) {
-            this.value = value;
-            size = 1;
-            res = 0;
-        }
-    }
-
-    int mod = 1000000007;
-    long[][] c;
+    private static final int MOD = 1_000_000_007;
 
     public int numOfWays(int[] nums) {
         int n = nums.length;
-        if (n == 1) {
-            return 0;
+        int[] prev = new int[n + 2];
+        int[] next = new int[n + 2];
+        int[] size = new int[n + 2];
+        for (int i = 0; i < n + 2; i++) {
+            prev[i] = i - 1;
+            next[i] = i + 1;
         }
-        c = new long[n][n];
-        c[0][0] = 1;
-        for (int i = 1; i < n; i++) {
-            c[i][0] = 1;
-            for (int j = 1; j < n; j++) {
-                c[i][j] = (c[i - 1][j - 1] + c[i - 1][j]) % mod;
+        long fac = 1, prod = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            fac = fac * (i + 1) % MOD;
+            int x = nums[i];
+            size[x] = 1;
+            int left = prev[x];
+            if (size[left] > 0) {
+                size[x] += size[left];
+                int pl = prev[left];
+                prev[x] = pl;
+                next[pl] = x;
             }
+            int right = next[x];
+            if (size[right] > 0) {
+                size[x] += size[right];
+                int nr = next[right];
+                prev[nr] = x;
+                next[x] = nr;
+            }
+            prod = prod * size[x] % MOD;
         }
-        TreeNode root = new TreeNode(nums[0]);
-        for (int i = 1; i < n; i++) {
-            insert(root, nums[i]);
-        }
-        dfs(root);
-        return (root.res - 1 + mod) % mod;
+        return (int) ((fac * pow(prod, MOD - 2) - 1 + MOD) % MOD);
     }
 
-    private void insert(TreeNode root, int value) {
-        TreeNode cur = root;
-        while (true) {
-            cur.size++;
-            if (value < cur.value) {
-                if (cur.left == null) {
-                    cur.left = new TreeNode(value);
-                    return;
-                }
-                cur = cur.left;
-            } else {
-                if (cur.right == null) {
-                    cur.right = new TreeNode(value);
-                    return;
-                }
-                cur = cur.right;
+    private long pow(long x, int n) {
+        long res = 1;
+        while (n > 0) {
+            if ((n & 1) != 0) {
+                res = res * x % MOD;
             }
+            x = x * x % MOD;
+            n >>= 1;
         }
-    }
-
-    private void dfs(TreeNode node) {
-        if (node == null) {
-            return;
-        }
-        dfs(node.left);
-        dfs(node.right);
-        int lsize = node.left != null ? node.left.size : 0;
-        int rsize = node.right != null ? node.right.size : 0;
-        int lres = node.left != null ? node.left.res : 1;
-        int rres = node.right != null ? node.right.res : 1;
-        node.res = (int) (c[lsize + rsize][lsize] % mod * lres % mod * rres % mod);
+        return res;
     }
 
 }
