@@ -1,12 +1,11 @@
 package com.sean.leetcode.LeetCode2218;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * @Author xionghaiyang
  * @Date 2025-01-21 14:22
- * @Description https://leetcode.cn/problems/maximum-value-of-k-coins-from-piles/
+ * @Description https://leetcode.cn/problems/maximum-value-of-k-coins-from-piles
  * 2218. 从栈中取出 K 个硬币的最大面值和
  * 一张桌子上总共有 n 个硬币 栈 。
  * 每个栈有 正整数 个带面值的硬币。
@@ -22,16 +21,18 @@ public class Solution {
 
     public int maxValueOfCoins(List<List<Integer>> piles, int k) {
         int[] f = new int[k + 1];
-        Arrays.fill(f, -1);
-        f[0] = 0;
+        int sumN = 0;
         for (List<Integer> pile : piles) {
-            for (int i = k; i > 0; i--) {
-                int value = 0;
-                for (int t = 1; t <= pile.size(); t++) {
-                    value += pile.get(t - 1);
-                    if (i >= t && f[i - t] != -1) {
-                        f[i] = Math.max(f[i], f[i - t] + value);
-                    }
+            int size = pile.size();
+            int[] preSum = new int[size];
+            preSum[0] = pile.get(0);
+            for (int i = 1; i < size; i++) {
+                preSum[i] = preSum[i - 1] + pile.get(i);
+            }
+            sumN = Math.min(sumN + size, k);
+            for (int j = sumN; j > 0; j--) {
+                for (int w = 0; w < Math.min(size, j); w++) {
+                    f[j] = Math.max(f[j], f[j - w - 1] + preSum[w]);
                 }
             }
         }
