@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode1143;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-29 13:03
  * @Description: https://leetcode.cn/problems/longest-common-subsequence
  * 1143. 最长公共子序列
@@ -16,10 +16,8 @@ package com.sean.leetcode.LeetCode1143;
 public class Solution {
 
     public int longestCommonSubsequence(String text1, String text2) {
-        char[] str1 = text1.toCharArray();
-        char[] str2 = text2.toCharArray();
-        int m = str1.length;
-        int n = str2.length;
+        char[] str1 = text1.toCharArray(), str2 = text2.toCharArray();
+        int m = str1.length, n = str2.length;
         //dp[i][j]:str1[0...i-1]和str2[0...j-1]的最长公共子序列长度
         int[][] dp = new int[m + 1][n + 1];
         for (int i = 1; i <= m; i++) {
