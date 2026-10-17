@@ -39,24 +39,25 @@ public class Solution {
         List<Integer>[] g = new ArrayList[n];
         Arrays.setAll(g, e -> new ArrayList<>());
         for (int[] e : hierarchy) {
-            g[e[0] - 1].add(e[1] - 1);
+            int u = e[0] - 1, v = e[1] - 1;
+            g[u].add(v);
         }
-        int[][] f0 = dfs(0, g, present, future, budget);
+        int[][] f0 = dfs(g, present, future, budget, 0);
         return f0[budget][0];
     }
 
-    //返回f[j][k]，表示从子树x中能得到的最大利润之和
+    //返回f[j][k],表示从子树x中能得到的最大利润之和
     //j为预算
     //k=0表示x不能半价购买,k=1表示x可以半价购买
-    private int[][] dfs(int x, List<Integer>[] g, int[] present, int[] future, int budget) {
+    private int[][] dfs(List<Integer>[] g, int[] present, int[] future, int budget, int x) {
         //计算从x的所有儿子子树y中，能得到的最大利润之和
         int[][] subF = new int[budget + 1][2];
         for (int y : g[x]) {
-            int[][] fy = dfs(y, g, present, future, budget);
+            int[][] fy = dfs(g, present, future, budget, y);
             for (int j = budget; j >= 0; j--) {
                 //枚举子树y的预算为jy
                 for (int jy = 0; jy <= j; jy++) {
-                    //k=0表示不买x,k=1表示买x
+                    //k=0表示不买x，k=1表示买x
                     for (int k = 0; k < 2; k++) {
                         subF[j][k] = Math.max(subF[j][k], subF[j - jy][k] + fy[jy][k]);
                     }
