@@ -13,41 +13,19 @@ public class Solution {
 
     public int minimumDeleteSum(String s1, String s2) {
         int total = s1.chars().sum() + s2.chars().sum();
-        char[] s = s1.toCharArray();
-        char[] t = s2.toCharArray();
-        int n = s.length, m = t.length;
-        int[][] dp = new int[n + 1][m + 1];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (s[i] == t[j]) {
-                    dp[i + 1][j + 1] = dp[i][j] + s[i];
+        char[] str1 = s1.toCharArray(), str2 = s2.toCharArray();
+        int m = str1.length, n = str2.length;
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (str1[i - 1] == str2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1] + str1[i - 1];
                 } else {
-                    dp[i + 1][j + 1] = Math.max(dp[i][j + 1], dp[i + 1][j]);
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
-        return total - dp[n][m] * 2;
-    }
-
-    public int minimumDeleteSum1(String s1, String s2) {
-        int total = s1.chars().sum() + s2.chars().sum();
-        char[] s = s1.toCharArray();
-        char[] t = s2.toCharArray();
-        int m = t.length;
-        int[] dp = new int[m + 1];
-        for (char x : s) {
-            int pre = 0;
-            for (int j = 0; j < m; j++) {
-                int tmp = dp[j + 1];
-                if (x == t[j]) {
-                    dp[j + 1] = pre + x;
-                } else {
-                    dp[j + 1] = Math.max(dp[j + 1], dp[j]);
-                }
-                pre = tmp;
-            }
-        }
-        return total - dp[m] * 2;
+        return total - dp[m][n] * 2;
     }
 
 }
