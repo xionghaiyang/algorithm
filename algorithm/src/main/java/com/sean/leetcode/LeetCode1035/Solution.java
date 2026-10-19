@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode1035;
 /**
  * @Author xionghaiyang
  * @Date 2024-08-11 09:55
- * @Description https://leetcode.cn/problems/uncrossed-lines/
+ * @Description https://leetcode.cn/problems/uncrossed-lines
  * 1035. 不相交的线
  * 在两条独立的水平线上按给定的顺序写下 nums1 和 nums2 中的整数。
  * 现在，可以绘制一些连接两个数字 nums1[i] 和 nums2[j] 的直线，这些直线需要同时满足：
@@ -17,8 +17,7 @@ package com.sean.leetcode.LeetCode1035;
 public class Solution {
 
     public int maxUncrossedLines(int[] nums1, int[] nums2) {
-        int m = nums1.length;
-        int n = nums2.length;
+        int m = nums1.length, n = nums2.length;
         int[][] dp = new int[m + 1][n + 1];
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
