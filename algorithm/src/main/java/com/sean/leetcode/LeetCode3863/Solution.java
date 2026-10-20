@@ -31,14 +31,14 @@ public class Solution {
         if (n == 2) {
             return -1;
         }
-        char min = str[0], max = str[1];
+        char min = str[0], max = str[0];
         for (char c : str) {
             min = (char) Math.min(min, c);
             max = (char) Math.max(max, c);
         }
+        //如果str[0]是最小值，排序[1,n-1]
+        //如果str[0]是最大值，排序[0,n-2]
         if (str[0] == min || str[n - 1] == max) {
-            //如果str[0]是最小值，排序[1,n-1]
-            //如果str[0]是最大值，排序[0,n-2]
             return 1;
         }
         //如果[1,n-2]中有最小值，排序[0,n-2]，然后排序[1,n-1]
@@ -48,7 +48,7 @@ public class Solution {
                 return 2;
             }
         }
-        //str[0]是最大值，str[n-1]是最小值，需要先把其中任意一个值放中间
+        //str[0]是最大值,str[n-1]是最小值，需要先把其中任意一个值放中间
         return 3;
     }
 
