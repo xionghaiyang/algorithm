@@ -20,13 +20,12 @@ public class Solution {
         for (int i = 0; i < m; i++) {
             Arrays.fill(memo[i], -1);
         }
-        process(s.toCharArray(), t.toCharArray(), memo, m - 1, n - 1);
-        return memo[m - 1][n - 1];
+        return process(s.toCharArray(), t.toCharArray(), memo, m - 1, n - 1);
     }
 
     private int process(char[] s, char[] t, int[][] memo, int i, int j) {
-        if (i < 0) {
-            return j < 0 ? 1 : 0;
+        if (i < j) {
+            return 0;
         }
         if (j < 0) {
             return 1;
@@ -38,8 +37,7 @@ public class Solution {
         if (s[i] == t[j]) {
             res += process(s, t, memo, i - 1, j - 1);
         }
-        memo[i][j] = res;
-        return res;
+        return memo[i][j] = res;
     }
 
 }
