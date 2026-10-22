@@ -22,20 +22,17 @@ public class Solution {
         for (int i = 0; i < m; i++) {
             Arrays.fill(memo[i], Integer.MAX_VALUE);
         }
-        return dfs(nums1, nums2, memo, m - 1, n - 1);
+        return process(nums1, nums2, memo, m - 1, n - 1);
     }
 
-    private int dfs(int[] nums1, int[] nums2, int[][] memo, int i, int j) {
+    private int process(int[] nums1, int[] nums2, int[][] memo, int i, int j) {
         if (i < 0 || j < 0) {
             return Integer.MIN_VALUE;
         }
         if (memo[i][j] != Integer.MAX_VALUE) {
             return memo[i][j];
         }
-        int res1 = Math.max(dfs(nums1, nums2, memo, i - 1, j - 1), 0) + nums1[i] * nums2[j];
-        int res2 = dfs(nums1, nums2, memo, i - 1, j);
-        int res3 = dfs(nums1, nums2, memo, i, j - 1);
-        return memo[i][j] = Math.max(res1, Math.max(res2, res3));
+        return memo[i][j] = Math.max(Math.max(process(nums1, nums2, memo, i - 1, j - 1), 0) + nums1[i] * nums2[j], Math.max(process(nums1, nums2, memo, i - 1, j), process(nums1, nums2, memo, i, j - 1)));
     }
 
 }
