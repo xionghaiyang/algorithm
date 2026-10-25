@@ -21,14 +21,14 @@ import java.util.Queue;
  */
 public class Solution {
 
-    private int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     public int countIslands(int[][] grid, int k) {
         int m = grid.length, n = grid[0].length;
         int res = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] > 0 && process(grid, i, j, k) % k == 0) {
+                if (grid[i][j] > 0 && dfs(grid, i, j, k) % k == 0) {
                     res++;
                 }
             }
@@ -36,53 +36,42 @@ public class Solution {
         return res;
     }
 
-    private int process(int[][] grid, int i, int j, int k) {
+    private int dfs(int[][] grid, int i, int j, int k) {
+        int m = grid.length, n = grid[0].length;
         int res = grid[i][j];
         grid[i][j] = 0;
-        for (int[] dir : dirs) {
+        for (int[] dir : DIRS) {
             int x = i + dir[0], y = j + dir[1];
-            if (0 <= x && x < grid.length && 0 <= y && y < grid[0].length && grid[x][y] > 0) {
-                res = (res + process(grid, x, y, k)) % k;
+            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] > 0) {
+                res = (res + dfs(grid, x, y, k)) % k;
             }
         }
         return res;
     }
 
     public int countIslands1(int[][] grid, int k) {
-        Queue<int[]> queue = new LinkedList<>();
         int m = grid.length, n = grid[0].length;
-        int res = 0, temp = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        int res = 0, s = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] > 0) {
                     queue.offer(new int[]{i, j});
-                    temp = grid[i][j];
+                    s = grid[i][j];
                     grid[i][j] = 0;
                     while (!queue.isEmpty()) {
                         int[] arr = queue.poll();
                         int x = arr[0], y = arr[1];
-                        if (x - 1 >= 0 && grid[x - 1][y] > 0) {
-                            queue.offer(new int[]{x - 1, y});
-                            temp = (temp + grid[x - 1][y]) % k;
-                            grid[x - 1][y] = 0;
-                        }
-                        if (x + 1 < m && grid[x + 1][y] > 0) {
-                            queue.offer(new int[]{x + 1, y});
-                            temp = (temp + grid[x + 1][y]) % k;
-                            grid[x + 1][y] = 0;
-                        }
-                        if (y - 1 >= 0 && grid[x][y - 1] > 0) {
-                            queue.offer(new int[]{x, y - 1});
-                            temp = (temp + grid[x][y - 1]) % k;
-                            grid[x][y - 1] = 0;
-                        }
-                        if (y + 1 < n && grid[x][y + 1] > 0) {
-                            queue.offer(new int[]{x, y + 1});
-                            temp = (temp + grid[x][y + 1]) % k;
-                            grid[x][y + 1] = 0;
+                        for (int[] dir : DIRS) {
+                            int nx = x + dir[0], ny = y + dir[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] > 0) {
+                                queue.offer(new int[]{nx, ny});
+                                s = (s + grid[nx][ny]) % k;
+                                grid[nx][ny] = 0;
+                            }
                         }
                     }
-                    if (temp % k == 0) {
+                    if (s % k == 0) {
                         res++;
                     }
                 }
