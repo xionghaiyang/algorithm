@@ -17,38 +17,39 @@ public class Solution {
 
     public boolean isMatch(String s, String p) {
         int m = s.length(), n = p.length();
-        int[][] dp = new int[m + 1][n + 1];
-        return process(s, p, 0, 0, dp);
+        int[][] memo = new int[m + 1][n + 1];
+        return process(s.toCharArray(), p.toCharArray(), memo, 0, 0);
     }
 
-    private boolean process(String s, String p, int i, int j, int[][] dp) {
-        if (dp[i][j] != 0) {
-            return dp[i][j] == 1;
+    private boolean process(char[] s, char[] p, int[][] memo, int i, int j) {
+        if (memo[i][j] != 0) {
+            return memo[i][j] == 1;
         }
-        if (i == s.length()) {
-            if (j == p.length()) {
-                dp[i][j] = 1;
+        int m = s.length, n = p.length;
+        if (i == m) {
+            if (j == n) {
+                memo[i][j] = 1;
             } else {
-                dp[i][j] = p.charAt(j) == '*' && process(s, p, i, j + 1, dp) ? 1 : -1;
+                memo[i][j] = p[j] == '*' && process(s, p, memo, i, j + 1) ? 1 : -1;
             }
-            return dp[i][j] == 1;
+            return memo[i][j] == 1;
         }
-        if (j == p.length()) {
-            dp[i][j] = -1;
-            return dp[i][j] == 1;
+        if (j == n) {
+            memo[i][j] = -1;
+            return memo[i][j] == 1;
         }
-        if (p.charAt(j) == '*') {
-            if (j == p.length() - 1) {
-                dp[i][j] = 1;
+        if (p[j] == '*') {
+            if (j == n - 1) {
+                memo[i][j] = 1;
             } else {
-                dp[i][j] = process(s, p, i, j + 1, dp) || process(s, p, i + 1, j, dp) || process(s, p, i + 1, j + 1, dp) ? 1 : -1;
+                memo[i][j] = process(s, p, memo, i, j + 1) || process(s, p, memo, i + 1, j) || process(s, p, memo, i + 1, j + 1) ? 1 : -1;
             }
-        } else if (p.charAt(j) == '?') {
-            dp[i][j] = process(s, p, i + 1, j + 1, dp) ? 1 : -1;
+        } else if (p[j] == '?') {
+            memo[i][j] = process(s, p, memo, i + 1, j + 1) ? 1 : -1;
         } else {
-            dp[i][j] = s.charAt(i) == p.charAt(j) && process(s, p, i + 1, j + 1, dp) ? 1 : -1;
+            memo[i][j] = s[i] == p[j] && process(s, p, memo, i + 1, j + 1) ? 1 : -1;
         }
-        return dp[i][j] == 1;
+        return memo[i][j] == 1;
     }
 
 }
