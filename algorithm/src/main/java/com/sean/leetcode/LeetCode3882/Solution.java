@@ -27,8 +27,7 @@ public class Solution {
                 xor |= grid[i][j];
             }
         }
-        boolean[][][] vis = new boolean[m][n][xor + 1];
-        process(grid, vis, m - 1, n - 1, 0);
+        process(grid, new boolean[m][n][xor + 1], m - 1, n - 1, 0);
         return res;
     }
 
