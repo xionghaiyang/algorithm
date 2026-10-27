@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode300;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2022-12-29 10:46
  * @Description: https://leetcode.cn/problems/longest-increasing-subsequence
  * 300. 最长递增子序列
@@ -15,7 +15,7 @@ public class Solution {
 
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        //以第i个数字结尾的最长上升子序列长度
+        //dp[i]:以第i个数字结尾的最长上升子序列长度
         int[] dp = new int[n];
         dp[0] = 1;
         int res = 1;
@@ -32,27 +32,27 @@ public class Solution {
     }
 
     public int lengthOfLIS1(int[] nums) {
-        int len = 1, n = nums.length;
-        //长度为i的最长上升子序列的末尾元素的最小值
-        int[] d = new int[n + 1];
-        d[len] = nums[0];
+        int n = nums.length, len = 1;
+        //f[i]:长度为i的最长上升子序列的末尾元素的最小值
+        int[] f = new int[n + 1];
+        f[len] = nums[0];
         for (int i = 1; i < n; i++) {
-            if (nums[i] > d[len]) {
-                d[++len] = nums[i];
+            if (nums[i] > f[len]) {
+                f[++len] = nums[i];
             } else {
-                //找第一个（离i最近的）比nums[i]小的数d[j],并更新d[j+1] = nums[i]
-                //如果找不到则需要更新d[1] = nums[i]
+                //找第一个（离i最近的）比nums[i]小的数f[j]，并更新f[j+1] = nums[i]
+                //如果找不到则更新f[1] = nums[i]
                 int left = 1, right = len, j = 0;
                 while (left <= right) {
                     int mid = left + ((right - left) >> 1);
-                    if (d[mid] < nums[i]) {
+                    if (f[mid] < nums[i]) {
                         j = mid;
                         left = mid + 1;
                     } else {
                         right = mid - 1;
                     }
                 }
-                d[j + 1] = nums[i];
+                f[j + 1] = nums[i];
             }
         }
         return len;
