@@ -1,7 +1,7 @@
 package com.sean.leetcode.LeetCode307;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-11-13 16:30
  * @Description: https://leetcode.cn/problems/range-sum-query-mutable
  * 307. 区域和检索 - 数组可修改
@@ -54,7 +54,8 @@ public class NumArray {
         int res = 0;
         while (i > 0) {
             res += tree[i];
-            i &= i - 1;//i-=i & -i
+            //i -= i & -i的另一种写法
+            i &= i - 1;
         }
         return res;
     }
