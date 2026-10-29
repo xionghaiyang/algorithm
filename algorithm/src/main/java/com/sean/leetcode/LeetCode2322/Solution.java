@@ -31,62 +31,62 @@ import java.util.List;
  */
 public class Solution {
 
+    private int clock = 0;
+
     public int minimumScore(int[] nums, int[][] edges) {
         int n = nums.length;
         List<Integer>[] g = new ArrayList[n];
-        Arrays.setAll(g, i -> new ArrayList<>());
+        Arrays.setAll(g, e -> new ArrayList<>());
         for (int[] edge : edges) {
-            int x = edge[0], y = edge[1];
-            g[x].add(y);
-            g[y].add(x);
+            int u = edge[0], v = edge[1];
+            g[u].add(v);
+            g[v].add(u);
         }
         int[] xor = new int[n];
         int[] in = new int[n];
         int[] out = new int[n];
-        dfs(0, -1, g, nums, xor, in, out);
+        dfs(g, nums, xor, in, out, 0, -1);
         int res = Integer.MAX_VALUE;
-        //删除x与x父节点之间的边，删除y与y父节点的边
-        for (int x = 1; x < n; x++) {
-            for (int y = x + 1; y < n; y++) {
-                int part1, part2, part3;
-                if (isAncestor(x, y, in, out)) {//x是y的祖先
-                    part1 = xor[y];
-                    part2 = xor[x] ^ xor[y];
-                    part3 = xor[0] ^ xor[x];
-                } else if (isAncestor(y, x, in, out)) {//y是x的祖先
-                    part1 = xor[x];
-                    part2 = xor[y] ^ xor[x];
-                    part3 = xor[0] ^ xor[y];
+        for (int x = 2; x < n; x++) {
+            for (int y = 1; y < x; y++) {
+                int a, b, c;
+                if (isAncestor(in, out, x, y)) {
+                    a = xor[y];
+                    b = xor[x] ^ a;
+                    c = xor[0] ^ xor[x];
+                } else if (isAncestor(in, out, y, x)) {
+                    a = xor[x];
+                    b = xor[y] ^ a;
+                    c = xor[0] ^ xor[y];
                 } else {
-                    part1 = xor[x];
-                    part2 = xor[y];
-                    part3 = xor[0] ^ xor[x] ^ xor[y];
+                    a = xor[x];
+                    b = xor[y];
+                    c = xor[0] ^ a ^ b;
                 }
-                res = Math.min(res, Math.max(part1, Math.max(part2, part3)) - Math.min(part1, Math.min(part2, part3)));
+                res = Math.min(res, Math.max(Math.max(a, b), c) - Math.min(Math.min(a, b), c));
                 if (res == 0) {
                     return 0;
                 }
+
             }
         }
         return res;
     }
 
-    private int clock = 0;
-
-    private void dfs(int x, int fa, List<Integer>[] g, int[] nums, int[] xor, int[] in, int[] out) {
+    private void dfs(List<Integer>[] g, int[] nums, int[] xor, int[] in, int[] out, int x, int p) {
         in[x] = ++clock;
         xor[x] = nums[x];
         for (int y : g[x]) {
-            if (y != fa) {
-                dfs(y, x, g, nums, xor, in, out);
+            if (y != p) {
+                dfs(g, nums, xor, in, out, y, x);
                 xor[x] ^= xor[y];
             }
         }
         out[x] = clock;
     }
 
-    //判断x是否为y的祖先
-    private boolean isAncestor(int x, int y, int[] in, int[] out) {
+    //判断x是否是y的祖先
+    private boolean isAncestor(int[] in, int[] out, int x, int y) {
         return in[x] < in[y] && in[y] <= out[x];
     }
 
