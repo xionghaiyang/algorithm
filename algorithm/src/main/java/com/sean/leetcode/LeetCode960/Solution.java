@@ -18,7 +18,7 @@ package com.sean.leetcode.LeetCode960;
 public class Solution {
 
     public int minDeletionSize(String[] strs) {
-        int n = strs.length, m = strs[0].length();
+        int m = strs[0].length();
         int[] f = new int[m];
         int maxF = 0;
         for (int i = 0; i < m; i++) {
@@ -34,8 +34,8 @@ public class Solution {
     }
 
     private boolean check(String[] strs, int j, int i) {
-        for (String s : strs) {
-            if (s.charAt(j) > s.charAt(i)) {
+        for (String str : strs) {
+            if (str.charAt(j) > str.charAt(i)) {
                 return false;
             }
         }
