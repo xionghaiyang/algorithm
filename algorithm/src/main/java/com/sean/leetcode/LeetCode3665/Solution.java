@@ -38,14 +38,15 @@ public class Solution {
                 Arrays.fill(memo[i][j], -1);
             }
         }
-        return process(grid, memo, m - 1, n - 1, 0);
+        return process(grid, memo, 0, 0, 0);
     }
 
     private int process(int[][] grid, int[][][] memo, int i, int j, int k) {
-        if (i < 0 || j < 0) {
+        int m = grid.length, n = grid[0].length;
+        if (i < 0 || i >= m || j < 0 || j >= n) {
             return 0;
         }
-        if (i == 0 && j == 0) {
+        if (i == m - 1 && j == n - 1) {
             return 1;
         }
         if (memo[i][j][k] != -1) {
@@ -53,11 +54,11 @@ public class Solution {
         }
         int res;
         if (grid[i][j] == 0) {
-            res = (process(grid, memo, i, j - 1, 0) + process(grid, memo, i - 1, j, 1)) % MOD;
+            res = (process(grid, memo, i, j + 1, 0) + process(grid, memo, i + 1, j, 1)) % MOD;
         } else if (k == 0) {
-            res = process(grid, memo, i - 1, j, 1);
+            res = process(grid, memo, i + 1, j, 1);
         } else {
-            res = process(grid, memo, i, j - 1, 0);
+            res = process(grid, memo, i, j + 1, 0);
         }
         return memo[i][j][k] = res;
     }
