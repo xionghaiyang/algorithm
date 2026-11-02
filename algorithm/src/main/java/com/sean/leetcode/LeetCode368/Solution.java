@@ -19,42 +19,28 @@ import java.util.List;
  */
 public class Solution {
 
-    //如何从一个小的整除子集扩充成为更大的整除子集?
-    //整除关系具有传递性,a|b,b|c => a|c
-    //如果整数 a 是整除子集 S
-    //如果整数a是整除子集S1的最小整数b的约数，a|b，那么可以将a添加到S1中得到一个更大的整除子集
-    //如果整数c是整除子集S2的最大整数d的倍数(d|c),那么可以将c添加到S2中得到一个更大的整除子集
-    //状态定义:dp[i]表示在输入数组nums升序排列的前提下，以nums[i]为最大整数的整除子集的大小（num[i]必须被选择）
-    //状态转移方程：枚举j=0...i-1的所有整数nums[j],如果nums[j]能整除nums[i],说明nums[i]可以扩充在以nums[j]为最大整数的整除子集里成为一个更大的整除子集
     public List<Integer> largestDivisibleSubset(int[] nums) {
-        int n = nums.length;
         Arrays.sort(nums);
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
-        int maxSize = 1;
-        int maxVal = dp[0];
-        for (int i = 1; i < n; i++) {
+        int n = nums.length;
+        int[] f = new int[n];
+        int[] from = new int[n];
+        Arrays.fill(from, -1);
+        int maxI = 0;
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (nums[i] % nums[j] == 0) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                if (nums[i] % nums[j] == 0 && f[j] > f[i]) {
+                    f[i] = f[j];
+                    from[i] = j;
                 }
             }
-            if (dp[i] > maxSize) {
-                maxSize = dp[i];
-                maxVal = nums[i];
+            f[i]++;
+            if (f[i] > f[maxI]) {
+                maxI = i;
             }
         }
         List<Integer> res = new ArrayList<>();
-        if (maxSize == 1) {
-            res.add(nums[0]);
-            return res;
-        }
-        for (int i = n - 1; i >= 0 && maxSize > 0; i--) {
-            if (dp[i] == maxSize && maxVal % nums[i] == 0) {
-                res.add(nums[i]);
-                maxVal = nums[i];
-                maxSize--;
-            }
+        for (int i = maxI; i >= 0; i = from[i]) {
+            res.add(nums[i]);
         }
         return res;
     }
