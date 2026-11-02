@@ -1,7 +1,6 @@
 package com.sean.leetcode.LeetCode2901;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,39 +28,37 @@ public class Solution {
 
     public List<String> getWordsInLongestSubsequence(String[] words, int[] groups) {
         int n = words.length;
-        //以下标i开头的子序列的最大长度为dp[0][i],其下一个下标为dp[1][i],值为-1，表示没有下一个下标
-        int[][] dp = new int[2][n];
-        Arrays.fill(dp[0], 1);
-        Arrays.fill(dp[1], -1);
-        int maxLength = 1, index = n - 1;
+        int[] f = new int[n];
+        int[] from = new int[n];
+        int maxI = n - 1;
         for (int i = n - 1; i >= 0; i--) {
             for (int j = i + 1; j < n; j++) {
-                if (groups[i] != groups[j] && check(words[i], words[j]) && dp[0][i] < 1 + dp[0][j]) {
-                    dp[0][i] = 1 + dp[0][j];
-                    dp[1][i] = j;
-                    if (dp[0][i] > maxLength) {
-                        maxLength = dp[0][i];
-                        index = i;
-                    }
+                if (f[j] > f[i] && groups[j] != groups[i] && check(words[i], words[j])) {
+                    f[i] = f[j];
+                    from[i] = j;
                 }
+            }
+            f[i]++;
+            if (f[i] > f[maxI]) {
+                maxI = i;
             }
         }
         List<String> res = new ArrayList<>();
-        do {
-            res.add(words[index]);
-            index = dp[1][index];
-        } while (index != -1);
+        for (int k = 0, i = maxI, m = f[i]; k < m; k++) {
+            res.add(words[i]);
+            i = from[i];
+        }
         return res;
     }
 
-    private boolean check(String s1, String s2) {
-        if (s1.length() != s2.length()) {
+    private boolean check(String s, String t) {
+        if (s.length() != t.length()) {
             return false;
         }
+        int n = s.length();
         boolean res = false;
-        int n = s1.length();
         for (int i = 0; i < n; i++) {
-            if (s1.charAt(i) != s2.charAt(i)) {
+            if (s.charAt(i) != t.charAt(i)) {
                 if (res) {
                     return false;
                 }
