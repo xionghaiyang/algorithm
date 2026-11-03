@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode295;
 import java.util.PriorityQueue;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-12-16 17:43
  * @Description: https://leetcode.cn/problems/find-median-from-data-stream
  * 295. 数据流的中位数
@@ -25,11 +25,11 @@ public class MedianFinder {
     private PriorityQueue<Integer> left;
     //小根堆
     private PriorityQueue<Integer> right;
-    //left.size() == right.size() or left.size() == right.size() + 1
 
     public MedianFinder() {
+        //left.size() == right.size() or left.size() == right.size() + 1
         left = new PriorityQueue<>((a, b) -> b - a);
-        right = new PriorityQueue<>((a, b) -> a - b);
+        right = new PriorityQueue<>();
     }
 
     public void addNum(int num) {
