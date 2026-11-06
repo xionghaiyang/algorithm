@@ -17,16 +17,17 @@ package com.sean.leetcode.LeetCode2472;
 public class Solution {
 
     public int maxPalindromes(String s, int k) {
-        char[] str = s.toCharArray();
         int n = s.length();
-        //dp[i]表示从str[0,i-1]中选出的回文子串的最大数目
+        char[] str = s.toCharArray();
+        //dp[i]：从str[0,i-1]中选出回文子串的最大数目
         int[] dp = new int[n + 1];
+        //只需要考虑长为k或者k+1的回文串
         for (int i = k; i <= n; i++) {
             dp[i] = dp[i - 1];
             if (isPalindrome(str, i - k, i - 1)) {
                 dp[i] = Math.max(dp[i], dp[i - k] + 1);
             }
-            if (i > k && isPalindrome(str, i - k - 1, i - 1)) {
+            if (i - k - 1 >= 0 && isPalindrome(str, i - k - 1, i - 1)) {
                 dp[i] = Math.max(dp[i], dp[i - k - 1] + 1);
             }
         }
