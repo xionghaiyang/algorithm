@@ -21,7 +21,7 @@ public class Solution {
         char[] str = s.toCharArray();
         //dp[i]：从str[0,i-1]中选出回文子串的最大数目
         int[] dp = new int[n + 1];
-        //只需要考虑长为k或者k+1的回文串
+        //只需要考虑长为k和k+1的回文串
         for (int i = k; i <= n; i++) {
             dp[i] = dp[i - 1];
             if (isPalindrome(str, i - k, i - 1)) {
