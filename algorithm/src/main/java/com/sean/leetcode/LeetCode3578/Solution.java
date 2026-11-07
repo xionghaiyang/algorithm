@@ -21,40 +21,38 @@ public class Solution {
 
     public int countPartitions(int[] nums, int k) {
         int n = nums.length;
-        //大 -> 小
+        //大 --> 小
         LinkedList<Integer> max = new LinkedList<>();
-        //小 -> 大
+        //小 --> 大
         LinkedList<Integer> min = new LinkedList<>();
-        //dp[i]表示前i个元素的分割方式数
+        //dp[i]:前i个元素的分割方式数
         int[] dp = new int[n + 1];
         dp[0] = 1;
-        //sum记录dp[left...right]的和
-        for (int left = 0, right = 0, sum = 0; right < n; right++) {
+        //窗口中的dp[i]之和
+        long sum = 0;
+        for (int left = 0, right = 0; right < n; right++) {
             //入
-            while (!max.isEmpty() && nums[right] > nums[max.peekLast()]) {
+            sum += dp[right];
+            int x = nums[right];
+            while (!max.isEmpty() && x >= nums[max.peekLast()]) {
                 max.pollLast();
             }
             max.addLast(right);
-            while (!min.isEmpty() && nums[right] < nums[min.peekLast()]) {
+            while (!min.isEmpty() && x <= nums[min.peekLast()]) {
                 min.pollLast();
             }
             min.addLast(right);
             //出
             while (nums[max.peekFirst()] - nums[min.peekFirst()] > k) {
-                if (max.peekFirst() == left) {
-                    max.pollFirst();
-                }
-                if (min.peekFirst() == left) {
+                sum -= dp[left++];
+                if (min.peekFirst() < left) {
                     min.pollFirst();
                 }
-                //从sum中移除dp[left]的贡献(+MOD防止负数)
-                sum = (sum - dp[left] + MOD) % MOD;
-                left++;
+                if (max.peekFirst() < left) {
+                    max.pollFirst();
+                }
             }
-            //更新dp:sum是dp[left...right]的和，+1表示单独作为子数组的情况
-            dp[right + 1] = (sum + 1) % MOD;
-            //更新sum，加入新计算的dp值
-            sum = (sum + dp[right + 1]) % MOD;
+            dp[right + 1] = (int) (sum % MOD);
         }
         return dp[n];
     }
