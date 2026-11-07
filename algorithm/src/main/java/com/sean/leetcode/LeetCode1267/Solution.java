@@ -31,10 +31,8 @@ public class Solution {
         int res = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    if (rows[i] >= 2 || cols[j] >= 2) {
-                        res++;
-                    }
+                if (grid[i][j] == 1 && (rows[i] >= 2 || cols[j] >= 2)) {
+                    res++;
                 }
             }
         }
