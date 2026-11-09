@@ -26,6 +26,11 @@ import java.util.List;
  * 如果两个机器人迎面相遇，它们也不会碰撞，它们彼此之间会擦肩而过。
  * 如果一个机器人经过了一个已经达到上限的工厂，机器人会当作工厂不存在，继续移动。
  * 机器人从位置 x 到位置 y 的移动距离为 |y - x| 。
+ * 1 <= robot.length, factory.length <= 100
+ * factory[j].length == 2
+ * -10^9 <= robot[i], positionj <= 10^9
+ * 0 <= limitj <= robot.length
+ * 测试数据保证所有机器人都可以被维修。
  */
 public class Solution {
 
