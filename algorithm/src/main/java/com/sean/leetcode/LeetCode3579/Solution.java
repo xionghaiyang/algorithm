@@ -3,7 +3,7 @@ package com.sean.leetcode.LeetCode3579;
 /**
  * @Author xionghaiyang
  * @Date 2025-06-09 23:05
- * @Description https://leetcode.cn/problems/minimum-steps-to-convert-string-with-operations/
+ * @Description https://leetcode.cn/problems/minimum-steps-to-convert-string-with-operations
  * 3579. 字符串转换需要的最小操作数
  * 给你两个长度相等的字符串 word1 和 word2。
  * 你的任务是将 word1 转换成 word2。
@@ -21,21 +21,17 @@ package com.sean.leetcode.LeetCode3579;
 public class Solution {
 
     public int minOperations(String word1, String word2) {
-        int n = word1.length();
         char[] str1 = word1.toCharArray();
         char[] str2 = word2.toCharArray();
-        //dp[i+1] 表示前缀[0...i]需要的最少操作次数
-        int[] dp = new int[n + 1];
-        //空串无需操作
-        //dp[0] = 0;
+        int n = word1.length();
+        int[] f = new int[n + 1];
         for (int i = 0; i < n; i++) {
             int res = Integer.MAX_VALUE;
             int[][] cnt = new int[26][26];
             int op = 0;
             for (int j = i; j >= 0; j--) {
                 //不反转
-                int x = str1[j] - 'a';
-                int y = str2[j] - 'a';
+                int x = str1[j] - 'a', y = str2[j] - 'a';
                 if (x != y) {
                     if (cnt[y][x] > 0) {
                         cnt[y][x]--;
@@ -44,7 +40,6 @@ public class Solution {
                         op++;
                     }
                 }
-                //反转
                 int[][] revCnt = new int[26][26];
                 int revOp = 1;
                 for (int p = j; p <= i; p++) {
@@ -60,28 +55,78 @@ public class Solution {
                         revOp++;
                     }
                 }
-                res = Math.min(res, dp[j] + Math.min(op, revOp));
+                res = Math.min(res, f[j] + Math.min(op, revOp));
             }
-            dp[i + 1] = res;
+            f[i + 1] = res;
         }
-        return dp[n];
+        return f[n];
     }
 
-    private int op;
-    private int[][] cnt;
-
     public int minOperations1(String word1, String word2) {
-        int n = word1.length();
         char[] str1 = word1.toCharArray();
         char[] str2 = word2.toCharArray();
+        int n = word1.length();
         int[][] revOp = new int[n][n];
-        //中心扩展
-        //i为偶数表示奇长度子串，i为奇数表示偶长度子串
+        for (int i = 0; i < 2 * n - 1; i++) {
+            int[][] cnt = new int[26][26];
+            int op = 1;
+            int left = i / 2, right = (i + 1) / 2;
+            while (left >= 0 && right < n) {
+                int x = str1[left] - 'a', y = str2[right] - 'a';
+                if (x != y) {
+                    if (cnt[y][x] > 0) {
+                        cnt[y][x]--;
+                    } else {
+                        cnt[x][y]++;
+                        op++;
+                    }
+                }
+                x = str1[right] - 'a';
+                y = str2[left] - 'a';
+                if (left != right && x != y) {
+                    if (cnt[y][x] > 0) {
+                        cnt[y][x]--;
+                    } else {
+                        cnt[x][y]++;
+                        op++;
+                    }
+                }
+                revOp[left][right] = op;
+                left--;
+                right++;
+            }
+        }
+        int[] f = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            int res = Integer.MAX_VALUE;
+            int[][] cnt = new int[26][26];
+            int op = 0;
+            for (int j = i; j >= 0; j--) {
+                int x = str1[j] - 'a', y = str2[j] - 'a';
+                if (x != y) {
+                    if (cnt[y][x] > 0) {
+                        cnt[y][x]--;
+                    } else {
+                        cnt[x][y]++;
+                        op++;
+                    }
+                }
+                res = Math.min(res, f[j] + Math.min(op, revOp[j][i]));
+            }
+            f[i + 1] = res;
+        }
+        return f[n];
+    }
+
+    public int minOperations2(String word1, String word2) {
+        char[] str1 = word1.toCharArray();
+        char[] str2 = word2.toCharArray();
+        int n = word1.length();
+        int[][] revOp = new int[n][n];
         for (int i = 0; i < 2 * n - 1; i++) {
             cnt = new int[26][26];
             op = 1;
-            int left = i / 2;
-            int right = (i + 1) / 2;
+            int left = i / 2, right = (i + 1) / 2;
             while (left >= 0 && right < n) {
                 update(str1[left], str2[right]);
                 if (left != right) {
@@ -92,20 +137,22 @@ public class Solution {
                 right++;
             }
         }
-        int[] dp = new int[n + 1];
+        int[] f = new int[n + 1];
         for (int i = 0; i < n; i++) {
             int res = Integer.MAX_VALUE;
             cnt = new int[26][26];
-            //不反转时的最小操作次数
             op = 0;
             for (int j = i; j >= 0; j--) {
                 update(str1[j], str2[j]);
-                res = Math.min(res, dp[j] + Math.min(op, revOp[j][i]));
+                res = Math.min(res, f[j] + Math.min(op, revOp[j][i]));
             }
-            dp[i + 1] = res;
+            f[i + 1] = res;
         }
-        return dp[n];
+        return f[n];
     }
+
+    private int op;
+    private int[][] cnt;
 
     private void update(char x, char y) {
         if (x == y) {
