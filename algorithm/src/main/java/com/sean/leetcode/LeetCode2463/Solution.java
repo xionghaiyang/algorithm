@@ -1,7 +1,6 @@
 package com.sean.leetcode.LeetCode2463;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,35 +29,29 @@ import java.util.List;
  */
 public class Solution {
 
-    public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
-        Collections.sort(robot);
+    public long minimumTotalDistance(List<Integer> robotList, int[][] factory) {
+        int[] robot = robotList.stream().mapToInt(i -> i).toArray();
+        Arrays.sort(robot);
         Arrays.sort(factory, (a, b) -> a[0] - b[0]);
-        int n = robot.size(), m = factory.length;
-        long[][] memo = new long[n][m];
+        int m = robot.length, n = factory.length;
+        long[][] f = new long[n + 1][m + 1];
+        Arrays.fill(f[0], Long.MAX_VALUE / 2);
+        f[0][0] = 0;
         for (int i = 0; i < n; i++) {
-            Arrays.fill(memo[i], -1);
+            int position = factory[i][0], limit = factory[i][1];
+            for (int j = 0; j < m; j++) {
+                //工厂i不修机器人
+                long res = f[i][j + 1];
+                //枚举修k个机器人
+                long sum = 0;
+                for (int k = 1; k <= Math.min(j + 1, limit); k++) {
+                    sum += Math.abs(robot[j - k + 1] - position);
+                    res = Math.min(res, f[i][j - k + 1] + sum);
+                }
+                f[i + 1][j + 1] = res;
+            }
         }
-        return process(robot, factory, memo, n - 1, m - 1);
-    }
-
-    private long process(List<Integer> robot, int[][] factory, long[][] memo, int i, int j) {
-        if (i < 0) {
-            return 0;
-        }
-        if (j < 0) {
-            return Long.MAX_VALUE / 2;
-        }
-        if (memo[i][j] != -1) {
-            return memo[i][j];
-        }
-        long res = process(robot, factory, memo, i, j - 1);
-        int position = factory[j][0], limit = factory[j][1];
-        long sum = 0;
-        for (int k = 1; k <= Math.min(i + 1, limit); k++) {
-            sum += Math.abs(robot.get(i - k + 1) - position);
-            res = Math.min(res, process(robot, factory, memo, i - k, j - 1) + sum);
-        }
-        return memo[i][j] = res;
+        return f[n][m];
     }
 
 }
