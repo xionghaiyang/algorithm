@@ -18,7 +18,6 @@ public class Solution {
 
     public int climbStairs(int n, int[] costs) {
         int[] dp = new int[n + 1];
-        //dp[0]=0;
         for (int i = 1; i <= n; i++) {
             dp[i] = dp[i - 1] + costs[i - 1] + 1;
             if (i >= 2) {
@@ -34,10 +33,10 @@ public class Solution {
     public int climbStairs1(int n, int[] costs) {
         int f0 = 0, f1 = 0, f2 = 0;
         for (int cost : costs) {
-            int newF = Math.min(Math.min(f0 + 9, f1 + 4), f2 + 1) + cost;
+            int nf = Math.min(Math.min(f0 + 9, f1 + 4), f2 + 1) + cost;
             f0 = f1;
             f1 = f2;
-            f2 = newF;
+            f2 = nf;
         }
         return f2;
     }
