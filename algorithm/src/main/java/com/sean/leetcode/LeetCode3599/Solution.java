@@ -20,33 +20,23 @@ public class Solution {
 
     public int minXor(int[] nums, int k) {
         int n = nums.length;
-        //dp[i][j]:以i结尾的数组，分成j个非空子数组，最大XOR的最小值
-        int[][] dp = new int[n][k + 1];
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(dp[i], Integer.MAX_VALUE);
+        //dp[i][j]:前j个元素分为i个连续子数组，最大子数组异或和的最小值
+        int[][] dp = new int[k + 1][n + 1];
+        Arrays.fill(dp[0], Integer.MAX_VALUE);
+        dp[0][0] = 0;
+        for (int i = 1; i <= k; i++) {
+            //每个子数组的长度至少是1，所以j的最小值为i,剩余k-i个元素，所以j的最大值为n - (k - i)
+            for (int j = i; j <= n - (k - i); j++) {
+                int res = Integer.MAX_VALUE;
+                for (int x = j - 1,xor = 0; x >= i - 1; x--) {
+                    xor ^= nums[x];
+                    res = Math.min(res, Math.max(dp[i - 1][x], xor));
+                }
+                dp[i][j] = res;
+            }
         }
-        return process(nums, n - 1, k, dp);
+        return dp[k][n];
     }
 
-    private int process(int[] nums, int i, int j, int[][] dp) {
-        if (dp[i][j] != Integer.MAX_VALUE || j == 0) {
-            return dp[i][j];
-        }
-        if (j == 1) {
-            int res = 0;
-            for (int k = 0; k <= i; k++) {
-                res ^= nums[k];
-            }
-            dp[i][j] = res;
-            return res;
-        }
-        int res = Integer.MAX_VALUE;
-        for (int k = i, xor = 0; k >= j - 1; k--) {
-            xor ^= nums[k];
-            res = Math.min(res, Math.max(xor, process(nums, k - 1, j - 1, dp)));
-        }
-        dp[i][j] = res;
-        return dp[i][j];
-    }
 
 }
