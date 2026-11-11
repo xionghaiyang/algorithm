@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * @Author xionghaiyang
  * @Date 2025-03-03 08:08
- * @Description https://leetcode.cn/problems/palindrome-partitioning-iii/
+ * @Description https://leetcode.cn/problems/palindrome-partitioning-iii
  * 1278. 分割回文串 III
  * 给你一个由小写字母组成的字符串 s，和一个整数 k。
  * 请你按下面的要求分割字符串：
@@ -17,58 +17,43 @@ import java.util.Arrays;
  */
 public class Solution {
 
-    private char[] str;
-    private int[][] memoChange;
-    private int[][] memoDfs;
-
     public int palindromePartition(String s, int k) {
         int n = s.length();
-        str = s.toCharArray();
-        memoChange = new int[n][n];
-        for (int[] row : memoChange) {
-            Arrays.fill(row, -1);
+        //memo[i][j]:将s[i,j]修改为回文串的最小修改次数
+        int[][] memo = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(memo[i], -1);
         }
-        memoDfs = new int[k][n];
-        for (int[] row : memoDfs) {
-            Arrays.fill(row, -1);
+        //dp[i][j]:将s[0,j]分割成i+1个回文串的最小修改次数
+        int[][] dp = new int[k][n];
+        for (int i = 0; i < k; i++) {
+            Arrays.fill(dp[i], -1);
         }
-        return dfs(k - 1, n - 1);
+        return dfs(s.toCharArray(), memo, dp, k - 1, n - 1);
     }
 
-    //s[:right+1]切i刀分成i+1个子串，每个字串改成回文串的最小总修改次数
-    private int dfs(int i, int right) {
-        //只有一个子串
+    private int dfs(char[] str, int[][] memo, int[][] dp, int i, int right) {
         if (i == 0) {
-            return minChange(0, right);
+            return process(str, memo, 0, right);
         }
-        //之前计算过
-        if (memoDfs[i][right] != -1) {
-            return memoDfs[i][right];
+        if (dp[i][right] != -1) {
+            return dp[i][right];
         }
         int res = Integer.MAX_VALUE;
         for (int left = i; left <= right; left++) {
-            res = Math.min(res, dfs(i - 1, left - 1) + minChange(left, right));
+            res = Math.min(res, dfs(str, memo, dp, i - 1, left - 1) + process(str, memo, left, right));
         }
-        memoDfs[i][right] = res;
-        return res;
+        return dp[i][right] = res;
     }
 
-    //把s[i:j+1]改成回文串的最小修改次数
-    private int minChange(int i, int j) {
-        //子串只有一个字母，或者子串是空串
-        if (i >= j) {
-            return 0;//无需修改
+    private int process(char[] str, int[][] memo, int left, int right) {
+        if (left > right) {
+            return 0;
         }
-        //之前计算过
-        if (memoChange[i][j] != -1) {
-            return memoChange[i][j];
+        if (memo[left][right] != -1) {
+            return memo[left][right];
         }
-        int res = minChange(i + 1, j - 1);
-        if (str[i] != str[j]) {
-            res++;
-        }
-        memoChange[i][j] = res;
-        return res;
+        return memo[left][right] = process(str, memo, left + 1, right - 1) + (str[left] != str[right] ? 1 : 0);
     }
 
 }
