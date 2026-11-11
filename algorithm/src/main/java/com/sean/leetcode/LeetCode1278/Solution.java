@@ -56,4 +56,25 @@ public class Solution {
         return memo[left][right] = process(str, memo, left + 1, right - 1) + (str[left] != str[right] ? 1 : 0);
     }
 
+    public int palindromePartition1(String s, int k) {
+        char[] str = s.toCharArray();
+        int n = str.length;
+        int[][] minChange = new int[n][n];
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
+                minChange[i][j] = minChange[i + 1][j - 1] + (str[i] != str[j] ? 1 : 0);
+            }
+        }
+        int[] f = minChange[0];
+        for (int i = 1; i < k; i++) {
+            for (int right = n - k + i; right >= i; right--) {
+                f[right] = Integer.MAX_VALUE;
+                for (int left = i; left <= right; left++) {
+                    f[right] = Math.min(f[right], f[left - 1] + minChange[left][right]);
+                }
+            }
+        }
+        return f[n - 1];
+    }
+
 }
