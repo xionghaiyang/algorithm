@@ -3,9 +3,9 @@ package com.sean.leetcode.LeetCode1335;
 import java.util.Arrays;
 
 /**
- * @Auther: xionghaiyang
+ * @Author: xionghaiyang
  * @Date: 2023-05-16 08:07
- * @Description: https://leetcode.cn/problems/minimum-difficulty-of-a-job-schedule/
+ * @Description: https://leetcode.cn/problems/minimum-difficulty-of-a-job-schedule
  * 1335. 工作计划的最低难度
  * 你需要制定一份 d 天的工作计划表。
  * 工作之间存在依赖，要想执行第 i 项工作，你必须完成全部 j 项工作（ 0 <= j < i）。
@@ -15,6 +15,9 @@ import java.util.Arrays;
  * 第 i 项工作的难度是 jobDifficulty[i]。
  * 返回整个工作计划的 最小难度 。
  * 如果无法制定工作计划，则返回 -1 。
+ * 1 <= jobDifficulty.length <= 300
+ * 0 <= jobDifficulty[i] <= 1000
+ * 1 <= d <= 10
  */
 public class Solution {
 
@@ -23,26 +26,30 @@ public class Solution {
         if (n < d) {
             return -1;
         }
-        //dp[i][j]表示前i+1天完成前j项工作的最小难度
-        int[][] dp = new int[d + 1][n];
-        for (int i = 0; i < d + 1; i++) {
-            Arrays.fill(dp[i], 0x3f3f3f3f);
+        int[][] memo = new int[d][n];
+        for (int i = 0; i < d; i++) {
+            Arrays.fill(memo[i], -1);
         }
-        int max = 0;
-        for (int j = 0; j < n; j++) {
-            max = Math.max(max, jobDifficulty[j]);
-            dp[0][j] = max;
+        return process(jobDifficulty, memo, d - 1, n - 1);
+    }
+
+    private int process(int[] jobDifficulty, int[][] memo, int i, int j) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
-        for (int i = 1; i < d; i++) {
-            for (int j = i; j < n; j++) {
-                max = 0;
-                for (int k = j; k >= i; k--) {
-                    max = Math.max(max, jobDifficulty[k]);
-                    dp[i][j] = Math.min(dp[i][j], max + dp[i - 1][k - 1]);
-                }
+        if (i == 0) {
+            int max = 0;
+            for (int k = 0; k <= j; k++) {
+                max = Math.max(max, jobDifficulty[k]);
             }
+            return memo[i][j] = max;
         }
-        return dp[d - 1][n - 1];
+        int res = Integer.MAX_VALUE, max = 0;
+        for (int k = j; k >= i; k--) {
+            max = Math.max(max, jobDifficulty[k]);
+            res = Math.min(res, process(jobDifficulty, memo, i - 1, k - 1) + max);
+        }
+        return memo[i][j] = res;
     }
 
 }
